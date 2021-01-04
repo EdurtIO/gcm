@@ -1,0 +1,185 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.edurt.gcm</groupId>
+    <artifactId>incubator-gcm</artifactId>
+    <packaging>pom</packaging>
+
+    <version>1.0.0</version>
+
+    <modules>
+    </modules>
+
+    <url>http://gcm.incubator.edurt.io</url>
+
+    <scm>
+        <url>git@github.com:EdurtIO/incubator-gcm.git</url>
+    </scm>
+
+    <licenses>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>qianmoQ</name>
+            <email>shicheng@ttxit.com</email>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>Edurt Software Foundation</name>
+        <url>https://www.edurt.io</url>
+    </organization>
+
+    <issueManagement>
+    </issueManagement>
+
+    <name>Gcm(Incubator)</name>
+    <description>Google Guice component management System!</description>
+
+    <properties>
+        <dependency.guice.version>4.2.2</dependency.guice.version>
+        <dependency.lombok.version>1.18.8</dependency.lombok.version>
+        <dependency.netty.version>4.1.53.Final</dependency.netty.version>
+        <plugin.maven.compiler.version>3.3</plugin.maven.compiler.version>
+        <plugin.maven.javadoc.version>2.10.4</plugin.maven.javadoc.version>
+        <plugin.maven.checkstyle.version>3.0.0</plugin.maven.checkstyle.version>
+        <plugin.maven.docker.version>0.23.0</plugin.maven.docker.version>
+        <plugin.maven.sonar.version>3.3.0.603</plugin.maven.sonar.version>
+        <plugin.shade.version>3.0.0</plugin.shade.version>
+        <plugin.maven.findbugs.version>3.0.5</plugin.maven.findbugs.version>
+        <environment.compile.java.version>1.8</environment.compile.java.version>
+        <reporting.maven.jxr.version>2.5</reporting.maven.jxr.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${dependency.lombok.version}</version>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <version>${dependency.guice.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${dependency.netty.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${plugin.maven.docker.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${plugin.maven.compiler.version}</version>
+                <configuration>
+                    <source>${environment.compile.java.version}</source>
+                    <target>${environment.compile.java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${plugin.maven.javadoc.version}</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <tags>
+                        <tag>
+                            <name>Description</name>
+                            <placement>test</placement>
+                            <head>description</head>
+                        </tag>
+                    </tags>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${plugin.maven.checkstyle.version}</version>
+                <configuration>
+                    <configLocation>checks.xml</configLocation>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                        </configuration>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${plugin.maven.sonar.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${plugin.shade.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${plugin.maven.findbugs.version}</version>
+                <configuration>
+                    <effort>Low</effort>
+                    <threshold>Medium</threshold>
+                    <failOnError>true</failOnError>
+                    <includeTests>true</includeTests>
+                    <excludeFilterFile>findbugs.xml</excludeFilterFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>run-findbugs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${reporting.maven.jxr.version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
+</project>
