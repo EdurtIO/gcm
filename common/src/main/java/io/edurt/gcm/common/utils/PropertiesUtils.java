@@ -64,4 +64,9 @@ public class PropertiesUtils
         }
         return String.valueOf(properties.getOrDefault(key, defaultValue));
     }
+
+    public static Boolean getBoolValue(Properties properties, String key, Boolean defaultValue)
+    {
+        return Boolean.valueOf(getStringValue(properties, key, String.valueOf(defaultValue)));
+    }
 }
