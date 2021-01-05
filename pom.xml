@@ -10,6 +10,8 @@
     <version>1.0.0</version>
 
     <modules>
+        <module>configuration</module>
+        <module>common</module>
     </modules>
 
     <url>http://gcm.incubator.edurt.io</url>
@@ -46,6 +48,10 @@
         <dependency.guice.version>4.2.2</dependency.guice.version>
         <dependency.lombok.version>1.18.8</dependency.lombok.version>
         <dependency.netty.version>4.1.53.Final</dependency.netty.version>
+        <dependency.log4j.version>2.13.3</dependency.log4j.version>
+        <dependency.hikaricp.version>2.7.7</dependency.hikaricp.version>
+        <dependency.commons.lang.version>3.11</dependency.commons.lang.version>
+        <dependency.junit.version>4.13.1</dependency.junit.version>
         <plugin.maven.compiler.version>3.3</plugin.maven.compiler.version>
         <plugin.maven.javadoc.version>2.10.4</plugin.maven.javadoc.version>
         <plugin.maven.checkstyle.version>3.0.0</plugin.maven.checkstyle.version>
@@ -63,10 +69,21 @@
             <artifactId>lombok</artifactId>
             <version>${dependency.lombok.version}</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${dependency.junit.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>io.edurt.gcm</groupId>
+                <artifactId>gcm-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.google.inject</groupId>
                 <artifactId>guice</artifactId>
@@ -76,6 +93,21 @@
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
                 <version>${dependency.netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${dependency.log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${dependency.hikaricp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${dependency.commons.lang.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
