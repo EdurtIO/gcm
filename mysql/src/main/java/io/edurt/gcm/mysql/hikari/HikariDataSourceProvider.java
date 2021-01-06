@@ -21,6 +21,7 @@ public class HikariDataSourceProvider
 
     public HikariDataSourceProvider(Properties configuration)
     {
+        LOGGER.info("generate configuration");
         dataSource.setDriverClassName(PropertiesUtils.getStringValue(configuration,
                 HikariConfiguration.DRIVER_CLASS_NAME,
                 HikariConfigurationDefault.DRIVER_CLASS_NAME));

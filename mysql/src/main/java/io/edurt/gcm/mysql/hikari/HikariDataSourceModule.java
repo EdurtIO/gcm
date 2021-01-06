@@ -26,7 +26,7 @@ public class HikariDataSourceModule
         String configurationPath = String.join(File.separator, System.getProperty("user.dir"),
                 "conf",
                 "catalog",
-                "hikari-datasource.properties");
+                "mysql.properties");
         LOGGER.info("load configuration from local file {}", configurationPath);
         Properties configuration = PropertiesUtils.loadProperties(configurationPath);
         LOGGER.info("binding hikari datasource configuration information is completed, with a total of {} configurations", configuration.stringPropertyNames().size());

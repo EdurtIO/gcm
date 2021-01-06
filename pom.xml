@@ -13,6 +13,7 @@
         <module>configuration</module>
         <module>common</module>
         <module>mysql</module>
+        <module>redis</module>
     </modules>
 
     <url>http://gcm.incubator.edurt.io</url>
