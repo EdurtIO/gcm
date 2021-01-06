@@ -53,6 +53,7 @@ def print_help():
         echo       check-style:       check source code style
         echo       check-bugs:        check source code bugs
         echo       new-branch:        checkout a new branch
+        echo       deploy:            deploy artifact to maven center
     ''')
     sys.exit(1)
 
