@@ -30,7 +30,8 @@ def command_enum(command='', parameter=None):
         'check': check,
         'check-style': check_style,
         'check-bugs': check_bugs,
-        'branch-new': set_new_branch
+        'branch-new': set_new_branch,
+        'deploy': deploy_central
     }
     try:
         method = commands.get(command, parameter)
@@ -87,6 +88,12 @@ def set_new_branch(branch=None):
     print('set a new branch：{}'.format(branch))
     os.chdir(root)
     command = 'git checkout -b ' + branch
+    print('execute command：{}'.format(command))
+    os.system(command)
+
+def deploy_central():
+    os.chdir(root)
+    command = './mvnw clean install package deploy -DskipTests'
     print('execute command：{}'.format(command))
     os.system(command)
 
