@@ -2,6 +2,12 @@
 
 Google Guice component management System!
 
+### Support Module
+
+- [x] Configuration
+- [x] MySQL
+- [x] Redis
+
 ### How to compile?
 
 ---
