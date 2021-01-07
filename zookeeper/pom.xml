@@ -11,18 +11,15 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gcm-configuration</artifactId>
-    <name>Gcm for Configuration Component</name>
+    <artifactId>zookeeper</artifactId>
+    <name>Gcm for Zookeeper Component</name>
+    <description>Connect zookeeper server and read and write data!</description>
+
+    <properties>
+        <dependency.zookeeper.version></dependency.zookeeper.version>
+    </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>io.edurt.gcm</groupId>
-            <artifactId>gcm-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
