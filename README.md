@@ -5,8 +5,8 @@ Google Guice component management System!
 ### Support Module
 
 - [x] Configuration
-- [x] MySQL
-- [x] Redis
+- [x] MySQL(5.1.45 and hikaricp 2.7.7 and mybatis mybatis)
+- [x] Redis(jedis 3.3.0)
 
 ### How to compile?
 
