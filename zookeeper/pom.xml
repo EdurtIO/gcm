@@ -16,10 +16,23 @@
     <description>Connect zookeeper server and read and write data!</description>
 
     <properties>
-        <dependency.zookeeper.version></dependency.zookeeper.version>
+        <dependency.curator.version>2.12.0</dependency.curator.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>${dependency.curator.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

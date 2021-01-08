@@ -7,6 +7,7 @@ Google Guice component management System!
 - [x] Configuration
 - [x] MySQL(5.1.45 and hikaricp 2.7.7 and mybatis mybatis)
 - [x] Redis(jedis 3.3.0)
+- [x] Zookeeper(curator 2.12.0)
 
 ### How to compile?
 
