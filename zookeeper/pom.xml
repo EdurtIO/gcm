@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>zookeeper</artifactId>
+    <artifactId>gcm-zookeeper</artifactId>
     <name>Gcm for Zookeeper Component</name>
     <description>Connect zookeeper server and read and write data!</description>
 
