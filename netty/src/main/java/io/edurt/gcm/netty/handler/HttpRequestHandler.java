@@ -19,6 +19,8 @@ import io.netty.handler.codec.http.LastHttpContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Properties;
+
 import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_LENGTH;
 
 public class HttpRequestHandler
@@ -28,11 +30,13 @@ public class HttpRequestHandler
 
     private final Injector injector;
     private final String websocketPath;
+    private Properties configuration;
 
-    public HttpRequestHandler(Injector injector, String websocketPath)
+    public HttpRequestHandler(Injector injector, String websocketPath, Properties configuration)
     {
         this.injector = injector;
         this.websocketPath = websocketPath;
+        this.configuration = configuration;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class HttpRequestHandler
                 ctx.writeAndFlush(response);
             }
             FullHttpResponse httpResponse = new DefaultFullHttpResponse(httpRequest.protocolVersion(), HttpResponseStatus.OK);
-            RequestDispatcher dispatcher = new RequestDispatcher();
+            RequestDispatcher.builderConfiguration(configuration);
             injector.getInstance(RequestDispatcher.class).processor(ctx, httpRequest, httpResponse);
             httpResponse.headers().set(CONTENT_LENGTH, httpResponse.content().readableBytes());
             if (HttpUtil.isKeepAlive(httpRequest)) {

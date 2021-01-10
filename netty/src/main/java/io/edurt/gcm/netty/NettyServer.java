@@ -74,7 +74,7 @@ public class NettyServer
                 ChannelPipeline pipeline = ch.pipeline();
                 pipeline.addLast(new HttpServerCodec());
                 pipeline.addLast(new HttpObjectAggregator(65536));
-                pipeline.addLast(new HttpRequestHandler(injector, "/socket"));
+                pipeline.addLast(new HttpRequestHandler(injector, "/socket", configuration));
             }
         };
     }
