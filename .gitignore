@@ -13,3 +13,6 @@ buildNumber.properties
 *.iml
 .gnupg
 conf
+
+_site
+.sass-cache
