@@ -1,0 +1,58 @@
+html,
+body {
+	padding: 0;
+	margin: 0;
+	min-height: 100%;
+}
+
+body {
+	position: relative;
+	scroll-behavior: smooth;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+a {
+	color: $brand-color;
+	text-decoration: none;
+}
+
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: #EFEFEF 1px solid;
+	margin: 3.2em 0;
+	padding: 0;
+}
+
+
+table {
+	width: 100%;
+	margin-bottom: 1.75em;
+
+	tr {
+		border-bottom: 1px solid #EEE;
+	}
+
+	tr:nth-child(even) {
+		background: #fcfcfc;
+	}
+
+	td, th {
+		padding: 8px;
+		text-align: left;
+	}
+
+	th {
+		padding-bottom: 4px;
+	}
+
+	code {
+		display: inline-block;
+		padding: 2px 4px;
+	}
+}

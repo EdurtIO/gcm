@@ -1,0 +1,96 @@
+// Colors
+$brand-color: #407afc;
+$light-brand-color: #429cfc;
+$footer-color: #949baa;
+$cards-background-color: #f6f7fc;
+$cta-background-color: #364261;
+$testimonial-bg: #f8faff;
+$grey-text: #676c76;
+$text-colour: #222;
+$form-icon-colour: #828a9b;
+$placeholder-colour: #b4b8c1;
+$plain-border-color: #e7e7e7;
+
+$white: #fff;
+$brand-color: #407afc;
+$brand-color-background: mix($brand-color, $white, 10%);
+
+$success-color: #39b75b;
+$success-color-light: mix($success-color, $white, 10%);
+$error-color: #e64f30;
+$error-color-light: mix($error-color, $white, 10%);
+$warning-color: #fca004;
+$warning-color-light: mix($warning-color, $white, 10%);
+
+// Sizes
+$break-small: 590px;
+$large-wrapper-width: 1200px;
+$wrapper-width: 1000px;
+$post-width: 700px;
+$wrapper-horizontal-padding: 20px;
+$overhang: ($post-width - ($wrapper-horizontal-padding * 2)) * 0.05;
+$section-padding-mobile: 30px;
+$section-padding-tablet: 50px;
+$section-padding: 90px;
+$half-space: $section-padding / 2;
+$quarter-space: $half-space / 2;
+$octa-space: $quarter-space / 2;
+
+$mobile-card-padding: 20px;
+$card-padding: 30px;
+$big-card-padding: 40px;
+
+// Font sizes
+$font-smallest: 0.7rem;
+$font-smaller: 0.8rem;
+$font-small: 0.9rem;
+$font-normal: 1rem;
+$font-size-content: 1.15rem;
+
+// Other
+$transition-duration: 0.15s;
+$text-opacity: 0.75;
+$light-text-opacity: 0.4;
+$border-radius: 2px;
+$uppercase-letter-spacing: 1px;
+
+// Breaks
+$desktop-min: 930px;
+$tablet-min: 500px;
+$overhang-min: 940px;
+
+// Shadows
+$large-box-shadow: 0 10px 50px 0 rgba(0, 20, 180, 0.1);
+$medium-box-shadow: 0 5px 30px 0 rgba(0, 20, 180, 0.075);
+$medium-offset-box-shadow: 5px 5px 30px 0 rgba(0, 20, 180, 0.075);
+$outline-box-shadow: 0 0 1px 1px rgba(0, 20, 180, 0.03);
+
+.vertical-flow {
+	margin: 0 0 1.5rem 0;
+}
+
+@mixin hero-overhang($half-height) {
+	margin: -($section-padding-mobile + $half-height) 0 $section-padding-mobile 0;
+
+	@media only screen and (min-width: $tablet-min) {
+		margin: -($section-padding-tablet + $half-height) 0 $section-padding-tablet 0;
+	}
+
+	@media only screen and (min-width: $desktop-min) {
+		margin: -($section-padding + $half-height) 0 $section-padding 0;
+	}
+}
+
+
+// Helper functions
+
+// Does not work with colors containing alpha
+@function encode-color($string) {
+	@if type-of($string) == 'color' {
+		$hex: str-slice(ie-hex-str($string), 4);
+		$string: unquote("#{$hex}");
+	}
+
+	$string: '%23' + $string;
+	@return $string;
+}

@@ -1,0 +1,77 @@
+<nav class="mobile-nav {% if page.header_class == 'plain' or layout.header_class == 'plain' %}light{% else %}dark{% endif %}">
+	<form action="{{ site.baseurl }}/search/" method="get" class="header-search">
+		<input type="search" name="q" id="search-input" required placeholder="Search {{ site.url | replace_first: 'https://', '' }}" class="search-input">
+		<input type="submit" value="Search" style="display: none;">
+	</form>
+	<div id="search-button" class="search-button">{% include svgs/search.svg %}</div>
+	<div id="mobile-menu-button" class="mobile-menu-button">{% include svgs/other-icon.html icon="menu" %}</div>
+</nav>
+<div id="mobile-menu" class="mobile-menu {% if page.header_class == 'plain' or layout.header_class == 'plain' %}light{% else %}dark{% endif %}">
+	{% assign navigation_groups = site.data.navigation.mobile-menu-items.navigation_groups %}
+	<div class="nav-group">
+		<ul>
+			<li>
+				<a class="home-url" href="/">Home</a>
+			</li>
+			{% for item in site.data.navigation.main %}
+				<li {% if page.url == item.link %}class="active"{% endif %}>
+					<a href="{{ item.link}}">{{ item.name }}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="nav-group">
+		<div class="group-heading">
+			<h4>App</h4>
+		</div>
+		<ul class="app-options hide-on-signed-in">
+			<li>
+				<a href="https://github.com/EdurtIO/incubator-gcm" target="_blank">GitHub</a>
+			</li>
+		</ul>
+		<ul class="app-options show-on-signed-in">
+			<li>
+				<a href="#" target="_blank">Go to App</a>
+			</li>
+		</ul>
+	</div>
+	{% for group in navigation_groups %}
+		<div class="nav-group">
+			<div class="group-heading">
+				<h4>{{ group.title }}</h4>
+			</div>
+			<ul>
+				{% for item in group.navigation_items %}
+					<li {% if page.url == item.url %}class="active"{% endif %}>
+						<a href="{{ item.url }}">{{ item.title }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endfor %}
+	<div class="nav-filler"></div>
+</div>
+
+
+<script>
+	var signedIn = /^(.*;)?\s*signed_in\s*=\s*[^;]+(.*)?$/.test(document.cookie);
+	document.body.className += ' ' + (signedIn ? 'user-signed-in' : '');
+	document.getElementById("search-button").addEventListener("click", function (event) {
+		event.preventDefault();
+		document.getElementById("search-input").classList.toggle("open");
+		document.getElementById("search-input").focus();
+	});
+
+	document.getElementById("mobile-menu-button").addEventListener("click", function (event) {
+		event.preventDefault();
+		document.getElementById("mobile-menu").classList.toggle("open");
+		document.getElementById("mobile-container").classList.toggle("open");
+		document.body.classList.toggle("mobile-overflow"); 
+	});
+
+	const targetElement = document.querySelector("#mobile-menu");
+	bodyScrollLock.disableBodyScroll(targetElement);
+	bodyScrollLock.enableBodyScroll(targetElement);
+	bodyScrollLock.clearAllBodyScrollLocks();
+
+</script>

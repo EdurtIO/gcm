@@ -1,0 +1,43 @@
+.about {
+	h1 {
+		text-align: center;
+		margin: 0 0 100px 0;
+	}
+
+	.feature-content {
+		@extend .vertical-flow;
+		margin-left: -10px;
+		margin-right: -10px;
+		margin-top: -10px;
+
+		li {
+			border: 1px solid $plain-border-color;
+		}
+	}
+}
+
+.mugs {
+	list-style: none;
+	padding: 0;
+	margin: 0 -20px;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-evenly;
+
+	li {
+		flex: 0 1 150px;
+		margin: 20px;
+		text-align: center;
+
+		img {
+			border: 1px solid #e7e7e7;
+			border-radius: 50%;
+			box-shadow: $medium-box-shadow, $outline-box-shadow;
+			margin-bottom: 5px;
+		}
+
+		p {
+			margin: 0;
+		}
+	}
+}

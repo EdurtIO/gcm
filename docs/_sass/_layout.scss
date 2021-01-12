@@ -1,0 +1,157 @@
+.wrapper {
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: $wrapper-width;
+	margin: 0 auto;
+	padding: $section-padding-mobile $wrapper-horizontal-padding;
+
+	@media only screen and (min-width: $tablet-min) {
+		padding: $section-padding-tablet $wrapper-horizontal-padding;
+
+		header section & {
+			padding-top: 65px;
+		}
+	}
+
+	@media only screen and (min-width: $desktop-min) {
+		padding: $section-padding $wrapper-horizontal-padding;
+	}
+
+	&.wrapper-large {
+		max-width: $large-wrapper-width;
+	}
+
+	&.small-pad {
+		padding-top: $half-space;
+		padding-bottom: $half-space;
+	}
+}
+
+.dark-content {
+	background: $cards-background-color;
+}
+
+.screenshot {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	border-radius: $border-radius;
+	margin-left: auto;
+	margin-right: auto;
+	background: #fafafa url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='12' viewBox='0 0 44 12'%3E%3Ccircle cx='6' cy='6' r='4' fill='%23FC625D'/%3E%3Ccircle cx='22' cy='6' r='4' fill='%23FDBC40'/%3E%3Ccircle cx='38' cy='6' r='4' fill='%2335CC4B'/%3E%3C/svg%3E") 4px 4px no-repeat;
+	position: relative;
+	border: 1px solid #f0f0f0;
+	box-sizing: border-box;
+	padding: 20px 0 0 0;
+}
+
+iframe.screenshot {
+	height: 500px;
+	margin: 0 auto 2em;
+}
+
+.video-embed {
+	width: 100%;
+	position: relative;
+	padding: 0 0 62.5% 0;
+	height: 0;
+
+	iframe {
+		background: white;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	background-color: rgba(0,0,0,0.5);
+
+	.video-container {
+		position: fixed;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 100%;
+		max-width: 1000px;
+		max-height: 90%;
+	}
+}
+
+.no-scroll {
+	overflow: hidden;
+}
+
+.cards {
+	list-style: none;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -10px;
+
+	li {
+		flex: 1 1 315px;
+	}
+
+	h3 {
+		font-size: 1.1rem;
+		display: flex;
+		margin: 0 0 20px 0;
+		align-items: center;
+
+		.material-icons {
+			flex: 0;
+			display: inline-block;
+			background: $light-brand-color;
+			color: #fff;
+			padding: 8px;
+			border-radius: 50px;
+			margin-right: 10px;
+			font-size: 24px;
+		}
+
+		span {
+			display: inline-block;
+			flex: 1;
+		}
+	}
+
+	p {
+		font-size: $font-small;
+	}
+}
+
+.card {
+	background: #fff;
+	box-sizing: border-box;
+	margin: 10px;
+	border-radius: $border-radius;
+	position: relative;
+	padding: $mobile-card-padding;
+
+	@media only screen and (min-width: $tablet-min) {
+		padding: $card-padding;
+
+		&.big {
+			padding: $big-card-padding;
+		}
+	}
+
+	> p:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.user-signed-in .hide-on-signed-in,
+body:not(.user-signed-in) .show-on-signed-in {
+	display: none !important;
+}

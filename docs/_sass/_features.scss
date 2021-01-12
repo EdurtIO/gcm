@@ -1,0 +1,35 @@
+.workflow-diagram {
+	@include hero-overhang(39px);
+	display: flex;
+	text-align: center;
+	list-style: none;
+	padding: 0;
+	color: $grey-text;
+	flex-wrap: wrap;
+
+	p {
+		margin-top: 1em;
+	}
+
+	li {
+		flex: 1 0 200px;
+		margin: 0 10px;
+
+		.material-icons {
+			font-size: 38px;
+			display: inline-block;
+			background-color: #fff;
+			color: $light-brand-color;
+			padding: 20px;
+			border-radius: 50%;
+			box-shadow: $medium-box-shadow;
+		}
+	}
+}
+
+.feature-content {
+	h2 {
+		text-align: center;
+		margin-top: $section-padding;
+	}
+}

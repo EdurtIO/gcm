@@ -1,0 +1,291 @@
+html,
+body {
+	scroll-behavior: smooth;
+}
+
+h3 + .warning {
+	margin-top: 1.75em;
+}
+
+h4 svg {
+	vertical-align: middle;
+	margin-right: 6px;
+	position: relative;
+	top: -2px;
+	fill: #2E2E2E;
+	height: 23px;
+}
+
+.required {
+	position: relative;
+}
+
+.required::after {
+	content: "REQUIRED";
+	font-size: 12px;
+	position: absolute;
+	top: 5px;
+	line-height: 1;
+	color: $brand-color;
+	padding-left: 5px;
+}
+
+article.content h3 {
+	margin-top: 40px;
+}
+
+.docs-container h2 {
+	margin: 0;
+}
+
+.toc ul {
+	padding: 0;
+	margin: 0 0 10px 0;
+
+	li {
+		margin: 0 1rem 2px 1rem;
+		list-style: none;
+		font-size: 14px;
+		line-height: 1.8em;
+	}
+
+	a {
+		padding: 0 10px;
+	}
+}
+
+.toc:empty + .explainer {
+	margin-top: 20px;
+}
+
+table {
+	border: 1px solid #eee;
+	border-radius: 2px;
+	border-spacing: 0;
+
+	th {
+		padding-bottom: 8px;
+	}
+
+	thead th {
+		border-bottom: 1px solid #eee;
+	}
+}
+
+article.content h3,
+article.content h4 {
+	margin-top: 50px;
+}
+
+article.content h4 {
+	font-size: 1.25rem;
+}
+
+.settings-panel-example .highlighter-rouge {
+	@extend .vertical-flow;
+}
+
+.g-recaptcha {
+  margin-bottom: 15px;
+}
+
+.cms-embed {
+    @extend .vertical-flow;
+}
+
+.docs-container {
+	> .wrapper {
+		display: flex;
+		flex-wrap: wrap;
+		padding-top:0;
+		padding-bottom: 0;
+	}
+
+	.docs-nav {
+		flex: 1 1 100%;
+		min-width: 0;
+
+		.docs-nav-list {
+			padding: 0;
+			padding-top: 35px;
+			margin: 0;
+		}
+	}
+
+	@media (max-width: 810px) {
+		.docs-nav.full-navigation {
+			display: none;
+		}
+	}
+
+	.docs-main {
+		background: #fff;
+		flex: 3 1 500px;
+		min-width: 0;
+
+		@media (max-width: 810px) {
+			padding-top: 50px;
+		}
+
+		.content {
+			max-width: 810px;
+			margin: 0 auto 1.75em auto;
+
+			p {
+				img {
+					height: auto;
+					max-width: 105%;
+					max-height: 60vh;
+					margin: 5% 0;
+					position: relative;
+					left: 50%;
+					-webkit-transform: translateX(-50%);
+					transform: translateX(-50%);
+					width: auto;
+				}
+			}
+
+			li {
+				img {
+					margin: 5% 0;
+				}
+			}
+		}
+	}
+
+	@media (min-width: 810px) {
+		
+
+		.docs-main {
+			padding: 40px 20px;
+		}
+
+		.docs-nav {
+			padding: 0;
+			flex: 0 1 230px;
+			position: relative;
+			top: 0;
+			will-change: min-height;
+
+			.docs-nav-list {
+				box-sizing: border-box;
+				width: 100%;
+				border-right: 1px solid #eee;
+				transform: translate(0, 0); /* For browsers don't support translate3d. */
+				transform: translate3d(0, 0, 0);
+				will-change: position, transform;
+			}
+		}
+	}
+
+	.docs-category {
+		color: #888;
+		font-size: 1.5rem;
+		margin: 0;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+	}
+}
+
+.nav-item {
+	display: block;
+	line-height: 1;
+	font-size: 1rem;
+	margin: 0;
+	padding: 0;
+
+	> ul {
+		margin: 0;
+		padding: 0;
+	}
+
+	nav:not(.full-navigation) & > ul {
+		display: none;
+	}
+
+	nav:not(.full-navigation) &.current > ul {
+		display: block;
+	}
+
+	a {
+		color: $brand-color;
+		text-decoration: none;
+		padding: 5px 10px;
+		display: block;
+		border-left: 5px solid #f8f8f8;
+		margin: 0 0 5px 0;
+
+		&:hover {
+			border-left-color: $brand-color;
+		}
+	}
+
+	&.current > a,
+	&.current > a:active,
+	&.current > a:hover {
+		color: #111;
+		border-left-color: #111;
+	}
+
+	&.top-level > a {
+		line-height: 1.5;
+		font-weight: bold;
+		padding-left: 0;
+		font-size: 0.9rem;
+		margin: 0;
+		text-transform: uppercase;
+		color: #888;
+		border: 0;
+	}
+
+	&.top-level + .top-level {
+		border-top: 1px solid #eee;
+		padding-top: 10px;
+		margin-top: 10px;
+	}
+}
+
+li.nav-item.standalone.current {
+	.toc {
+		li:first-child {
+			margin: 0px;
+		}
+	}
+}
+
+.settings-panel-example {
+	@extend p;
+	display: flex;
+	flex-direction: column;
+
+	.example {
+		max-width: 300px;
+		background-color: #fafafa;
+		margin: 0;
+		padding: 0;
+		font-size: 0;
+		line-height: 1;
+		border-radius: 2px;
+		overflow: hidden;
+	}
+
+	@media (min-width: 960px) {
+		flex-direction: row;
+
+		.details {
+			flex: 1;
+			margin-right: 20px;
+		}
+
+		p + .highlight > pre {
+			margin-bottom: 0;
+		}
+
+		.example {
+			flex: 0 0 300px;
+			max-width: 100%;
+		}
+	}
+}

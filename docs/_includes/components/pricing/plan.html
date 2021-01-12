@@ -1,0 +1,30 @@
+<li class="card {{ include.plan.class }}">
+	<h3>{{ include.plan.name }}</h3>
+	<div class="plan-content">
+		<p class="price">
+			{% if include.plan.price %}
+				<span class="annually">${{ include.plan.price }}/m</span>
+				<span class="monthly">{% if include.plan.price_monthly %}${{ include.plan.price_monthly }}{% endif %}</span>
+			{% else %}
+				{{ include.plan.price_alt }}
+			{% endif %}
+		</p>
+		{% if plan.sub %}
+			<p class="sub">{{ include.plan.sub }}</p>
+		{% endif %}
+
+		<ul>
+			{% for feature in include.plan.features %}
+				<li><i class="material-icons">done</i><span>{{ feature | markdownify | remove: '<p>' | remove: '</p>' }}</span></li>
+			{% endfor %}
+		</ul>
+
+		<div class="plan-cta">
+			{% if include.plan.cta %}
+				<a class="button {% if plan.highlight %}brand{% else %}light{% endif %}" href="{{ plan.cta.link }}">{{ include.plan.cta.text }}</a>
+			{% else %}
+				<a class="button {% if plan.highlight %}brand{% else %}light{% endif %}" href="https://www.edurt.io">Start A Free Trial</a>
+			{% endif %}
+		</div>
+	</div>
+</li>

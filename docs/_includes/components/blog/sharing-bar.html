@@ -1,0 +1,7 @@
+<div class="sharing-bar">
+	<span>Share with:</span>
+	<ul>
+		<li><a class="twitter" target="_blank" href="https://twitter.com/intent/tweet?url={{ include.url | prepend: site.url | cgi_escape }}">{% include svgs/social-icon.html icon="twitter" %}</a></li>
+		<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ include.url | prepend: site.url | cgi_escape }}">{% include svgs/social-icon.html icon="facebook" %}</a></li>
+	</ul>
+</div>

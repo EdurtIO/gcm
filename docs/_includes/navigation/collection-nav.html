@@ -1,0 +1,116 @@
+{% if include.features_nav %}
+    {% assign sorted_features = site.features | sort: "order" %}
+    {% assign current_feature = site.features | where: "title", page.title | first %}
+    <div class="collection-nav-wrapper">
+        <div class="{% unless current_feature %}none {% endunless %}doc-nav">
+            <div class="wrapper wrapper-large" style="padding: 0 10px;">
+                <ul class="doc-nav-sections">
+                    {% for feature in sorted_features %}
+                            <li {% if feature == current_feature %}id="make-visible" {% endif %}class="doc-nav-section">
+                                <a href="{{feature.url}}" class="doc-nav-section-link {%if feature == current_feature %}current{% endif %}">
+                                    <div class="split-choice-icon">
+                                        {% include components/features-nav-icon.html icon=feature.icon %}
+                                    </div>
+                                    <strong>{{feature.short_name}}</strong>
+                                </a>
+                            </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% unless current_feature %}
+                <div class="doc-nav-sections-empty-fix"></div>
+            {% endunless %}
+        </div>
+    </div>
+{% endif %}
+
+
+{% if include.docs_nav %}
+    <div class="collection-nav-wrapper">
+        <div class="doc-nav">
+            <div class="wrapper wrapper-large" style="padding: 0 10px;">
+                <ul class="doc-nav-sections">
+                    {% assign prev_section = null %}
+                    {% assign current_section = null %}
+                    {% assign next_section = null %}
+
+                    {% assign sorted_sections = site.sections | sort: "order" %}
+                    {% for section in sorted_sections %}
+                        {% comment %}
+                            For Docs Suite 'Packages'
+                        {% endcomment %}
+                        {% assign package = site.collections | where: "title", section.name | first %}
+                        {% unless next_section %}
+                            {% if page.url contains section.url %}
+                                {% assign current_section = section %}
+                            {% elsif current_section %}
+                                {% assign next_section = section %}
+                            {% else %}
+                                {% assign prev_section = section %}
+                            {% endif %}
+                        {% endunless %}
+
+                        <li {% if page.url contains section.url %}id="make-visible"{% endif %} class="doc-nav-section">
+                            <a href="{{ section.url }}introduction/" class="doc-nav-section-link {% if page.url contains section.url %}current{% endif %}">
+                                {% if section.icon == "console" %}
+                                    <div class="material-icons">
+                                        <svg viewBox="0 0 24 24"><path d="M20,19V7H4V19H20M20,3A2,2 0 0,1 22,5V19A2,2 0 0,1 20,21H4A2,2 0 0,1 2,19V5C2,3.89 2.9,3 4,3H20M13,17V15H18V17H13M9.58,13L5.57,9H8.4L11.7,12.3C12.09,12.69 12.09,13.33 11.7,13.72L8.42,17H5.59L9.58,13Z" /></svg>
+                                    </div>
+                                {% else %}
+                                    <i class="material-icons">{{ section.icon }}</i>
+                                {% endif %}
+                                <strong>{% if section.short_name %}{{ section.short_name }}{% else %}{{ section.title }}{% endif %}</strong>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% unless current_section %}
+                <div class="doc-nav-sections-empty-fix"></div>
+            {% endunless %}
+        </div>
+
+        <div class="path-wrapper">
+            <div class="path" id="doc-path">
+                <a href="#">Viewing: {{ page.category | default: "General" }} / {{ page.title }} <div class="arrow">&#8227;</div></a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if include.pricing_nav %}
+    {% assign plan_types = site.data.plans.groups %}
+    {% assign current_feature = site.features | where: "name", "Enterprise" %}
+    <div class="collection-nav-wrapper">
+        <div class="doc-nav pricing-nav">
+            <div class="wrapper wrapper-large" style="padding: 0 10px;">
+                <ul class="doc-nav-sections">
+                    {% assign title = page.title | slugify | append: '/' | prepend: '/' %}
+                    {% for type in plan_types %}
+                            <li class="doc-nav-section">
+                                <a href="{{ type.url }}" class="doc-nav-section-link {% if type.url == page.url %}current{% endif %}">
+                                    <div class="split-choice-icon">
+                                        {% include components/features-nav-icon.html icon=type.icon %}
+                                    </div>
+                                    <strong>{{ type.name }}</strong>
+                                </a>
+                            </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% unless current_feature %}
+                <div class="doc-nav-sections-empty-fix"></div>
+            {% endunless %}
+        </div>
+    </div>
+{% endif %}
+
+<script>
+(function () {
+    var elmnt = document.getElementById("make-visible");
+    elmnt.scrollIntoView(true);
+    if (screen.width < 800) { 
+        elmnt.scrollIntoView({inline: "center"});
+    }
+})();
+</script>

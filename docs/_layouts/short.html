@@ -1,0 +1,37 @@
+---
+layout: default
+icons: true
+header_class: short
+---
+
+<header class="short">
+	{% include navigation/top.html %}
+
+	<section>
+		<div class="wrapper">
+			{% if page.heading %}
+				<h1>{{ page.heading }}</h1>
+			{% elsif page.name %}
+				<h1>{{ page.name }}</h1>
+			{% elsif page.title %}
+				<h1>{{ page.title }}</h1>
+			{% endif %}
+
+			{% if page.subtitle %}
+				<p class="subtitle">{{ page.subtitle }}</p>
+			{% elsif page.description %}
+				<p class="subtitle">{{ page.description }}</p>
+			{% endif %}
+		</div>
+	</section>
+</header>
+
+<div class="dark-content">
+	<div class="wrapper {% if page.large_wrapper %}wrapper-large{% endif %}">
+		{{ content }}
+	</div>
+</div>
+
+{% unless page.hide_cta %}
+{% include components/cta/main.html text="Join thousands of developers building sites on today" button="Get started free" %}
+{% endunless %}

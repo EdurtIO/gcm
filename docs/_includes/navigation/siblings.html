@@ -1,0 +1,10 @@
+{% assign sites = site.data.navigation.siblings[jekyll.environment] %}
+<nav class="siblings {% if page.header_class == 'plain' or layout.header_class == 'plain' %}light{% else %}dark{% endif %}">
+	{% assign no_active = true %}
+	<div class="nav-bar wrapper wrapper-large">
+		{% for item in sites %}
+			<a {% if site.active_sibling == item.name %}class="active"{% assign no_active = false %}{% endif %} href="{{ item.link}}">{{ item.name }}</a>
+		{% endfor %}
+		{% if no_active %}<span class="no-active-replacement"></span>{% endif %}
+	</div>
+</nav>

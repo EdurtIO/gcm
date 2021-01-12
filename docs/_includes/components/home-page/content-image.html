@@ -1,0 +1,31 @@
+<section class="landing-wrap">
+	<div class="wrapper wrapper-large">
+		<div class="landing-content">
+			<div class="landing-text">
+				<h2>{{ include.heading }}</h2>
+				{{ include.content_markdown | markdownify }}
+				{% if include.storage_provider_icons %}
+					<div class="storage-provider-icons">
+						{% include svgs/storage-provider-logos.html icon="github" %}
+						{% include svgs/storage-provider-logos.html icon="bitbucket" %}
+						{% include svgs/storage-provider-logos.html icon="dropbox" %}
+					</div>
+				{% endif %}
+			</div>
+			<div class="landing-image">
+				{% case include.image %}
+					{% when "workflow" %}
+						{% include components/home-page/workflow.html %}
+					{% when "editing" %}
+						{% include components/home-page/editing.html %}
+					{% when "tools" %}
+						{% include components/home-page/tools.html %}
+					{% when "preview" %}
+						{% include components/home-page/preview.html %}
+					{% else %}
+					<img src="{{ include.image}}" alt="{{ include.heading }}">
+				{% endcase %}
+			</div>
+		</div>
+	</div>
+</section>

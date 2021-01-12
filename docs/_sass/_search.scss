@@ -1,0 +1,51 @@
+.content-search {
+	margin-bottom: 20px;
+
+	.search-input {
+		padding: 20px 20px 20px 50px;
+		background-position-x: 15px;
+		background-size: auto 25px;
+	}
+}
+
+.search-results-status {
+	font-size: 1rem;
+	margin: -10px 0 40px 0;
+	opacity: 0.7;
+	font-style: italic;
+}
+
+.search-results {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		margin-bottom: 40px;
+	}
+
+	h4 {
+		font-size: 1.15rem;
+		line-height: 1.8em;
+		margin: 0;
+	}
+
+	.search-result-url {
+		opacity: 0.7;
+		margin: 0;
+	}
+
+	.search-result-snippet {
+
+	}
+
+	.search-result-url,
+	.search-result-snippet {
+		font-size: 1rem;
+	}
+}
+
+// highlighted search terms after navigating from search result
+.h {
+	background-color: #f7e064;
+}

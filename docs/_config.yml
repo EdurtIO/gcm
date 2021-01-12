@@ -1,92 +1,78 @@
-# ----
-# Site
-
+name: Gcm
 title: Gcm
-url: "https://gcm.incubator.edurt.io/"
+description: Google Guice component management System!
+url: https://gcm.incubator.edurt.io
+disqus_shortname: edurtio
 baseurl:
-google_analytics_key:
-disqus_shortname:
-newsletter_action:
 
-# Values for the jekyll-seo-tag gem (https://github.com/jekyll/jekyll-seo-tag)
+active_sibling:
+main_url:
+permalink: pretty
+
+lang: en_NZ
 logo: /siteicon.png
-description: Gcm Documentation Website.
-author:
-  name:
-  email:
-  twitter: # twitter username without the @ symbol
-social:
-  name: Gcm
-  links:
-    - https://github.com/EdurtIO/incubator-gcm.git
-
-# -----
-# Build
-
-timezone: Etc/UTC
-
-permalink: /:categories/:title/
 
 plugins:
-  - jekyll-extract-element
-  - jekyll-sitemap
-  - jekyll-seo-tag
+  - jekyll-data
   - jekyll-feed
-  - jekyll-archives
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-include-cache
 
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - README.md
-  - LICENCE
-
+collections_dir: collections
 collections:
-  sets:
-
-
-jekyll-archives:
-  enabled: ['categories']
+  databases_docs:
+    title: Examples
+    permalink: /databases/:path/
+    output: true
+    boost: 8
+  sections:
+    title: Sections
+    permalink: /:path/
+    output: false
 
 defaults:
-  -
-    scope:
+  - scope:
       path: ""
     values:
-      layout: "default"
-  -
-    scope:
+      hide_cta: true
+      layout: doc
+      search_result_highlighting_selector: article.content
+      _options:
+        content:
+          format: p h2 h3
+          bold: true
+          link: true
+          italic: true
+          removeformat: true
+          numberedlist: true
+          bulletedlist: true
+          code: true
+          table: true
+          outdent: true
+          indent: true
+          image: true
+  - scope:
+      path: ""
       type: "posts"
     values:
-      layout: "post"
-      comments: true
-  -
-    scope:
-      type: "sets"
-    values:
-      _hide_content: true
-  -
-    scope:
-      path: "index.html"
-    values:
-      body_class: "show_hero_search"
-
-# -----------
-# CloudCannon
-
-social_icons:
-  - Facebook
-  - Google Plus
-  - Instagram
-  - LinkedIn
-  - Pinterest
-  - Tumblr
-  - Twitter
-  - YouTube
-  - Email
-  - RSS
-
-types:
-  - Document
-  - Video
-
-_comments:
+      layout: post
+      search_result_highlighting_selector: div.post
+      hide_disqus: true
+      uploads_dir: /images/change-log/:title
+      _comments:
+        type: Marks the impact of this release
+      _options:
+        content:
+          format: p h2 h3
+          bold: true
+          link: true
+          italic: true
+          removeformat: true
+          numberedlist: true
+          bulletedlist: true
+          code: true
+          table: true
+          outdent: true
+          indent: true
+          image: true

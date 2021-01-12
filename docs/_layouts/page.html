@@ -1,0 +1,18 @@
+---
+layout: default
+header_class: plain
+---
+
+<header class="plain">
+	{% include navigation/top.html %}
+</header>
+
+{% if include.features_nav %}
+	{% include navigation/feature-nav-bar.html %}
+{% endif %}
+{% if include.docs_nav %}
+	{% include navigation/docs-nav-bar.html %}
+{% endif %}
+{{ content }}
+
+{% include components/cta/main.html text="Join thousands of developers building sites on today" button="Get started free" %}

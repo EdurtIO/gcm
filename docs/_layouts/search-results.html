@@ -1,0 +1,22 @@
+---
+title: Search
+layout: page
+sitemap: false
+---
+
+<section class="dark-content">
+	<div class="wrapper wrapper-large">
+		<form action="{{ site.baseurl }}/search/" method="get" class="content-search">
+			<input type="search" name="q" id="content-search-input" required data-autofocus placeholder="Search {{ site.url | replace_first: 'https://', '' }}" class="search-input">
+			<input type="submit" value="Search" style="display: none;">
+		</form>
+
+		<p id="search-results-status" class="search-results-status">Loading results...</p>
+		<ul id="search-results" class="search-results"></ul>
+
+		{{ content }}
+
+		<script src="/assets/js/lunr.js"></script>
+		<script src="/assets/js/search.js"></script>
+	</div>
+</section>

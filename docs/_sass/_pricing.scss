@@ -1,0 +1,110 @@
+.period {
+	@include hero-overhang(28px);
+	text-align: center;
+}
+
+.plans {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;
+	list-style: none;
+	margin: 0 -10px 50px -10px;
+
+	.card {
+		flex: 1 1 220px;
+		padding: 0;
+
+		h3 {
+			text-align: center;
+			font-size: $font-smaller;
+			border-bottom: 1px solid $cards-background-color;
+			margin: 0;
+			padding: $quarter-space 0;
+			color: $grey-text;
+			text-transform: uppercase;
+			letter-spacing: $uppercase-letter-spacing;
+		}
+
+		.sub {
+			padding: 0;
+			margin: 0;
+			font-size: $font-small;
+			text-align: center;
+		}
+
+		ul {
+			padding: 0;
+			font-size: $font-small;
+			margin: 20px 0 90px 0;
+			list-style: none;
+
+			li {
+				display: flex;
+				padding: 0;
+				margin: 10px 0;
+			}
+		}
+
+		.material-icons {
+			color: #41BF66;
+			font-size: 1rem;
+			position: relative;
+			top: 2px;
+			margin-right: 6px;
+		}
+
+		$plan-space: 15px;
+		.plan-content {
+			padding: $plan-space;
+		}
+
+		.price {
+			display: flex;
+			flex-flow: column wrap;
+			margin: 0;
+			color: $brand-color;
+			text-align: center;
+			font-size: 1.8rem;
+			font-weight: 700;
+
+			.monthly {
+				margin-bottom: 15px;
+				min-height: 0.9rem;
+				font-size: 0.8rem;
+				line-height: 0.9rem;
+			}
+		}
+
+		.plan-cta {
+			position: absolute;
+			bottom: $plan-space;
+			left: $plan-space;
+			right: $plan-space;
+
+			.button {
+				padding: 18px 5px;
+				width: 100%;
+				box-sizing: border-box;
+				white-space: nowrap;
+			}
+		}
+	}
+}
+
+.addition-plan {
+	text-align: center;
+}
+
+.faq {
+	margin-top: $section-padding;
+
+	h2 {
+		text-align: center;
+	}
+
+	.card {
+		h3 {
+			color: $brand-color;
+		}
+	}
+}

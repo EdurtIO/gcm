@@ -1,0 +1,20 @@
+navigation_groups:
+  - title: Resources
+    order_number: 2
+    navigation_items:
+      - title: About
+        url: "https://www.edurt.io/about/"
+      - title: Contact
+        url: "https://www.edurt.com/contact/"
+      - title: Guides
+        url: "https://www.edurt.com/"
+      - title: Documentation
+        url: "https://www.edurt.com/"
+      - title: Experts
+        url: "https://www.edurt.com/experts/"
+      - title: Brand
+        url: "https://www.edurt.com/"
+      - title: Status
+        url: "https://www.edurt.com/"
+      - title: Careers
+        url: "https://www.edurt.com/careers/"

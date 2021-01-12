@@ -1,0 +1,12 @@
+<section class="hero">
+	<div class="wrapper">
+		<h1>{{ include.heading }}</h1>
+		<p class="subtitle">{{ include.subtitle }}</p>
+		<div class="hero-cta">
+			<a class="button light shadow no-border dark-hover" href="https://www.edurt.io">{{ include.button }}</a>
+		</div>
+		<div class="landing-video">
+			{% include video.html video = include.video %}
+		</div>
+	</div>
+</section>

@@ -1,72 +1,73 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="en" {% if site.data.banner_notification.enabled %}class="banner-notification-visible"{% endif %}>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="generator" content="Jekyll v{{ jekyll.version }}">
+		<link href="https://fonts.googleapis.com/css?family=Muli:400,600,700{% if layout.icons or page.icons %}|Material+Icons{% endif %}" rel="stylesheet">
+		<link rel="stylesheet" href="{{ site.baseurl }}/css/screen.css" type="text/css">
 
-		<link rel="stylesheet" href="{{ site.baseurl }}/css/screen.css">
-		<link rel="apple-touch-icon" href="{{ site.baseurl }}/apple-touch-icon.png">
-		<link rel="icon" type="image/png" href="{{ site.baseurl }}/touch-icon.png" sizes="192x192">
-		<link rel="icon" type="image/png" href="{{ site.baseurl }}/images/favicon.png">
-		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Merriweather:400italic,400,300italic,300,700,700italic|Open+Sans:400italic,600italic,700italic,700,600,400|Inconsolata:400,700">
+		<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+		<link rel="shortcut icon" type="image/png" sizes="128x128" href="/assets/favicon-128x128.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+		<link rel="manifest" href="/assets/manifest.json">
+		<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#407afc">
+		<meta name="msapplication-config" content="/assets/browserconfig.xml" />
+		<meta name="theme-color" content="#407afc">
+		<script src="/assets/js/bodyScrollLock.js"></script>
 
-		{% if jekyll.environment == 'production' and site.google_analytics_key != '' %}
-			<script>
-				window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-				ga('create', '{{ site.google_analytics_key }}', 'auto');
-				ga('send', 'pageview');
-			</script>
-			<script async src='https://www.google-analytics.com/analytics.js'></script>
+		{% feed_meta %}
+		
+		{% if jekyll.environment != "production" %}
+		    <meta name="robots" content="noindex">
 		{% endif %}
 
-		{% seo %}
-		{% feed_meta %}
+		{% assign site_title = site.title | default: site.name %}
+		{% assign title = page.title | append: " | " | append: site_title %}
+		{%- if page.collection -%}
+			{%- assign collection = site.collections | where: "label", page.collection | first -%}
+			{%- if collection and collection.title -%}
+				{% assign title = collection.title | append: " | " | append: title %}
+			{%- endif -%}
+		{%- endif -%}
 
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<title>{{ title }}</title>
+
+		{% seo title=false %}
+		<meta property="og:image" content="/assets/images/social-media/opengraph.jpg" />
+		{% include analytics.html %}
 	</head>
 
-	<body class="{{ page.body_class }}">
-		<header>
-			<div class="wrapper">
-				<section class="top-bar">
-					<div class="logo"><a href="{{ site.baseurl }}/">{% include logo.html %}</a></div>
-					{% include navigation.html %}
-				</section>
-				<section class="hero_search">
-					<h1>Documentation</h1>
-					<p>Everything you need to know about running our software.</p>
-					{% include search.html %}
-				</section>
+	{% assign body_class = site.body_class %}
+	{% if layout.body_class %}
+		{% assign body_class = body_class | append: " " | append: layout.body_class %}
+	{% endif %}
+	<body {% if body_class %}class="{{ body_class }}"{% endif %}>
+		{% if site.data.banner_notification.enabled %}
+			<div class="banner-notification">
+				<p><a href="{{ site.data.banner_notification.url }}">{{ site.data.banner_notification.text }}</a></p>
 			</div>
-
-		</header>
-		<section class="content">
-			<div class="wrapper">
-				{{ content }}
-			</div>
-		</section>
-
-		{% include footer.html %}
+		{% endif %}
+		{% include navigation/siblings.html %}
+		{{ content }}
+		{% include navigation/footer.html %}
 		<script>
-			$(function() {
-				$('a[href*=\\#]').not(".no-smooth").on('click', function(event){
-					var el = $(this.hash);
-					if (el.length > 0) {
-						// event.preventDefault();
-						$('html,body').animate({scrollTop:$(this.hash).offset().top - 50}, 500);
-					}
-				});
-
-				$('svg').click(function() {
-					$(this).parent('form').submit();
-				});
-			});
+			var signedIn = /^(.*;)?\s*signed_in\s*=\s*[^;]+(.*)?$/.test(document.cookie);
+			document.body.className += ' ' + (signedIn ? 'user-signed-in' : '');
 
 			document.getElementById("open-nav").addEventListener("click", function (event) {
 				event.preventDefault();
 				document.body.classList.toggle("nav-open");
+
+				if (document.body.classList.contains("nav-open")) {
+					document.getElementById("search-input").focus();
+				}
 			});
 		</script>
+
+		{% if page.search_result_highlighting_selector %}
+			{% include_cached search-result-highlighting.html content_selector=page.search_result_highlighting_selector %}
+		{% endif %}
 	</body>
 </html>

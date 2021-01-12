@@ -1,0 +1,19 @@
+<div class="testimonial">
+	<div class="wrapper">
+		<blockquote class="card big">
+			<div class="author">
+				<div class="image"><img src="{{ include.case.testimonial.image_path }}" width="68" height="68" ></div>
+				<p>
+					<span class="name">{{ include.case.testimonial.name }}</span>
+					<span class="title">{{ include.case.testimonial.work_title }}</span>
+				</p>
+			</div>
+			<div class="quote">
+				{{ include.case.testimonial.text_markdown | prepend: "&ldquo;" | append: "&rdquo;" | markdownify }}
+			</div>
+			{% include svgs/customer-logo.html logo=include.case.logo %}
+		</blockquote>
+		<div class="view-button"><a class="button" href="{{ include.case.url }}">View Case Study &rsaquo;</a></div>
+	</div>
+
+</div>

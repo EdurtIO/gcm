@@ -1,0 +1,48 @@
+<footer>
+	<div class="wrapper wrapper-large">
+		<div class="footer-links">
+			<div class="about">
+				{% include navigation/logo.html %}
+				<p>Gcm website.</p>
+			</div>
+			<ul>
+				<li><h4>Docs</h4></li>
+				<li><a href="{{ site.main_url }}/changelog/">Changelog</a></li>
+				<li><a href="{{ site.main_url }}/blog/">Blog</a></li>
+				<li><a href="{{ site.main_url }}/about/">About</a></li>
+			</ul>
+			<ul>
+				<li><h4>Resources</h4></li>
+				<li><a href="{{ site.main_url }}/guides">GitHub</a></li>
+				<li><a href="/">Documentation</a></li>
+			</ul>
+			<ul>
+				<li><h4>Link</h4></li>
+				<li><a href="https://learn-bigdata.incubator.edurt.io">BigData</a></li>
+				<li><a href="https://learn-programming.edurt.io">Programming</a></li>
+				<li><a href="https://qianmoq.com">qianmoQ' Blog</a></li>
+			</ul>
+			<ul class="contact">
+				<li><h4>Contact Us</h4></li>
+				<li><a href="{{ site.main_url }}/contact/">Contact</a></li>
+				<li><a href="mailto:support@edurt.com">support@edurt.com</a></li>
+				<li class="social">
+					<a class="twitter" href="https://twitter.com/EdurtIO">{% include svgs/social-icon.html icon="twitter" %}</a>
+					<a class="facebook" href="https://www.facebook.com/EdurtIO">{% include svgs/social-icon.html icon="facebook" %}</a>
+					<a class="youtube" href="https://www.youtube.com/c/EdurtIO">{% include svgs/social-icon.html icon="youtube" %}</a>
+				</li>
+			</ul>
+
+			<div class="filler"></div>
+		</div>
+	</div>
+
+	<div class="legal-line">
+		<p class="wrapper wrapper-large">
+			&copy; {{ site.time | date: '%Y' }} {{ site.title }} Ltd &bull;
+			<a href="{{ site.main_url }}/terms/">Terms</a> |
+			<a href="{{ site.main_url }}/privacy/">Privacy</a> |
+			<a href="{{ site.main_url }}/gdpr/">GDPR</a>
+		</p>
+	</div>
+</footer>

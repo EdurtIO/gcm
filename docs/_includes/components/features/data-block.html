@@ -1,0 +1,8 @@
+<li class="card">
+	<h3><i class="material-icons">{{ include.icon }}</i><span>{{ include.title }}</span></h3>
+	{{ include.content | markdownify }}
+
+	{% if include.video %}
+		<div class="card-actions"><a class="button light no-border no-padding no-hover video-link" data-video="{{ include.video }}" href="https://youtu.be/{{ include.video }}">View Demo &rsaquo;</a></div>
+	{% endif %}
+</li>

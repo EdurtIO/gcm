@@ -1,0 +1,150 @@
+footer {
+	& > .wrapper {
+		padding-bottom: $half-space;
+	}
+
+	.footer-links {
+		display: flex;
+		flex-wrap: wrap;
+		margin-left: -5px;
+		margin-right: -5px;
+
+		.filler,
+		& > ul,
+		& > .about,
+		& > .contact {
+			margin: 20px 10px;
+		}
+
+		.filler {
+			height: 0;
+			padding-top: 0;
+			padding-bottom: 0;
+			margin-top: 0;
+			margin-bottom: 0;
+			border-color: transparent;
+			border-top-width: 0;
+			border-bottom-width: 0;
+		}
+
+		.filler,
+		& > ul,
+		& > .about,
+		& > .contact {
+			flex: 1 0 210px;
+			overflow: hidden;
+		}
+
+		@media only screen and (min-width: $desktop-min) {
+			& > ul {
+				flex: 1 0 140px;
+			}
+
+			& > .contact,
+			& > .about {
+				flex: 2 0 280px;
+			}
+		}
+	}
+
+	.logo {
+		margin-bottom: 20px;
+
+		a {
+			line-height: 0;
+		}
+	}
+
+	p,
+	ul {
+		font-size: 1rem;
+	}
+
+	p {
+		line-height: 2;
+		margin: 0;
+	}
+
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		flex: 1;
+	}
+
+	h4 {
+		padding: 0;
+		margin: 0;
+		text-transform: uppercase;
+		letter-spacing: $uppercase-letter-spacing;
+		color: #000;
+		font-size: .75rem;
+	}
+
+	h4,
+	a {
+		line-height: 3em;
+	}
+
+	&,
+	a {
+		color: $footer-color;
+		text-decoration: none;
+		transition: color $transition-duration ease;
+	}
+
+	a:hover {
+		color: #000;
+	}
+}
+
+.about svg {
+	fill: $brand-color;
+}
+
+.legal-line {
+	border-top: 1px solid $plain-border-color;
+
+	.wrapper {
+		padding-top: $quarter-space;
+		padding-bottom: $quarter-space;
+	}
+}
+
+.social {
+	li {
+		flex: 1;
+	}
+
+	.facebook {
+		fill: #4A66B7;
+	}
+
+	.twitter {
+		fill: #1B95E0;
+	}
+
+	.youtube {
+		fill: #cc181e;
+	}
+
+	a {
+		display: inline-block;
+		padding: 0 5px;
+	}
+
+	svg {
+		opacity: .8;
+		transition: $transition-duration opacity ease;
+	}
+
+	a:hover svg {
+		opacity: 1;
+	}
+}
+
+@media only screen and (min-width: $desktop-min) {
+	.about {
+		flex: 8 0 200px;
+	}
+}

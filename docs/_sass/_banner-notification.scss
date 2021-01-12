@@ -1,0 +1,25 @@
+$banner-notifcation-height: 40px;
+
+html.banner-notification-visible {
+  padding-top: $banner-notifcation-height;
+}
+
+.banner-notification {
+  position: absolute;
+  top: -$banner-notifcation-height;
+  height: $banner-notifcation-height;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  background: $warning-color-light;
+  border-bottom: 1px solid $brand-color;
+  box-sizing: border-box;
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+  }
+}

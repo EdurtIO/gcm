@@ -1,0 +1,6 @@
+<nav class="search {% if page.header_class == 'plain' or layout.header_class == 'plain' %}light{% else %}dark{% endif %}">
+	<form action="{{ site.baseurl }}/search/" method="get" class="header-search">
+		<input type="search" name="q" required data-autofocus placeholder="Search {{ site.url | replace_first: 'https://', '' }}" class="search-input">
+		<input type="submit" value="Search" style="display: none;">
+	</form>
+</nav>
