@@ -38,10 +38,10 @@ jdbc.mysql.password=123
 jdbc.mysql.minimumIdle=10
 jdbc.mysql.maximumPoolSize=100
 jdbc.mysql.connectionTestQuery=select 1
-jdbc.mysql.dataSource.cachePrepStmts=true
-jdbc.mysql.dataSource.prepStmtCacheSize=250
-jdbc.mysql.dataSource.prepStmtCacheSqlLimit=2048
-jdbc.mysql.dataSource.useServerPrepStmts=true
+jdbc.mysql.cachePrepStmts=true
+jdbc.mysql.prepStmtCacheSize=250
+jdbc.mysql.prepStmtCacheSqlLimit=2048
+jdbc.mysql.useServerPrepStmts=true
 ```
 
 |Name|Description|Default|
@@ -52,10 +52,11 @@ jdbc.mysql.dataSource.useServerPrepStmts=true
 |jdbc.mysql.minimumIdle|-|`10`|
 |jdbc.mysql.maximumPoolSize|-|`100`|
 |jdbc.mysql.connectionTestQuery|-|`select 1`|
-|jdbc.mysql.dataSource.cachePrepStmts|-|`true`|
-|jdbc.mysql.dataSource.prepStmtCacheSize|-|`250`|
-|jdbc.mysql.dataSource.prepStmtCacheSqlLimit|-|`2048`|
-|jdbc.mysql.dataSource.useServerPrepStmts|-|`true`|
+|jdbc.mysql.cachePrepStmts|-|`true`|
+|jdbc.mysql.prepStmtCacheSize|-|`250`|
+|jdbc.mysql.prepStmtCacheSqlLimit|-|`2048`|
+|jdbc.mysql.useServerPrepStmts|-|`true`|
+|jdbc.mysql.scan.mapper.package|Scan the mapper file for the specified source directory|`io.edurt.gcm.mysql.hikari.mapper`|
 
 ### Example
 
