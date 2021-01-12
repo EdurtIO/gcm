@@ -49,7 +49,7 @@ jdbc.mysql.dataSource.useServerPrepStmts=true
 |jdbc.mysql.url|MySQL connection server connection string, need to carry database information|`jdbc:mysql://localhost:3306/test`|
 |jdbc.mysql.username|User name to connect to MySQL service|`root`|
 |jdbc.mysql.password|Password to connect to MySQL service|`123`|
-|jdbc.mysql.minimumIdle||`10`|
+|jdbc.mysql.minimumIdle|-|`10`|
 |jdbc.mysql.maximumPoolSize|-|`100`|
 |jdbc.mysql.connectionTestQuery|-|`select 1`|
 |jdbc.mysql.dataSource.cachePrepStmts|-|`true`|

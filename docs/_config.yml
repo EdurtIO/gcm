@@ -22,8 +22,13 @@ plugins:
 collections_dir: collections
 collections:
   databases_docs:
-    title: Examples
+    title: DataBases
     permalink: /databases/:path/
+    output: true
+    boost: 8
+  general_docs:
+    title: General
+    permalink: /general/:path/
     output: true
     boost: 8
   sections:
