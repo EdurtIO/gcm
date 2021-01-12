@@ -1,11 +1,7 @@
 ---
 title: MySQL(Hikaricp)
-category: MySQL
+category: Sql
 order: 1
-requirements:
-    build: Any
-    plan: Free
-    hosting: Any
 ---
 
 MySQL component is used to inject MySQL into Guice container. After the configuration is loaded, it can be used globally.
