@@ -58,6 +58,11 @@ redis.timeout=60
 ```java 
 String path = "/etc/conf/catalog/redis.properties";
 Injector injector = Guice.createInjector(new ConfigurationModule(path), new RedisModule());
+
+@Inject
+private RedisClient client;
+
+client.hashGetAll("redis-key");
 ```
 
 > Warning: `path` The absolute path of the configuration file, usually `conf/catalog/redis.properties`
