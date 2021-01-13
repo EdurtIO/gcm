@@ -7,7 +7,7 @@
     <artifactId>incubator-gcm</artifactId>
     <packaging>pom</packaging>
 
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 
     <modules>
         <module>configuration</module>
@@ -74,6 +74,7 @@
         <plugin.maven.findbugs.version>3.0.5</plugin.maven.findbugs.version>
         <plugin.maven.source.version>2.2.1</plugin.maven.source.version>
         <plugin.maven.gpg.version>1.6</plugin.maven.gpg.version>
+        <plugin.maven.nexus.version>1.6</plugin.maven.nexus.version>
         <environment.compile.java.version>1.8</environment.compile.java.version>
         <reporting.maven.jxr.version>2.5</reporting.maven.jxr.version>
     </properties>
@@ -269,6 +270,17 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${plugin.maven.nexus.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
             </plugin>
         </plugins>
     </build>
