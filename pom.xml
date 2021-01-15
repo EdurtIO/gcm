@@ -17,6 +17,7 @@
         <module>zookeeper</module>
         <module>netty</module>
         <module>docs</module>
+        <module>postgresql</module>
     </modules>
 
     <url>http://gcm.incubator.edurt.io</url>
