@@ -28,16 +28,27 @@ public class RedisModule
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisModule.class);
 
+    private final String configuration;
+
+    public RedisModule(String configuration)
+    {
+        this.configuration = configuration;
+    }
+
+    public RedisModule()
+    {
+        this.configuration = String.join(File.separator, System.getProperty("user.dir"),
+                "conf",
+                "catalog",
+                "redis.properties");
+    }
+
     @Override
     protected void configure()
     {
         LOGGER.info("binding redis datasource configuration information is started.");
-        String configurationPath = String.join(File.separator, System.getProperty("user.dir"),
-                "conf",
-                "catalog",
-                "redis.properties");
-        LOGGER.info("load configuration from local file {}", configurationPath);
-        Properties configuration = PropertiesUtils.loadProperties(configurationPath);
+        LOGGER.info("load configuration from local file {}", this.configuration);
+        Properties configuration = PropertiesUtils.loadProperties(this.configuration);
         LOGGER.info("binding redis datasource configuration information is completed, with a total of {} configurations", configuration.stringPropertyNames().size());
         bind(RedisClient.class).toProvider(new RedisProvider(configuration)).in(Scopes.SINGLETON);
     }
