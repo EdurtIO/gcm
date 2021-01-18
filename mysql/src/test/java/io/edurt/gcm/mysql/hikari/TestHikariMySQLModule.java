@@ -1,4 +1,4 @@
-package io.edurt.gcm.postgresql.hikari;
+package io.edurt.gcm.mysql.hikari;
 
 import com.google.inject.Guice;
 import org.junit.After;
@@ -10,9 +10,9 @@ import org.junit.Test;
  *
  * @author qianmoq
  * @version 1.0
- * @since <pre>1月 15, 2021</pre>
+ * @since <pre>1月 5, 2021</pre>
  */
-public class TestHikariDataSourceModule
+public class TestHikariMySQLModule
 {
     @Before
     public void before()
@@ -30,6 +30,6 @@ public class TestHikariDataSourceModule
     @Test
     public void test()
     {
-        Guice.createInjector(new HikariDataSourceModule());
+        Guice.createInjector(new HikariMySQLModule());
     }
 } 

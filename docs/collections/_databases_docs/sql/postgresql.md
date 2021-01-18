@@ -58,7 +58,7 @@ jdbc.postgresql.useServerPrepStmts=true
 
 ```java 
 String path = "/etc/conf/catalog/postgresql.properties";
-Injector injector = Guice.createInjector(new ConfigurationModule(path), new HikariDataSourceModule());
+Injector injector = Guice.createInjector(new ConfigurationModule(path), new HikariPostgreSQLModule());
 ```
 
 > Warning: `path` The absolute path of the configuration file, usually `conf/catalog/postgresql.properties`

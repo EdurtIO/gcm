@@ -1,10 +1,10 @@
-package io.edurt.gcm.postgresql.hikari;
+package io.edurt.gcm.mysql.hikari;
 
 import com.google.inject.Provider;
 import com.zaxxer.hikari.HikariDataSource;
 import io.edurt.gcm.common.utils.PropertiesUtils;
-import io.edurt.gcm.postgresql.hikari.configuration.HikariConfiguration;
-import io.edurt.gcm.postgresql.hikari.configuration.HikariConfigurationDefault;
+import io.edurt.gcm.mysql.hikari.configuration.HikariConfiguration;
+import io.edurt.gcm.mysql.hikari.configuration.HikariConfigurationDefault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,14 +12,14 @@ import javax.sql.DataSource;
 
 import java.util.Properties;
 
-public class HikariDataSourceProvider
+public class HikariMySQLProvider
         implements Provider<DataSource>
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HikariDataSourceProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HikariMySQLProvider.class);
 
     private final HikariDataSource dataSource = new HikariDataSource();
 
-    public HikariDataSourceProvider(Properties configuration)
+    public HikariMySQLProvider(Properties configuration)
     {
         LOGGER.info("generate configuration");
         dataSource.setDriverClassName(PropertiesUtils.getStringValue(configuration,

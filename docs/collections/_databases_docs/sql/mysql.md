@@ -58,7 +58,7 @@ jdbc.mysql.useServerPrepStmts=true
 
 ```java 
 String path = "/etc/conf/catalog/mysql.properties";
-Injector injector = Guice.createInjector(new ConfigurationModule(path), new HikariDataSourceModule());
+Injector injector = Guice.createInjector(new ConfigurationModule(path), new HikariMySQLModule());
 ```
 
 > Warning: `path` The absolute path of the configuration file, usually `conf/catalog/mysql.properties`
