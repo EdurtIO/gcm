@@ -19,16 +19,27 @@ public class HikariDataSourceModule
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractModule.class);
 
+    private final String configuration;
+
+    public HikariDataSourceModule(String configuration)
+    {
+        this.configuration = configuration;
+    }
+
+    public HikariDataSourceModule()
+    {
+        this.configuration = String.join(File.separator, System.getProperty("user.dir"),
+                "conf",
+                "catalog",
+                "postgresql.properties");
+    }
+
     @Override
     protected void initialize()
     {
         LOGGER.info("binding postgresql by hikari datasource configuration information is started.");
-        String configurationPath = String.join(File.separator, System.getProperty("user.dir"),
-                "conf",
-                "catalog",
-                "postgresql.properties");
-        LOGGER.info("load configuration from local file {}", configurationPath);
-        Properties configuration = PropertiesUtils.loadProperties(configurationPath);
+        LOGGER.info("load configuration from local file {}", this.configuration);
+        Properties configuration = PropertiesUtils.loadProperties(this.configuration);
         LOGGER.info("binding hikari datasource configuration information is completed, with a total of {} configurations", configuration.stringPropertyNames().size());
         install(JdbcHelper.PostgreSQL);
         bindConstant().annotatedWith(Names.named("mybatis.environment.id")).to("Prod");
