@@ -22,9 +22,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
-public class NettyServer
+public class GcmNettyApplication
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NettyServer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GcmNettyApplication.class);
 
     private static Properties configuration;
     @Inject
@@ -50,7 +50,7 @@ public class NettyServer
         RouterScan.getRouters(scanPackage);
     }
 
-    public void run()
+    public void start()
             throws Exception
     {
         String host = PropertiesUtils.getStringValue(configuration,

@@ -52,7 +52,7 @@ public class NettyModule
         LOGGER.debug("Binding netty component information");
         Properties configuration = PropertiesUtils.loadProperties(this.configuration);
         LOGGER.info("Binding netty configuration information is completed, with a total of {} configurations", configuration.stringPropertyNames().size());
-        NettyServer.binder(configuration);
+        GcmNettyApplication.binder(configuration);
     }
 
     @Provides
