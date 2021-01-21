@@ -18,6 +18,7 @@ public class NettyConfiguration
     public static final String HOST = "netty.host";
     public static final String PORT = "netty.port";
     public static final String CONTROLLER_PACKAGE = "netty.controller.package";
+    public static final String ROUTER_PRINT = "netty.router.print";
 
     private NettyConfiguration() {}
 }

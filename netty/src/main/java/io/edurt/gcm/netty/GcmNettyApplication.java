@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.netty.configuration.NettyConfiguration;
 import io.edurt.gcm.netty.configuration.NettyConfigurationDefault;
+import io.edurt.gcm.netty.dispatcher.DispatchRules;
 import io.edurt.gcm.netty.handler.HttpRequestHandler;
 import io.edurt.gcm.netty.router.RouterScan;
 import io.netty.bootstrap.ServerBootstrap;
@@ -48,6 +49,14 @@ public class GcmNettyApplication
                 NettyConfigurationDefault.CONTROLLER_PACKAGE);
         LOGGER.debug("Scan controller from configuration path {}", scanPackage);
         RouterScan.getRouters(scanPackage);
+        Boolean routerPrint = PropertiesUtils.getBoolValue(configuration,
+                NettyConfiguration.ROUTER_PRINT,
+                NettyConfigurationDefault.ROUTER_PRINT);
+        if (routerPrint) {
+            DispatchRules.ROUES.forEach((key, value) -> {
+                System.out.println(key + "\t" + value);
+            });
+        }
     }
 
     public void start()
