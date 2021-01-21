@@ -11,19 +11,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.netty;
+package io.edurt.gcm.netty.annotation;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import io.edurt.gcm.netty.dispatcher.DispatchRules;
+import io.edurt.gcm.netty.type.RequestMethod;
 
-public class TestNettyModule
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RequestMapping
 {
-    public static void main(String[] args)
-            throws Exception
-    {
-        Injector injector = Guice.createInjector(new NettyModule());
-        final NettyServer server = injector.getInstance(NettyServer.class);
-        server.run();
-    }
+    String[] value() default {};
+
+    RequestMethod[] method() default {};
 }

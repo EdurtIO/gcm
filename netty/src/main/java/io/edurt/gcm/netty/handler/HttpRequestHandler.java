@@ -30,7 +30,7 @@ public class HttpRequestHandler
 
     private final Injector injector;
     private final String websocketPath;
-    private Properties configuration;
+    private final Properties configuration;
 
     public HttpRequestHandler(Injector injector, String websocketPath, Properties configuration)
     {

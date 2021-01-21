@@ -6,6 +6,7 @@ import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.netty.configuration.NettyConfiguration;
 import io.edurt.gcm.netty.configuration.NettyConfigurationDefault;
 import io.edurt.gcm.netty.handler.HttpRequestHandler;
+import io.edurt.gcm.netty.router.RouterScan;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -36,6 +37,17 @@ public class NettyServer
     public static final void binder(Properties properties)
     {
         configuration = properties;
+        // scan controller from configuration
+        scanController();
+    }
+
+    private static final void scanController()
+    {
+        String scanPackage = PropertiesUtils.getStringValue(configuration,
+                NettyConfiguration.CONTROLLER_PACKAGE,
+                NettyConfigurationDefault.CONTROLLER_PACKAGE);
+        LOGGER.debug("Scan controller from configuration path {}", scanPackage);
+        RouterScan.getRouters(scanPackage);
     }
 
     public void run()

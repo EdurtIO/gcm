@@ -11,19 +11,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.netty;
+package io.edurt.gcm.netty.type;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import io.edurt.gcm.netty.dispatcher.DispatchRules;
-
-public class TestNettyModule
+public enum RequestMethod
 {
-    public static void main(String[] args)
-            throws Exception
-    {
-        Injector injector = Guice.createInjector(new NettyModule());
-        final NettyServer server = injector.getInstance(NettyServer.class);
-        server.run();
-    }
+    POST,
+    GET,
+    PUT,
+    DELETE,
+    OPTION
 }

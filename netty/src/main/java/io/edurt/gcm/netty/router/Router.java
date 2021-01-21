@@ -11,19 +11,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.netty;
+package io.edurt.gcm.netty.router;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import io.edurt.gcm.netty.dispatcher.DispatchRules;
+import io.edurt.gcm.netty.type.RequestMethod;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-public class TestNettyModule
+import java.lang.reflect.Method;
+import java.util.Set;
+
+@Data
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class Router
 {
-    public static void main(String[] args)
-            throws Exception
-    {
-        Injector injector = Guice.createInjector(new NettyModule());
-        final NettyServer server = injector.getInstance(NettyServer.class);
-        server.run();
-    }
+    private Class clazz;
+    private Set<RequestMethod> methods;
+    private Method method;
+    private Set<String> urls;
 }
