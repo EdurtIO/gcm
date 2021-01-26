@@ -13,9 +13,11 @@
  */
 package io.edurt.gcm.redis.client;
 
+import org.apache.commons.lang3.ObjectUtils;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
+import java.util.List;
 import java.util.Map;
 
 public class RedisClient<T>
@@ -59,6 +61,26 @@ public class RedisClient<T>
     {
         try (ShardedJedis jedis = this.pool.getResource()) {
             return jedis.hget(group, key);
+        }
+    }
+
+    public synchronized Long listSet(String key, String[] arrays)
+    {
+        try (ShardedJedis jedis = this.pool.getResource()) {
+            return jedis.lpush(key, arrays);
+        }
+    }
+
+    public synchronized List<String> listGet(String key, long start, long end)
+    {
+        if (ObjectUtils.isEmpty(start)) {
+            start = 0;
+        }
+        if (ObjectUtils.isEmpty(end)) {
+            end = Long.MAX_VALUE;
+        }
+        try (ShardedJedis jedis = this.pool.getResource()) {
+            return jedis.lrange(key, start, end);
         }
     }
 }
