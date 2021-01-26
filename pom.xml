@@ -19,6 +19,7 @@
         <module>docs</module>
         <module>postgresql</module>
         <module>clickhouse</module>
+        <module>test</module>
     </modules>
 
     <url>http://gcm.incubator.edurt.io</url>
