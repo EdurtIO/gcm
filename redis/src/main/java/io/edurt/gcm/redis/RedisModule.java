@@ -16,7 +16,10 @@ package io.edurt.gcm.redis;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import io.edurt.gcm.common.utils.PropertiesUtils;
-import io.edurt.gcm.redis.client.RedisClient;
+import io.edurt.gcm.redis.client.RedisHashClient;
+import io.edurt.gcm.redis.client.RedisListClient;
+import io.edurt.gcm.redis.provider.RedisHashProvider;
+import io.edurt.gcm.redis.provider.RedisListProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +53,7 @@ public class RedisModule
         LOGGER.info("load configuration from local file {}", this.configuration);
         Properties configuration = PropertiesUtils.loadProperties(this.configuration);
         LOGGER.info("binding redis datasource configuration information is completed, with a total of {} configurations", configuration.stringPropertyNames().size());
-        bind(RedisClient.class).toProvider(new RedisProvider(configuration)).in(Scopes.SINGLETON);
+        bind(RedisListClient.class).toProvider(new RedisListProvider(configuration)).in(Scopes.SINGLETON);
+        bind(RedisHashClient.class).toProvider(new RedisHashProvider(configuration)).in(Scopes.SINGLETON);
     }
 }

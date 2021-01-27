@@ -11,24 +11,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.redis.client;
+package io.edurt.gcm.redis.provider;
 
-import redis.clients.jedis.ShardedJedis;
-import redis.clients.jedis.ShardedJedisPool;
+import io.edurt.gcm.redis.client.RedisHashClient;
 
-public class RedisClient
+import javax.inject.Provider;
+
+import java.util.Properties;
+
+public class RedisHashProvider
+        extends RedisProvider
+        implements Provider<RedisHashClient>
 {
-    protected final ShardedJedisPool pool;
-
-    public RedisClient(ShardedJedisPool pool)
+    public RedisHashProvider(Properties configuration)
     {
-        this.pool = pool;
+        super(configuration);
     }
 
-    public synchronized Long delete(String key)
+    @Override
+    public RedisHashClient get()
     {
-        try (ShardedJedis jedis = this.pool.getResource()) {
-            return jedis.del(key);
-        }
+        return new RedisHashClient(this.getJedisPool());
     }
 }

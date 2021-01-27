@@ -11,11 +11,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.redis;
+package io.edurt.gcm.redis.provider;
 
-import com.google.inject.Provider;
 import io.edurt.gcm.common.utils.PropertiesUtils;
-import io.edurt.gcm.redis.client.RedisClient;
 import io.edurt.gcm.redis.configuration.RedisConfiguration;
 import io.edurt.gcm.redis.configuration.RedisConfigurationDefault;
 import org.apache.commons.lang3.ObjectUtils;
@@ -31,11 +29,10 @@ import java.util.Objects;
 import java.util.Properties;
 
 public class RedisProvider
-        implements Provider<RedisClient>
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisProvider.class);
     private static ShardedJedisPool pool;
-    private Properties configuration;
+    private final Properties configuration;
 
     public RedisProvider(Properties configuration)
     {
@@ -102,17 +99,11 @@ public class RedisProvider
         return jedisShardInfo;
     }
 
-    private ShardedJedisPool getJedisPool()
+    public ShardedJedisPool getJedisPool()
     {
         if (Objects.isNull(pool)) {
             pool = new ShardedJedisPool(getPoolConfig(), Arrays.asList(getShardInfo()));
         }
         return pool;
-    }
-
-    @Override
-    public RedisClient get()
-    {
-        return new RedisClient(getJedisPool());
     }
 }
