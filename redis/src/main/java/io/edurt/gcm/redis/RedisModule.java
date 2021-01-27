@@ -18,8 +18,10 @@ import com.google.inject.Scopes;
 import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.redis.client.RedisHashClient;
 import io.edurt.gcm.redis.client.RedisListClient;
+import io.edurt.gcm.redis.client.RedisSetClient;
 import io.edurt.gcm.redis.provider.RedisHashProvider;
 import io.edurt.gcm.redis.provider.RedisListProvider;
+import io.edurt.gcm.redis.provider.RedisSetProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,5 +57,6 @@ public class RedisModule
         LOGGER.info("binding redis datasource configuration information is completed, with a total of {} configurations", configuration.stringPropertyNames().size());
         bind(RedisListClient.class).toProvider(new RedisListProvider(configuration)).in(Scopes.SINGLETON);
         bind(RedisHashClient.class).toProvider(new RedisHashProvider(configuration)).in(Scopes.SINGLETON);
+        bind(RedisSetClient.class).toProvider(new RedisSetProvider(configuration)).in(Scopes.SINGLETON);
     }
 }

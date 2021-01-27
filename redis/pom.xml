@@ -33,6 +33,11 @@
             <artifactId>jedis</artifactId>
             <version>${dependency.jedis.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-test</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
