@@ -36,6 +36,11 @@ collections:
     permalink: /bigdata/:path/
     output: true
     boost: 8
+  development_docs:
+    title: Development
+    permalink: /development/:path/
+    output: true
+    boost: 8
   sections:
     title: Sections
     permalink: /:path/
