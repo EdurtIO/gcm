@@ -20,6 +20,7 @@
         <module>postgresql</module>
         <module>clickhouse</module>
         <module>test</module>
+        <module>script</module>
     </modules>
 
     <url>http://gcm.incubator.edurt.io</url>

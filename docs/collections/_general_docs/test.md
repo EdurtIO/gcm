@@ -1,14 +1,14 @@
 ---
 title: Test(Junit)
 category: General
-order: 2
+order: 5
 ---
 
-test framework is used to inject test case into Guice container, JUnit runtime environment is the interface extension of JUnit to other framework test environment.  After the configuration is loaded, it can be used globally.
+Test framework is used to inject test case into Guice container, JUnit runtime environment is the interface extension of JUnit to other framework test environment.  After the configuration is loaded, it can be used globally.
 
 ### Feature
 
-- Support Test framework
+- Support multiple module
 
 ### How to use
 
@@ -26,10 +26,10 @@ Add the above configuration information to the pom.xml Reload the download depen
 
 To configure, create a test class, Add run class bound annoation, custom annotation and their binding related modules.
 such as,the "TestJunit" is our testing class.
+
 ```java 
 @RunWith(JunitRunner.class)
 @JunitModuleLoader(value = {TestJunitModule.class})
-
 ```
 
 ### Example
@@ -51,3 +51,4 @@ public class TestJunit
 ```
 
 > Hint: Junitronner class can scan all classes to ensure the validity of user-defined annotation
+{: .explainer}
