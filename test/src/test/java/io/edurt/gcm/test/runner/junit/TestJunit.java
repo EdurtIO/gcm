@@ -1,4 +1,4 @@
-package io.edurt.gcm.test;
+package io.edurt.gcm.test.runner.junit;
 
 import io.edurt.gcm.test.annotation.JunitModuleLoader;
 import io.edurt.gcm.test.runner.JunitRunner;

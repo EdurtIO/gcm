@@ -15,7 +15,7 @@ public class JunitRunner
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(JunitRunner.class);
 
-    private final Injector injector;
+    protected final Injector injector;
 
     public JunitRunner(Class<?> klass)
             throws InitializationError

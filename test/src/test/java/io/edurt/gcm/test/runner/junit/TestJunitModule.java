@@ -1,4 +1,4 @@
-package io.edurt.gcm.test;
+package io.edurt.gcm.test.runner.junit;
 
 import com.google.inject.AbstractModule;
 import org.slf4j.Logger;

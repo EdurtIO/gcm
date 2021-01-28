@@ -1,4 +1,4 @@
-package io.edurt.gcm.test;
+package io.edurt.gcm.test.runner.junit;
 
 public class TestServiceImpl
         implements TestService
