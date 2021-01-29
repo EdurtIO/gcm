@@ -21,6 +21,7 @@
         <module>clickhouse</module>
         <module>test</module>
         <module>script</module>
+        <module>presto</module>
     </modules>
 
     <url>http://gcm.incubator.edurt.io</url>
@@ -106,6 +107,11 @@
             <dependency>
                 <groupId>io.edurt.gcm</groupId>
                 <artifactId>gcm-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.edurt.gcm</groupId>
+                <artifactId>gcm-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
