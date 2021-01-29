@@ -2,7 +2,7 @@ package io.edurt.gcm.presto.configuration;
 
 public class PrestoConfigurationDefault
 {
-    public static final String URL = "http://c2-dsj-hadoop165.bj:17979";
+    public static final String URL = "http://localhost:8081";
     public static final String URL_BACKUP = "http://localhost:8082";
     public static final String USERNAME = "default";
     public static final String PASSWORD = "";
