@@ -30,18 +30,29 @@ public class NettyModule
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(NettyModule.class);
 
+    private final String configuration;
+
+    public NettyModule(String configuration)
+    {
+        this.configuration = configuration;
+    }
+
+    public NettyModule()
+    {
+        this.configuration = String.join(File.separator, System.getProperty("user.dir"),
+                "conf",
+                "catalog",
+                "netty.properties");
+    }
+
     @SneakyThrows
     @Override
     public void configure()
     {
         LOGGER.debug("Binding netty component information");
-        String configurationPath = String.join(File.separator, System.getProperty("user.dir"),
-                "conf",
-                "catalog",
-                "netty.properties");
-        Properties configuration = PropertiesUtils.loadProperties(configurationPath);
+        Properties configuration = PropertiesUtils.loadProperties(this.configuration);
         LOGGER.info("Binding netty configuration information is completed, with a total of {} configurations", configuration.stringPropertyNames().size());
-        NettyServer.binder(configuration);
+        GcmNettyApplication.binder(configuration);
     }
 
     @Provides

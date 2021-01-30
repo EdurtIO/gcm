@@ -7,7 +7,7 @@
     <artifactId>incubator-gcm</artifactId>
     <packaging>pom</packaging>
 
-    <version>1.0.4</version>
+    <version>1.0.6</version>
 
     <modules>
         <module>configuration</module>
@@ -19,6 +19,9 @@
         <module>docs</module>
         <module>postgresql</module>
         <module>clickhouse</module>
+        <module>test</module>
+        <module>script</module>
+        <module>presto</module>
     </modules>
 
     <url>http://gcm.incubator.edurt.io</url>
@@ -71,7 +74,6 @@
         <plugin.maven.javadoc.version>2.10.4</plugin.maven.javadoc.version>
         <plugin.maven.checkstyle.version>3.0.0</plugin.maven.checkstyle.version>
         <plugin.maven.docker.version>0.23.0</plugin.maven.docker.version>
-        <plugin.maven.sonar.version>3.3.0.603</plugin.maven.sonar.version>
         <plugin.shade.version>3.0.0</plugin.shade.version>
         <plugin.maven.findbugs.version>3.0.5</plugin.maven.findbugs.version>
         <plugin.maven.source.version>2.2.1</plugin.maven.source.version>
@@ -105,6 +107,11 @@
             <dependency>
                 <groupId>io.edurt.gcm</groupId>
                 <artifactId>gcm-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.edurt.gcm</groupId>
+                <artifactId>gcm-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -228,11 +235,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>${plugin.maven.sonar.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

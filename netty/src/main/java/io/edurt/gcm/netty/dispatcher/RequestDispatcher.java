@@ -84,7 +84,7 @@ public class RequestDispatcher
         String controller = PropertiesUtils.getStringValue(configuration,
                 NettyConfiguration.CONTROLLER_PACKAGE,
                 NettyConfigurationDefault.CONTROLLER_PACKAGE);
-        String ctrlClass = controller + "." + controllerName.substring(0, 1).toUpperCase() + controllerName.substring(1) + "Controller";
+        String ctrlClass = controller + "." + controllerName.substring(0, 1).toUpperCase() + controllerName.substring(1);
         try {
             Class.forName(ctrlClass);
         }
@@ -166,7 +166,7 @@ public class RequestDispatcher
                 }
                 else {
                     ex.printStackTrace();
-                    content = gson.toJson(new NettyException((short) 500, ex.getCause().getMessage()));
+                    content = gson.toJson(new NettyException(500, ex.getCause().getMessage()));
                 }
                 httpResponse.setStatus(HttpResponseStatus.BAD_GATEWAY);
             }

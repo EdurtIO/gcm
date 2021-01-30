@@ -16,9 +16,7 @@ package io.edurt.gcm.redis.client;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
-import java.util.Map;
-
-public class RedisClient<T>
+public class RedisClient
 {
     protected final ShardedJedisPool pool;
 
@@ -27,38 +25,10 @@ public class RedisClient<T>
         this.pool = pool;
     }
 
-    public synchronized Long hashSet(String key, Map<String, String> value)
+    public synchronized Long delete(String key)
     {
         try (ShardedJedis jedis = this.pool.getResource()) {
-            return jedis.hset(key, value);
-        }
-    }
-
-    public synchronized String hashUpdate(String key, Map<String, String> value)
-    {
-        try (ShardedJedis jedis = this.pool.getResource()) {
-            return jedis.hmset(key, value);
-        }
-    }
-
-    public synchronized Object hashGetAll(String key)
-    {
-        try (ShardedJedis jedis = this.pool.getResource()) {
-            return jedis.hgetAll(key);
-        }
-    }
-
-    public synchronized Long hashDelete(String group, String key)
-    {
-        try (ShardedJedis jedis = this.pool.getResource()) {
-            return jedis.hdel(group, key);
-        }
-    }
-
-    public synchronized String hashGet(String group, String key)
-    {
-        try (ShardedJedis jedis = this.pool.getResource()) {
-            return jedis.hget(group, key);
+            return jedis.del(key);
         }
     }
 }

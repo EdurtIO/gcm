@@ -1,7 +1,7 @@
 package io.edurt.gcm.netty.handler;
 
 import com.google.inject.Injector;
-import io.edurt.gcm.netty.NettyServer;
+import io.edurt.gcm.netty.GcmNettyApplication;
 import io.edurt.gcm.netty.dispatcher.RequestDispatcher;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -26,11 +26,11 @@ import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_LENGTH;
 public class HttpRequestHandler
         extends SimpleChannelInboundHandler<FullHttpRequest>
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NettyServer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GcmNettyApplication.class);
 
     private final Injector injector;
     private final String websocketPath;
-    private Properties configuration;
+    private final Properties configuration;
 
     public HttpRequestHandler(Injector injector, String websocketPath, Properties configuration)
     {

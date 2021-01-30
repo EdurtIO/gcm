@@ -17,4 +17,8 @@
         <Class name="io.edurt.gcm.netty.handler.HttpRequestHandler" />
         <Bug pattern="DLS_DEAD_LOCAL_STORE" />
     </Match>
+    <Match>
+        <Class name="io.edurt.gcm.redis.provider.RedisProvider" />
+        <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
+    </Match>
 </FindBugsFilter>

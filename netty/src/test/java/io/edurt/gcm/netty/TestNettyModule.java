@@ -15,7 +15,6 @@ package io.edurt.gcm.netty;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import io.edurt.gcm.netty.dispatcher.DispatchRules;
 
 public class TestNettyModule
 {
@@ -23,8 +22,7 @@ public class TestNettyModule
             throws Exception
     {
         Injector injector = Guice.createInjector(new NettyModule());
-        DispatchRules.ROUES.put("GET /api/test", "test.println");
-        final NettyServer server = injector.getInstance(NettyServer.class);
-        server.run();
+        final GcmNettyApplication server = injector.getInstance(GcmNettyApplication.class);
+        server.start();
     }
 }

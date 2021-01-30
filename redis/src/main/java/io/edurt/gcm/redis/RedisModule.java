@@ -16,7 +16,12 @@ package io.edurt.gcm.redis;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import io.edurt.gcm.common.utils.PropertiesUtils;
-import io.edurt.gcm.redis.client.RedisClient;
+import io.edurt.gcm.redis.client.RedisHashClient;
+import io.edurt.gcm.redis.client.RedisListClient;
+import io.edurt.gcm.redis.client.RedisSetClient;
+import io.edurt.gcm.redis.provider.RedisHashProvider;
+import io.edurt.gcm.redis.provider.RedisListProvider;
+import io.edurt.gcm.redis.provider.RedisSetProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,17 +33,30 @@ public class RedisModule
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisModule.class);
 
+    private final String configuration;
+
+    public RedisModule(String configuration)
+    {
+        this.configuration = configuration;
+    }
+
+    public RedisModule()
+    {
+        this.configuration = String.join(File.separator, System.getProperty("user.dir"),
+                "conf",
+                "catalog",
+                "redis.properties");
+    }
+
     @Override
     protected void configure()
     {
         LOGGER.info("binding redis datasource configuration information is started.");
-        String configurationPath = String.join(File.separator, System.getProperty("user.dir"),
-                "conf",
-                "catalog",
-                "redis.properties");
-        LOGGER.info("load configuration from local file {}", configurationPath);
-        Properties configuration = PropertiesUtils.loadProperties(configurationPath);
+        LOGGER.info("load configuration from local file {}", this.configuration);
+        Properties configuration = PropertiesUtils.loadProperties(this.configuration);
         LOGGER.info("binding redis datasource configuration information is completed, with a total of {} configurations", configuration.stringPropertyNames().size());
-        bind(RedisClient.class).toProvider(new RedisProvider(configuration)).in(Scopes.SINGLETON);
+        bind(RedisListClient.class).toProvider(new RedisListProvider(configuration)).in(Scopes.SINGLETON);
+        bind(RedisHashClient.class).toProvider(new RedisHashProvider(configuration)).in(Scopes.SINGLETON);
+        bind(RedisSetClient.class).toProvider(new RedisSetProvider(configuration)).in(Scopes.SINGLETON);
     }
 }

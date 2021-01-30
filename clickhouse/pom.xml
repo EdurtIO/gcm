@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+https://github.com/EdurtIO/incubator-gcm/pull/15/conflict?name=clickhouse%252Fpom.xml&base_oid=bd31796f9c9f957c36897a38c3bf968a86b30b38&head_oid=423312c22ad0d44b30dc1c6f6fed6a5a3f8548bb         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
         <artifactId>incubator-gcm</artifactId>
         <groupId>io.edurt.gcm</groupId>
-        <version>1.0.4</version>
+        <version>1.0.6</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -14,8 +14,43 @@
     <artifactId>gcm-clickhouse</artifactId>
     <name>Gcm for ClickHouse Component</name>
     <description>Connect clickhouse server and read and write data!</description>
-
     <properties>
+        <dependency.clickhouse.version>0.2.4</dependency.clickhouse.version>
+        <dependency.druid.version>1.2.4</dependency.druid.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.yandex.clickhouse</groupId>
+            <artifactId>clickhouse-jdbc</artifactId>
+            <version>${dependency.clickhouse.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-guice</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

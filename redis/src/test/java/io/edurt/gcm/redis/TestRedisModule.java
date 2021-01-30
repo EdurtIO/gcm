@@ -2,7 +2,7 @@ package io.edurt.gcm.redis;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import io.edurt.gcm.redis.client.RedisClient;
+import io.edurt.gcm.redis.client.RedisListClient;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class TestRedisModule
     public void test()
     {
         Injector injector = Guice.createInjector(new RedisModule());
-        RedisClient client = injector.getInstance(RedisClient.class);
+        RedisListClient client = injector.getInstance(RedisListClient.class);
         assertNotNull(client);
     }
 } 

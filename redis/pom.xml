@@ -6,7 +6,7 @@
     <parent>
         <artifactId>incubator-gcm</artifactId>
         <groupId>io.edurt.gcm</groupId>
-        <version>1.0.4</version>
+        <version>1.0.6</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -32,6 +32,11 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>${dependency.jedis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-test</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
