@@ -22,6 +22,7 @@
         <module>test</module>
         <module>script</module>
         <module>presto</module>
+        <module>example</module>
     </modules>
 
     <url>http://gcm.incubator.edurt.io</url>
