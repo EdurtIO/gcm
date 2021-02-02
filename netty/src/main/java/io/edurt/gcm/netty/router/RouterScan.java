@@ -21,10 +21,13 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -35,7 +38,7 @@ public class RouterScan
     private RouterScan()
     {}
 
-    public static Map<String, Router> getRouters(String scanPackage)
+    public static Map<String, Router> scanRouters(String scanPackage)
     {
         LOGGER.info("Scan router from {}", scanPackage);
         Set<Class<?>> classes = Classs.scanClassInPackage(scanPackage);
@@ -46,7 +49,11 @@ public class RouterScan
         else {
             classes.forEach(clazz -> {
                 if (clazz.isAnnotationPresent(RestController.class)) {
-                    Arrays.stream(clazz.getMethods()).forEach(method -> {
+                    // Filtering only includes the methods for setting the scan package, and the methods included in the base class are ignored
+                    List<Method> methods = Arrays.stream(clazz.getMethods())
+                            .filter(method -> method.toGenericString().contains(scanPackage))
+                            .collect(Collectors.toList());
+                    methods.forEach(method -> {
                         if (method.isAnnotationPresent(RequestMapping.class)) {
                             RequestMapping mapping = method.getAnnotation(RequestMapping.class);
                             // The class annotated with @RestController must not contain the actual access address. An exception is thrown.
@@ -67,7 +74,8 @@ public class RouterScan
                             });
                         }
                         else {
-                            LOGGER.debug("This class <{}> method <{}> is not a valid API interface class method and will be ignored.", clazz, method.getName());
+                            RouterMapping.getMappingScan(clazz, method);
+//                            LOGGER.debug("This class <{}> method <{}> is not a valid API interface class method and will be ignored.", clazz, method.getName());
                         }
                     });
                 }

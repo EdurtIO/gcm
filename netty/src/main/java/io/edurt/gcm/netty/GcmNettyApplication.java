@@ -48,7 +48,7 @@ public class GcmNettyApplication
                 NettyConfiguration.CONTROLLER_PACKAGE,
                 NettyConfigurationDefault.CONTROLLER_PACKAGE);
         LOGGER.debug("Scan controller from configuration path {}", scanPackage);
-        RouterScan.getRouters(scanPackage);
+        RouterScan.scanRouters(scanPackage);
         Boolean routerPrint = PropertiesUtils.getBoolValue(configuration,
                 NettyConfiguration.ROUTER_PRINT,
                 NettyConfigurationDefault.ROUTER_PRINT);

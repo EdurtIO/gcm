@@ -11,7 +11,7 @@ public class TestSwitch
                 .is("Java")
                 .iIf(v -> System.out.println("Java"))
                 .is("Switch")
-                .iIf(v -> System.out.println("end"))
+                .iIf(v -> System.out.println("Switch"))
                 .iElse(v -> System.out.println("else"));
     }
 }
