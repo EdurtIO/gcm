@@ -28,6 +28,7 @@ public class TestMappingController
     {
         return String.format("This is @GetMapping test case, value %s", value);
     }
+
     @ResponseBody
     @PostMapping(value = {"/api/test/mapping/post"})
     public String postMapping(@RequestParam(value = "value") String value)

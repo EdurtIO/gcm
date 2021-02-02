@@ -7,7 +7,7 @@
 @Time: 2021-01-04 20:53:49
 @Contact: qianmoq
 @Site:
-@Software: incubator-compass
+@Software: incubator-gcm
 """
 import os
 import sys
@@ -47,13 +47,12 @@ def command_enum(command='', parameter=None):
 
 
 def print_help():
-    print('Usage: Compass {check|check-style|check-bugs|branch-new}')
+    print('Usage: Compass {check|check-style|check-bugs|new-branch}')
     print('''
         echo       check:             check source code
         echo       check-style:       check source code style
         echo       check-bugs:        check source code bugs
         echo       new-branch:        checkout a new branch
-        echo       deploy:            deploy artifact to maven center
     ''')
     sys.exit(1)
 
