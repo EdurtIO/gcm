@@ -2,14 +2,15 @@
 
 Google Guice component management System!
 
-### Support Module
+### Status
 
-- [x] Configuration
-- [x] MySQL(5.1.45 and hikaricp 2.7.7 and mybatis)
-- [x] Redis(jedis 3.3.0)
-- [x] Zookeeper(curator 2.12.0)
-- [x] Netty(4.1.53.Final)
-- [x] PostgreSQL(42.2.5)
+[![GitHub license](https://img.shields.io/github/license/EdurtIO/incubator-gcm?label=license&style=for-the-badge)](https://github.com/EdurtIO/incubator-gcm/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/EdurtIO/incubator-gcm?label=GitHub%20Issues&style=for-the-badge)](https://github.com/EdurtIO/incubator-gcm/issues)
+[![GitHub forks](https://img.shields.io/github/forks/EdurtIO/incubator-gcm?label=github%20forks&style=for-the-badge)](https://github.com/EdurtIO/incubator-gcm/network)
+[![GitHub stars](https://img.shields.io/github/stars/EdurtIO/incubator-gcm?label=github%20stars&style=for-the-badge)](https://github.com/EdurtIO/incubator-gcm/stargazers)
+
+[![Fork me on Gitee](https://gitee.com/EdurtIO/incubator-gcm/widgets/widget_4.svg)](https://gitee.com/EdurtIO/incubator-gcm)
+[Fork me on GitHub](https://gitee.com/EdurtIO/incubator-gcm)
 
 ### How to compile?
 
