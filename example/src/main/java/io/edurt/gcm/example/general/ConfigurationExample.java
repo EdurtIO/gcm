@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.example.databases.mysql;
+package io.edurt.gcm.example.general;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;

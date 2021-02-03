@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>example</artifactId>
-    <name>Gcm for component example</name>
+    <name>Gcm for Component example</name>
     <description>Code examples of components in gcm system!</description>
 
     <dependencies>
@@ -23,6 +23,11 @@
         <dependency>
             <groupId>io.edurt.gcm</groupId>
             <artifactId>gcm-configuration</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-mysql</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
