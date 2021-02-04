@@ -20,7 +20,7 @@ import io.edurt.gcm.example.bigdata.client.ClickHouseHikaricpExample;
 import io.edurt.gcm.example.bigdata.client.service.ContributorsService;
 import io.edurt.gcm.example.databases.sql.MySQLHikaricpExample;
 import io.edurt.gcm.example.databases.sql.service.UserService;
-import io.edurt.gcm.mysql.hikari.HikariMySQLMultipleModule;
+import io.edurt.gcm.mysql.hikari.MySQLHikariMultipleModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,7 @@ public class MultipleModuleExample
         String clickhouse = ClickHouseHikaricpExample.class.getResource("/bigdata/clickhouse-hikaricp.properties").getPath();
         LOGGER.info("Load clickhouse configuration from {}", clickhouse);
         MultipleModuleExample example = Guice.createInjector(
-                new HikariMySQLMultipleModule(mysql),
+                new MySQLHikariMultipleModule(mysql),
                 new ClickHouseMultipleModule(clickhouse)).getInstance(MultipleModuleExample.class);
         LOGGER.info("print data from clickhouse datasource");
         example.contributorsService.getAll().forEach(v -> System.out.println(v));

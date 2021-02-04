@@ -12,14 +12,14 @@ import javax.sql.DataSource;
 
 import java.util.Properties;
 
-public class HikariMySQLProvider
+public class MySQLHikariProvider
         implements Provider<DataSource>
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HikariMySQLProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySQLHikariProvider.class);
 
     private final HikariDataSource dataSource = new HikariDataSource();
 
-    public HikariMySQLProvider(Properties configuration)
+    public MySQLHikariProvider(Properties configuration)
     {
         LOGGER.info("generate configuration");
         dataSource.setDriverClassName(PropertiesUtils.getStringValue(configuration,

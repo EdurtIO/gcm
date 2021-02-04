@@ -12,7 +12,7 @@ import org.junit.Test;
  * @version 1.0
  * @since <pre>1月 5, 2021</pre>
  */
-public class TestHikariMySQLModule
+public class TestMySQLHikariModule
 {
     @Before
     public void before()
@@ -30,6 +30,6 @@ public class TestHikariMySQLModule
     @Test
     public void test()
     {
-        Guice.createInjector(new HikariMySQLModule());
+        Guice.createInjector(new MySQLHikariModule());
     }
 } 

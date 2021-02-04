@@ -16,7 +16,7 @@ package io.edurt.gcm.example.databases.sql;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import io.edurt.gcm.example.databases.sql.service.UserService;
-import io.edurt.gcm.mysql.hikari.HikariMySQLModule;
+import io.edurt.gcm.mysql.hikari.MySQLHikariModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class MySQLHikaricpExample
     {
         String classpath = MySQLHikaricpExample.class.getResource("/databases/sql/mysql-hikaricp.properties").getPath();
         LOGGER.info("Load configuration from {}", classpath);
-        MySQLHikaricpExample example = Guice.createInjector(new HikariMySQLModule(classpath)).getInstance(MySQLHikaricpExample.class);
+        MySQLHikaricpExample example = Guice.createInjector(new MySQLHikariModule(classpath)).getInstance(MySQLHikaricpExample.class);
         example.userService.getAll().forEach(v -> System.out.println(v));
     }
 }
