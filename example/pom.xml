@@ -30,6 +30,11 @@
             <artifactId>gcm-mysql</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-clickhouse</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
