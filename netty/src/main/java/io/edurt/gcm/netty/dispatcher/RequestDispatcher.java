@@ -8,6 +8,7 @@ import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.netty.annotation.RequestBody;
 import io.edurt.gcm.netty.annotation.RequestParam;
 import io.edurt.gcm.netty.annotation.ResponseBody;
+import io.edurt.gcm.netty.annotation.RestController;
 import io.edurt.gcm.netty.configuration.NettyConfiguration;
 import io.edurt.gcm.netty.configuration.NettyConfigurationDefault;
 import io.edurt.gcm.netty.exception.NettyException;
@@ -97,7 +98,8 @@ public class RequestDispatcher
         LOGGER.debug("Parsing method parameters, used to inject the corresponding entity!");
         ArrayList<Class> classList = new ArrayList<>();
         ArrayList<Object> objectList = new ArrayList<>();
-        Object ctrlObject = injector.getInstance(Class.forName(ctrlClass));
+        Class<?> clazz = Class.forName(ctrlClass);
+        Object ctrlObject = injector.getInstance(clazz);
         LOGGER.debug("Current execute controller {}", ctrlObject);
         Map<String, String> requestParams = this.getRequestParams(httpRequest);
         Method[] methods = ctrlObject.getClass().getMethods();
@@ -155,7 +157,8 @@ public class RequestDispatcher
         Object[] objects = objectList.toArray();
         Method method = ctrlObject.getClass().getMethod(methodName, classes);
         String content = null;
-        if (method.isAnnotationPresent(ResponseBody.class)) {
+        // Fix the problem of using @RestController annotation to return data results
+        if (method.isAnnotationPresent(ResponseBody.class) || clazz.isAnnotationPresent(RestController.class)) {
             Gson gson = new Gson();
             try {
                 content = gson.toJson(method.invoke(ctrlObject, objects));

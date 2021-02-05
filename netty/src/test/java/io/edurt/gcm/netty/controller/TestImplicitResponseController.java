@@ -11,17 +11,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.netty.annotation;
+package io.edurt.gcm.netty.controller;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import io.edurt.gcm.netty.annotation.GetMapping;
+import io.edurt.gcm.netty.annotation.RequestParam;
+import io.edurt.gcm.netty.annotation.RestController;
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@ResponseBody
-public @interface RestController
+@RestController
+public class TestImplicitResponseController
 {
-    String value() default "";
+    @GetMapping(value = {"/api/test/implicit/get"})
+    public String getMapping(@RequestParam(value = "value") String value)
+    {
+        return String.format("This is @GetMapping test case, value %s", value);
+    }
 }
