@@ -25,10 +25,13 @@
         <module>example</module>
     </modules>
 
-    <url>http://gcm.incubator.edurt.io</url>
+    <url>https://gcm.incubator.edurt.io</url>
 
     <scm>
-        <url>git@github.com:EdurtIO/incubator-gcm.git</url>
+        <url>https://gcm.incubator.edurt.io</url>
+        <connection>scm:git:git://github.com/EdurtIO/incubator-gcm.git</connection>
+        <developerConnection>scm:git:git@github.com:EdurtIO/incubator-gcm.git</developerConnection>
+        <tag>guice, gcm</tag>
     </scm>
 
     <licenses>
