@@ -137,7 +137,9 @@ public class RequestDispatcher
                         ByteBuf bf = httpRequest.content();
                         byte[] byteArray = new byte[bf.capacity()];
                         bf.readBytes(byteArray);
-                        objectList.add((new Gson()).fromJson(new String(byteArray), parameterClass));
+                        // The original data type should be used here, otherwise class conversion error will occur. The following is an error example:
+                        // Caused by: java.lang.ClassCastException: com.google.gson.internal.LinkedTreeMap cannot be xxxx
+                        objectList.add((new Gson()).fromJson(new String(byteArray), parameter.getParameterizedType()));
                         classList.add(parameterClass);
                     }
                     else {
