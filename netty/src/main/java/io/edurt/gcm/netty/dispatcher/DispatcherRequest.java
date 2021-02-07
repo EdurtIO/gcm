@@ -20,14 +20,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpMethod;
-import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.handler.codec.http.QueryStringDecoder;
-import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
-import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
-import io.netty.handler.codec.http.multipart.InterfaceHttpData;
-import io.netty.handler.codec.http.multipart.MemoryAttribute;
 import io.netty.util.CharsetUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
@@ -38,8 +31,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -100,7 +91,8 @@ public class DispatcherRequest
         Class<?> clazz = Class.forName(ctrlClass);
         Object ctrlObject = injector.getInstance(clazz);
         LOGGER.debug("Current execute controller {}", ctrlObject);
-        Map<String, String> requestParams = this.getRequestParams(httpRequest);
+        DispatcherParameter dispatcherParameter = injector.getInstance(DispatcherParameter.class);
+        Map<String, String> requestParams = dispatcherParameter.getRequestParam(ctrlObject, httpRequest);
         Method[] methods = ctrlObject.getClass().getMethods();
         for (Method method : methods) {
             if (method.getName().equals(methodName)) {
@@ -181,35 +173,5 @@ public class DispatcherRequest
             LOGGER.warn("We don't do any processing here for the time being, and we will support it later");
         }
         httpResponse.content().writeBytes(Unpooled.copiedBuffer(content, CharsetUtil.UTF_8));
-    }
-
-    /**
-     * Processing get post requests
-     *
-     * @param request HttpRequest
-     * @return HttpRequest Params
-     */
-    private Map<String, String> getRequestParams(HttpRequest request)
-    {
-        LOGGER.debug("Processing get post requests, current method {}", request.method());
-        Map<String, String> requestParams = new HashMap<>();
-        if (request.method() == HttpMethod.GET || request.method() == HttpMethod.POST) {
-            QueryStringDecoder decoder = new QueryStringDecoder(request.uri());
-            Map<String, List<String>> params = decoder.parameters();
-            for (Map.Entry<String, List<String>> next : params.entrySet()) {
-                requestParams.put(next.getKey(), next.getValue().get(0));
-            }
-        }
-        if (request.method() == HttpMethod.POST) {
-            HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(new DefaultHttpDataFactory(false), request);
-            List<InterfaceHttpData> postData = decoder.getBodyHttpDatas();
-            for (InterfaceHttpData data : postData) {
-                if (data.getHttpDataType() == InterfaceHttpData.HttpDataType.Attribute) {
-                    MemoryAttribute attribute = (MemoryAttribute) data;
-                    requestParams.put(attribute.getName(), attribute.getValue());
-                }
-            }
-        }
-        return requestParams;
     }
 }
