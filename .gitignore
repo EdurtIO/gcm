@@ -21,3 +21,5 @@ _site
 venv
 
 script/tmp
+
+__pycache__
