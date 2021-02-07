@@ -37,7 +37,7 @@ public class SessionFilter
             requestProcessor.triggerAction(httpRequest, httpResponse);
         }
         catch (Exception ex) {
-            LOGGER.error("There is an exception in session filtering. The specific information is {}", ex);
+            LOGGER.error("There is an exception in session filtering. The specific information is", ex);
             writeErrorResponse(HttpResponseStatus.BAD_GATEWAY, httpResponse, ex.getMessage());
         }
     }

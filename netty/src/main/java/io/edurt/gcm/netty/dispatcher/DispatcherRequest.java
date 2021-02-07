@@ -5,8 +5,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import io.edurt.gcm.common.utils.PropertiesUtils;
-import io.edurt.gcm.netty.annotation.RequestBody;
-import io.edurt.gcm.netty.annotation.RequestParam;
 import io.edurt.gcm.netty.annotation.ResponseBody;
 import io.edurt.gcm.netty.annotation.RestController;
 import io.edurt.gcm.netty.configuration.NettyConfiguration;
@@ -15,7 +13,6 @@ import io.edurt.gcm.netty.exception.NettyException;
 import io.edurt.gcm.netty.filter.SessionFilter;
 import io.edurt.gcm.netty.router.Router;
 import io.edurt.gcm.netty.router.Routers;
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -28,11 +25,10 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;
 
@@ -86,73 +82,20 @@ public class DispatcherRequest
             return;
         }
         LOGGER.debug("Parsing method parameters, used to inject the corresponding entity!");
-        ArrayList<Class> classList = new ArrayList<>();
-        ArrayList<Object> objectList = new ArrayList<>();
         Class<?> clazz = Class.forName(ctrlClass);
         Object ctrlObject = injector.getInstance(clazz);
         LOGGER.debug("Current execute controller {}", ctrlObject);
         DispatcherParameter dispatcherParameter = injector.getInstance(DispatcherParameter.class);
-        Map<String, String> requestParams = dispatcherParameter.getRequestParam(ctrlObject, httpRequest);
-        Method[] methods = ctrlObject.getClass().getMethods();
-        for (Method method : methods) {
-            if (method.getName().equals(methodName)) {
-                for (Parameter parameter : method.getParameters()) {
-                    Class parameterClass = Class.forName(parameter.getType().getTypeName());
-                    if (parameterClass == FullHttpRequest.class) {
-                        LOGGER.debug("Processing data information carried by FullHttpRequest");
-                        objectList.add(httpRequest);
-                        classList.add(parameterClass);
-                    }
-                    else if (parameterClass == FullHttpResponse.class) {
-                        LOGGER.debug("Processing data information carried by FullHttpResponse");
-                        objectList.add(httpResponse);
-                        classList.add(parameterClass);
-                    }
-                    else if (parameter.getAnnotation(RequestParam.class) != null) {
-                        LOGGER.debug("Processing data information carried by RequestParam");
-                        String requestParamKey = parameter.getAnnotation(RequestParam.class).value();
-                        String requestParamVal = requestParams.get(requestParamKey);
-                        if (parameterClass == Long.class) {
-                            objectList.add(Long.valueOf(requestParamVal));
-                            classList.add(Long.class);
-                        }
-                        else if (parameterClass == Integer.class) {
-                            objectList.add(Integer.valueOf(requestParamVal));
-                            classList.add(Integer.class);
-                        }
-                        else {
-                            objectList.add(String.valueOf(requestParamVal));
-                            classList.add(String.class);
-                        }
-                    }
-                    else if (parameter.getAnnotation(RequestBody.class) != null) {
-                        LOGGER.debug("Processing data information carried by RequestBody");
-                        ByteBuf bf = httpRequest.content();
-                        byte[] byteArray = new byte[bf.capacity()];
-                        bf.readBytes(byteArray);
-                        // The original data type should be used here, otherwise class conversion error will occur. The following is an error example:
-                        // Caused by: java.lang.ClassCastException: com.google.gson.internal.LinkedTreeMap cannot be xxxx
-                        objectList.add((new Gson()).fromJson(new String(byteArray), parameter.getParameterizedType()));
-                        classList.add(parameterClass);
-                    }
-                    else {
-                        LOGGER.debug("Ignore it if it is not resolved");
-                        objectList.add(null);
-                        classList.add(Object.class);
-                    }
-                }
-                break;
-            }
-        }
+        ConcurrentHashMap<String, ArrayList> classAndParam = dispatcherParameter.getRequestObjectAndParam(ctrlObject, httpRequest, httpResponse, methodName);
+        ArrayList<Object> classList = classAndParam.get(DispatcherParameter.CLASS);
         Class[] classes = classList.toArray(new Class[classList.size()]);
-        Object[] objects = objectList.toArray();
         Method method = ctrlObject.getClass().getMethod(methodName, classes);
         String content = null;
         // Fix the problem of using @RestController annotation to return data results
         if (method.isAnnotationPresent(ResponseBody.class) || clazz.isAnnotationPresent(RestController.class)) {
             Gson gson = new Gson();
             try {
-                content = gson.toJson(method.invoke(ctrlObject, objects));
+                content = gson.toJson(method.invoke(ctrlObject, classAndParam.get(DispatcherParameter.PARAM).toArray()));
                 httpResponse.setStatus(HttpResponseStatus.OK);
             }
             catch (InvocationTargetException ex) {

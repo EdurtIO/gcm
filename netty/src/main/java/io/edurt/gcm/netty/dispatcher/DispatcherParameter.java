@@ -13,8 +13,13 @@
  */
 package io.edurt.gcm.netty.dispatcher;
 
+import com.google.gson.Gson;
 import com.google.inject.Singleton;
-import io.netty.handler.codec.http.HttpRequest;
+import io.edurt.gcm.netty.annotation.RequestBody;
+import io.edurt.gcm.netty.annotation.RequestParam;
+import io.netty.buffer.ByteBuf;
+import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.QueryStringDecoder;
 import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
@@ -24,6 +29,9 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,10 +39,81 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DispatcherParameter
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(DispatcherParameter.class);
+    public static final String CLASS = "class";
+    public static final String PARAM = "param";
 
-    public Map<String, String> getRequestParam(Object clazz, HttpRequest request)
+    /**
+     * Analyze the client request, obtain the request parameters and the directed execution instance of the underlying service
+     *
+     * @param clazz Directed execution instance of underlying service
+     * @param request Client request
+     * @param response Server response
+     * @param requestMethodName The client request points to the class method actually executed by the server
+     * @return Directed execution instance composition map of request parameters and underlying services
+     * @throws ClassNotFoundException Class.forName
+     */
+    public ConcurrentHashMap<String, ArrayList> getRequestObjectAndParam(Object clazz, FullHttpRequest request, FullHttpResponse response, String requestMethodName)
+            throws ClassNotFoundException
     {
-        return getParamFromRequest(clazz, request);
+        Map<String, String> requestParams = getRequestParam(request);
+        Method[] methods = clazz.getClass().getMethods();
+        ArrayList<Class> classList = new ArrayList<>();
+        ArrayList<Object> paramList = new ArrayList<>();
+        for (Method method : methods) {
+            if (method.getName().equals(requestMethodName)) {
+                for (Parameter parameter : method.getParameters()) {
+                    Class parameterClass = Class.forName(parameter.getType().getTypeName());
+                    if (parameterClass == FullHttpRequest.class) {
+                        LOGGER.debug("Processing data information carried by FullHttpRequest");
+                        paramList.add(request);
+                        classList.add(parameterClass);
+                    }
+                    else if (parameterClass == FullHttpResponse.class) {
+                        LOGGER.debug("Processing data information carried by FullHttpResponse");
+                        paramList.add(response);
+                        classList.add(parameterClass);
+                    }
+                    else if (parameter.getAnnotation(RequestParam.class) != null) {
+                        LOGGER.debug("Processing data information carried by RequestParam");
+                        String requestParamKey = parameter.getAnnotation(RequestParam.class).value();
+                        String requestParamVal = requestParams.get(requestParamKey);
+                        if (parameterClass == Long.class) {
+                            paramList.add(Long.valueOf(requestParamVal));
+                            classList.add(Long.class);
+                        }
+                        else if (parameterClass == Integer.class) {
+                            paramList.add(Integer.valueOf(requestParamVal));
+                            classList.add(Integer.class);
+                        }
+                        else {
+                            paramList.add(String.valueOf(requestParamVal));
+                            classList.add(String.class);
+                        }
+                    }
+                    else if (parameter.getAnnotation(RequestBody.class) != null) {
+                        LOGGER.debug("Processing data information carried by RequestBody");
+                        ByteBuf bf = request.content();
+                        byte[] byteArray = new byte[bf.capacity()];
+                        bf.readBytes(byteArray);
+                        // The original data type should be used here, otherwise class conversion error will occur. The following is an error example:
+                        // Caused by: java.lang.ClassCastException: com.google.gson.internal.LinkedTreeMap cannot be xxxx
+                        paramList.add((new Gson()).fromJson(new String(byteArray), parameter.getParameterizedType()));
+                        classList.add(parameterClass);
+                    }
+                    else {
+                        LOGGER.debug("Ignore it if it is not resolved");
+                        paramList.add(null);
+                        classList.add(Object.class);
+                    }
+                }
+                break;
+            }
+        }
+        return new ConcurrentHashMap<String, ArrayList>()
+        {{
+            put(CLASS, classList);
+            put(PARAM, paramList);
+        }};
     }
 
     /**
@@ -44,11 +123,10 @@ public class DispatcherParameter
      * <p>When not been extracted to the parameter, the parameter passed in the body is extracted</p>
      * <p>When the parameters are extracted, continue to extract the parameters passed in the body and merge them</p>
      *
-     * @param clazz The client requests to map the controller instance of the back end
      * @param request client request
      * @return Client request parameter list
      */
-    private Map<String, String> getParamFromRequest(Object clazz, HttpRequest request)
+    private Map<String, String> getRequestParam(FullHttpRequest request)
     {
         if (ObjectUtils.isEmpty(request)) {
             LOGGER.error("Unrecognized error request");
