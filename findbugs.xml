@@ -6,11 +6,11 @@
 -->
 <FindBugsFilter>
     <Match>
-        <Class name="io.edurt.gcm.netty.dispatcher.DispatchRules" />
+        <Class name="io.edurt.gcm.netty.router.Routers" />
         <Bug pattern="MS_MUTABLE_COLLECTION" />
     </Match>
     <Match>
-        <Class name="io.edurt.gcm.netty.dispatcher.RequestDispatcher" />
+        <Class name="io.edurt.gcm.netty.dispatcher.DispatcherRequest" />
         <Bug pattern="DM_DEFAULT_ENCODING" />
     </Match>
     <Match>

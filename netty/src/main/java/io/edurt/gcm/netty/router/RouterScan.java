@@ -14,15 +14,17 @@
 package io.edurt.gcm.netty.router;
 
 import io.edurt.gcm.common.jdk.Classs;
+import io.edurt.gcm.common.jdk.ObjectBuilder;
 import io.edurt.gcm.netty.annotation.RequestMapping;
 import io.edurt.gcm.netty.annotation.RestController;
-import io.edurt.gcm.netty.dispatcher.DispatchRules;
+import io.edurt.gcm.netty.type.RequestMethod;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -67,11 +69,19 @@ public class RouterScan
                                         clazz.getCanonicalName(), method.getName()));
                             }
                             // TODO: Add to the global routing controller, and then modify the route loading method
-                            Arrays.stream(mapping.value()).forEach(value -> {
-                                Arrays.stream(mapping.method()).forEach(requestMethod ->
-                                        DispatchRules.ROUES.put(format("%s %s", requestMethod, value), format("%s.%s", clazz.getSimpleName(), method.getName()))
-                                );
-                            });
+
+                            Arrays.stream(mapping.value())
+                                    .forEach(value -> {
+                                                Set<RequestMethod> requestMethods = new HashSet<>();
+                                                Arrays.stream(mapping.method()).forEach(requestMethod -> requestMethods.add(requestMethod));
+                                                Router router = ObjectBuilder.of(Router::new)
+                                                        .with(Router::setMethods, requestMethods)
+                                                        .with(Router::setMethod, method)
+                                                        .with(Router::setClazz, clazz)
+                                                        .build();
+                                                Routers.setRouter(value, router);
+                                            }
+                                    );
                         }
                         else {
                             RouterMapping.getMappingScan(clazz, method);

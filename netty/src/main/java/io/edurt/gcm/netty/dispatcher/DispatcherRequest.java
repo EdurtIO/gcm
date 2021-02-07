@@ -13,6 +13,8 @@ import io.edurt.gcm.netty.configuration.NettyConfiguration;
 import io.edurt.gcm.netty.configuration.NettyConfigurationDefault;
 import io.edurt.gcm.netty.exception.NettyException;
 import io.edurt.gcm.netty.filter.SessionFilter;
+import io.edurt.gcm.netty.router.Router;
+import io.edurt.gcm.netty.router.Routers;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -27,6 +29,7 @@ import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.handler.codec.http.multipart.MemoryAttribute;
 import io.netty.util.CharsetUtil;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +46,9 @@ import java.util.Properties;
 import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;
 
 @Singleton
-public class RequestDispatcher
+public class DispatcherRequest
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RequestDispatcher.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DispatcherRequest.class);
     private static Properties configuration;
 
     @Inject
@@ -69,23 +72,19 @@ public class RequestDispatcher
             throws Exception
     {
         URI uri = URI.create(httpRequest.uri());
-        String dispatchUri = uri.getPath();
-        String dispatchIndex = httpRequest.method().name() + " " + dispatchUri;
-        String dispatchValue = DispatchRules.ROUES.get(dispatchIndex);
-        LOGGER.info("Obtain and analyze the client request information from {}", dispatchIndex);
-        if (dispatchValue == null) {
-            dispatchValue = DispatchRules.ROUES.get(dispatchUri);
-        }
-        if (dispatchValue == null) {
+        String requestUrl = uri.getPath();
+        Router router = Routers.getRouter(requestUrl);
+        LOGGER.info("Obtain and analyze the client request information from {}", requestUrl);
+        if (ObjectUtils.isEmpty(router)) {
             httpResponse.setStatus(HttpResponseStatus.NOT_FOUND);
+            LOGGER.error("The requested path <{}> was not found", requestUrl);
             return;
         }
-        String controllerName = dispatchValue.substring(0, dispatchValue.lastIndexOf("."));
-        String methodName = dispatchValue.substring(dispatchValue.lastIndexOf(".") + 1);
+        String methodName = router.getMethod().getName();
         String controller = PropertiesUtils.getStringValue(configuration,
                 NettyConfiguration.CONTROLLER_PACKAGE,
                 NettyConfigurationDefault.CONTROLLER_PACKAGE);
-        String ctrlClass = controller + "." + controllerName.substring(0, 1).toUpperCase() + controllerName.substring(1);
+        String ctrlClass = router.getClazz().getName();
         try {
             Class.forName(ctrlClass);
         }

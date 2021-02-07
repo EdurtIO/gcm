@@ -5,9 +5,10 @@ import com.google.inject.Injector;
 import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.netty.configuration.NettyConfiguration;
 import io.edurt.gcm.netty.configuration.NettyConfigurationDefault;
-import io.edurt.gcm.netty.dispatcher.DispatchRules;
 import io.edurt.gcm.netty.handler.HttpRequestHandler;
+import io.edurt.gcm.netty.router.Router;
 import io.edurt.gcm.netty.router.RouterScan;
+import io.edurt.gcm.netty.router.Routers;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -53,8 +54,12 @@ public class GcmNettyApplication
                 NettyConfiguration.ROUTER_PRINT,
                 NettyConfigurationDefault.ROUTER_PRINT);
         if (routerPrint) {
-            DispatchRules.ROUES.forEach((key, value) -> {
-                System.out.println(key + "\t" + value);
+            Routers.getRouters().entrySet().forEach(entry -> {
+                Router router = entry.getValue();
+                LOGGER.info("Mapped \"{[{}], methods {}}\" onto {}",
+                        entry.getKey(),
+                        router.getMethods(),
+                        String.join(".", router.getClazz().getName(), router.getMethod().getName()));
             });
         }
     }

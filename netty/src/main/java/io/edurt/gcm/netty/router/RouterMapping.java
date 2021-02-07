@@ -13,9 +13,9 @@
  */
 package io.edurt.gcm.netty.router;
 
+import io.edurt.gcm.common.jdk.ObjectBuilder;
 import io.edurt.gcm.netty.annotation.GetMapping;
 import io.edurt.gcm.netty.annotation.PostMapping;
-import io.edurt.gcm.netty.dispatcher.DispatchRules;
 import io.edurt.gcm.netty.type.RequestMethod;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashSet;
 
 import static java.lang.String.format;
 
@@ -52,6 +53,16 @@ public class RouterMapping
         }
         RequestMethod finalRequestMethod = requestMethod;
         Arrays.stream(mappingValues)
-                .forEach(value -> DispatchRules.ROUES.put(format("%s %s", finalRequestMethod.name(), value), format("%s.%s", clazz.getSimpleName(), method.getName())));
+                .forEach(value -> {
+                    Router router = ObjectBuilder.of(Router::new)
+                            .with(Router::setMethods, new HashSet<RequestMethod>()
+                            {{
+                                add(finalRequestMethod);
+                            }})
+                            .with(Router::setMethod, method)
+                            .with(Router::setClazz, clazz)
+                            .build();
+                    Routers.setRouter(value, router);
+                });
     }
 }

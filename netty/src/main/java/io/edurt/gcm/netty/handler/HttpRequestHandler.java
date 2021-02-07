@@ -2,7 +2,7 @@ package io.edurt.gcm.netty.handler;
 
 import com.google.inject.Injector;
 import io.edurt.gcm.netty.GcmNettyApplication;
-import io.edurt.gcm.netty.dispatcher.RequestDispatcher;
+import io.edurt.gcm.netty.dispatcher.DispatcherRequest;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -51,8 +51,8 @@ public class HttpRequestHandler
                 ctx.writeAndFlush(response);
             }
             FullHttpResponse httpResponse = new DefaultFullHttpResponse(httpRequest.protocolVersion(), HttpResponseStatus.OK);
-            RequestDispatcher.builderConfiguration(configuration);
-            injector.getInstance(RequestDispatcher.class).processor(ctx, httpRequest, httpResponse);
+            DispatcherRequest.builderConfiguration(configuration);
+            injector.getInstance(DispatcherRequest.class).processor(ctx, httpRequest, httpResponse);
             httpResponse.headers().set(CONTENT_LENGTH, httpResponse.content().readableBytes());
             if (HttpUtil.isKeepAlive(httpRequest)) {
                 httpResponse.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
