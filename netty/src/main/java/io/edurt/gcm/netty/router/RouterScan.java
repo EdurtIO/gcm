@@ -69,15 +69,17 @@ public class RouterScan
                                         clazz.getCanonicalName(), method.getName()));
                             }
                             // TODO: Add to the global routing controller, and then modify the route loading method
-
                             Arrays.stream(mapping.value())
                                     .forEach(value -> {
                                                 Set<RequestMethod> requestMethods = new HashSet<>();
                                                 Arrays.stream(mapping.method()).forEach(requestMethod -> requestMethods.add(requestMethod));
+                                                Set<String> urls = new HashSet<>();
+                                                Arrays.stream(mapping.value()).forEach(url -> urls.add(url));
                                                 Router router = ObjectBuilder.of(Router::new)
                                                         .with(Router::setMethods, requestMethods)
                                                         .with(Router::setMethod, method)
                                                         .with(Router::setClazz, clazz)
+                                                        .with(Router::setUrls, urls)
                                                         .build();
                                                 Routers.setRouter(value, router);
                                             }

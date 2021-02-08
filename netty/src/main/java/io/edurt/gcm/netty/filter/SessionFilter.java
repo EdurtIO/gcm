@@ -1,7 +1,7 @@
 package io.edurt.gcm.netty.filter;
 
 import com.google.inject.Inject;
-import io.edurt.gcm.netty.dispatcher.DispatcherRequest;
+import io.edurt.gcm.netty.dispatcher.RequestDispatcher;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -18,7 +18,7 @@ public class SessionFilter
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionFilter.class);
 
     @Inject
-    private DispatcherRequest requestProcessor;
+    private RequestDispatcher requestProcessor;
 
     private static void writeErrorResponse(HttpResponseStatus responseStatus, FullHttpResponse httpResponse, String message)
     {

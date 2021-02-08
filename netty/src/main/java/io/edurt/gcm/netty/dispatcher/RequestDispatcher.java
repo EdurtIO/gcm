@@ -33,9 +33,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;
 
 @Singleton
-public class DispatcherRequest
+public class RequestDispatcher
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DispatcherRequest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RequestDispatcher.class);
     private static Properties configuration;
 
     @Inject
@@ -64,7 +64,7 @@ public class DispatcherRequest
         LOGGER.info("Obtain and analyze the client request information from {}", requestUrl);
         if (ObjectUtils.isEmpty(router)) {
             httpResponse.setStatus(HttpResponseStatus.NOT_FOUND);
-            LOGGER.error("The requested path <{}> was not found", requestUrl);
+            LOGGER.error("The requested path <{}> was not found or not supported it!", requestUrl);
             return;
         }
         String methodName = router.getMethod().getName();
@@ -85,9 +85,9 @@ public class DispatcherRequest
         Class<?> clazz = Class.forName(ctrlClass);
         Object ctrlObject = injector.getInstance(clazz);
         LOGGER.debug("Current execute controller {}", ctrlObject);
-        DispatcherParameter dispatcherParameter = injector.getInstance(DispatcherParameter.class);
-        ConcurrentHashMap<String, ArrayList> classAndParam = dispatcherParameter.getRequestObjectAndParam(ctrlObject, httpRequest, httpResponse, methodName);
-        ArrayList<Object> classList = classAndParam.get(DispatcherParameter.CLASS);
+        ParameterDispatcher parameterDispatcher = injector.getInstance(ParameterDispatcher.class);
+        ConcurrentHashMap<String, ArrayList> classAndParam = parameterDispatcher.getRequestObjectAndParam(ctrlObject, httpRequest, httpResponse, methodName, router);
+        ArrayList<Object> classList = classAndParam.get(ParameterDispatcher.CLASS);
         Class[] classes = classList.toArray(new Class[classList.size()]);
         Method method = ctrlObject.getClass().getMethod(methodName, classes);
         String content = null;
@@ -95,7 +95,7 @@ public class DispatcherRequest
         if (method.isAnnotationPresent(ResponseBody.class) || clazz.isAnnotationPresent(RestController.class)) {
             Gson gson = new Gson();
             try {
-                content = gson.toJson(method.invoke(ctrlObject, classAndParam.get(DispatcherParameter.PARAM).toArray()));
+                content = gson.toJson(method.invoke(ctrlObject, classAndParam.get(ParameterDispatcher.PARAM).toArray()));
                 httpResponse.setStatus(HttpResponseStatus.OK);
             }
             catch (InvocationTargetException ex) {
