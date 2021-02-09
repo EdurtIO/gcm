@@ -13,7 +13,6 @@
  */
 package io.edurt.gcm.netty.router;
 
-import io.edurt.gcm.netty.handler.PathHandler;
 import io.edurt.gcm.netty.type.RequestMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;

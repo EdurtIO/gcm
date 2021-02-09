@@ -37,8 +37,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -105,7 +103,7 @@ public class ParameterDispatcher
                         bf.readBytes(byteArray);
                         // The original data type should be used here, otherwise class conversion error will occur. The following is an error example:
                         // Caused by: java.lang.ClassCastException: com.google.gson.internal.LinkedTreeMap cannot be xxxx
-                        paramList.add((new Gson()).fromJson(new String(byteArray, Charset.forName("UTF-8")), parameter.getParameterizedType()));
+                        paramList.add(GSON.fromJson(new String(byteArray, Charset.forName("UTF-8")), parameter.getParameterizedType()));
                         classList.add(parameterClass);
                     }
                     else if (ObjectUtils.isNotEmpty(parameter.getAnnotation(PathVariable.class))) {

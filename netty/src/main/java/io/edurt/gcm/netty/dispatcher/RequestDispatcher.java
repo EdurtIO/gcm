@@ -1,6 +1,7 @@
 package io.edurt.gcm.netty.dispatcher;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -36,6 +37,7 @@ import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;
 public class RequestDispatcher
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(RequestDispatcher.class);
+    private static final Gson GSON = new GsonBuilder().create();
     private static Properties configuration;
 
     @Inject
@@ -93,19 +95,18 @@ public class RequestDispatcher
         String content = null;
         // Fix the problem of using @RestController annotation to return data results
         if (method.isAnnotationPresent(ResponseBody.class) || clazz.isAnnotationPresent(RestController.class)) {
-            Gson gson = new Gson();
             try {
-                content = gson.toJson(method.invoke(ctrlObject, classAndParam.get(ParameterDispatcher.PARAM).toArray()));
+                content = GSON.toJson(method.invoke(ctrlObject, classAndParam.get(ParameterDispatcher.PARAM).toArray()));
                 httpResponse.setStatus(HttpResponseStatus.OK);
             }
             catch (InvocationTargetException ex) {
                 if (ex.getCause().getClass() == NettyException.class) {
                     NettyException exception = (NettyException) ex.getCause();
-                    content = gson.toJson(exception);
+                    content = GSON.toJson(exception);
                 }
                 else {
                     ex.printStackTrace();
-                    content = gson.toJson(new NettyException(500, ex.getCause().getMessage()));
+                    content = GSON.toJson(new NettyException(500, ex.getCause().getMessage()));
                 }
                 httpResponse.setStatus(HttpResponseStatus.BAD_GATEWAY);
             }
