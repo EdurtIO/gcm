@@ -44,10 +44,19 @@
 
     <developers>
         <developer>
+            <id>001</id>
             <name>qianmoQ</name>
             <email>shicheng@ttxit.com</email>
             <roles>
                 <role>owner</role>
+            </roles>
+            <organization>EdurtIO</organization>
+        </developer>
+        <developer>
+            <id>002</id>
+            <name>24kGarry</name>
+            <roles>
+                <role>developer</role>
             </roles>
         </developer>
     </developers>
