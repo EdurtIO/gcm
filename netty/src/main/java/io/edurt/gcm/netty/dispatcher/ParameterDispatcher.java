@@ -19,7 +19,7 @@ import com.google.inject.Singleton;
 import io.edurt.gcm.netty.annotation.PathVariable;
 import io.edurt.gcm.netty.annotation.RequestBody;
 import io.edurt.gcm.netty.annotation.RequestParam;
-import io.edurt.gcm.netty.handler.PathHandler;
+import io.edurt.gcm.netty.handler.HttpPathHandler;
 import io.edurt.gcm.netty.router.Router;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -107,7 +107,7 @@ public class ParameterDispatcher
                         classList.add(parameterClass);
                     }
                     else if (ObjectUtils.isNotEmpty(parameter.getAnnotation(PathVariable.class))) {
-                        Map<String, String> params = PathHandler.getParams(request.uri(), router.getUrls().toArray(new String[0]));
+                        Map<String, String> params = HttpPathHandler.getParams(request.uri(), router.getUrls().toArray(new String[0]));
                         paramList.add(params.get(parameter.getAnnotation(PathVariable.class).value()));
                         classList.add(parameterClass);
                     }

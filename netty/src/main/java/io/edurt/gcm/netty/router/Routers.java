@@ -1,6 +1,6 @@
 package io.edurt.gcm.netty.router;
 
-import io.edurt.gcm.netty.handler.PathHandler;
+import io.edurt.gcm.netty.handler.HttpPathHandler;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -43,7 +43,7 @@ public class Routers
         if (ObjectUtils.isEmpty(router)) {
             Optional<Map.Entry<String, Router>> routerEntry = ROUTERS.entrySet()
                     .stream()
-                    .filter(entry -> PathHandler.verify(path, entry.getKey()))
+                    .filter(entry -> HttpPathHandler.verify(path, entry.getKey()))
                     .findFirst();
             if (routerEntry.isPresent()) {
                 router = routerEntry.get().getValue();
