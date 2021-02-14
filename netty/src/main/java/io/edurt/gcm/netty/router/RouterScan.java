@@ -15,6 +15,7 @@ package io.edurt.gcm.netty.router;
 
 import io.edurt.gcm.common.jdk.Classs;
 import io.edurt.gcm.common.jdk.ObjectBuilder;
+import io.edurt.gcm.netty.annotation.Controller;
 import io.edurt.gcm.netty.annotation.RequestMapping;
 import io.edurt.gcm.netty.annotation.RestController;
 import io.edurt.gcm.netty.type.RequestMethod;
@@ -50,7 +51,7 @@ public class RouterScan
         }
         else {
             classes.forEach(clazz -> {
-                if (clazz.isAnnotationPresent(RestController.class)) {
+                if (clazz.isAnnotationPresent(RestController.class) || clazz.isAnnotationPresent(Controller.class)) {
                     // Filtering only includes the methods for setting the scan package, and the methods included in the base class are ignored
                     List<Method> methods = Arrays.stream(clazz.getMethods())
                             .filter(method -> method.toGenericString().contains(scanPackage))

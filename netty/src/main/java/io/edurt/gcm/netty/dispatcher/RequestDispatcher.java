@@ -5,7 +5,10 @@ import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import io.edurt.gcm.common.utils.PropertiesUtils;
+import io.edurt.gcm.netty.annotation.Controller;
 import io.edurt.gcm.netty.annotation.ResponseBody;
 import io.edurt.gcm.netty.annotation.RestController;
 import io.edurt.gcm.netty.configuration.NettyConfiguration;
@@ -24,6 +27,8 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
@@ -45,6 +50,9 @@ public class RequestDispatcher
 
     @Inject
     private SessionFilter sessionFilter;
+
+    @Inject
+    private Configuration freemarkerConfiguration;
 
     public static final void builderConfiguration(Properties properties)
     {
@@ -91,6 +99,8 @@ public class RequestDispatcher
         ConcurrentHashMap<String, ArrayList> classAndParam = parameterDispatcher.getRequestObjectAndParam(ctrlObject, httpRequest, httpResponse, methodName, router);
         ArrayList<Object> classList = classAndParam.get(ParameterDispatcher.CLASS);
         Class[] classes = classList.toArray(new Class[classList.size()]);
+        // When accessing a view, it supports view parameter parsing
+        Object[] objects = new Object[] {};
         Method method = ctrlObject.getClass().getMethod(methodName, classes);
         String content = null;
         // Fix the problem of using @RestController annotation to return data results
@@ -111,6 +121,15 @@ public class RequestDispatcher
                 httpResponse.setStatus(HttpResponseStatus.BAD_GATEWAY);
             }
             httpResponse.headers().set(CONTENT_TYPE, "application/json; charset=UTF-8");
+        }
+        else if (clazz.isAnnotationPresent(Controller.class)) {
+            String viewName = String.valueOf(method.invoke(ctrlObject, objects));
+            freemarkerConfiguration.setClassForTemplateLoading(this.getClass(), "/template/");
+            Template template = freemarkerConfiguration.getTemplate(viewName + ".html");
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            template.process(null, new OutputStreamWriter(outputStream));
+            content = outputStream.toString("UTF-8");
+            httpResponse.headers().set(CONTENT_TYPE, "text/html; charset=UTF-8");
         }
         else {
             // TODO: We don't do any processing here for the time being, and we will support it later
