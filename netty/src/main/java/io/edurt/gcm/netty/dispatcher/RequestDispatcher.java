@@ -15,8 +15,11 @@ import io.edurt.gcm.netty.configuration.NettyConfiguration;
 import io.edurt.gcm.netty.configuration.NettyConfigurationDefault;
 import io.edurt.gcm.netty.exception.NettyException;
 import io.edurt.gcm.netty.filter.SessionFilter;
+import io.edurt.gcm.netty.handler.HttpCharsetContentHandler;
 import io.edurt.gcm.netty.router.Router;
 import io.edurt.gcm.netty.router.Routers;
+import io.edurt.gcm.netty.type.Charseter;
+import io.edurt.gcm.netty.type.ContentType;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -68,6 +71,7 @@ public class RequestDispatcher
     public void triggerAction(FullHttpRequest httpRequest, FullHttpResponse httpResponse)
             throws Exception
     {
+        HttpCharsetContentHandler httpCharsetContentHandler = injector.getInstance(HttpCharsetContentHandler.class);
         URI uri = URI.create(httpRequest.uri());
         String requestUrl = uri.getPath();
         Router router = Routers.getRouter(requestUrl);
@@ -120,7 +124,7 @@ public class RequestDispatcher
                 }
                 httpResponse.setStatus(HttpResponseStatus.BAD_GATEWAY);
             }
-            httpResponse.headers().set(CONTENT_TYPE, "application/json; charset=UTF-8");
+            httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.APPLICATION_JSON));
         }
         else if (clazz.isAnnotationPresent(Controller.class)) {
             String viewName = String.valueOf(method.invoke(ctrlObject, objects));
@@ -129,7 +133,7 @@ public class RequestDispatcher
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             template.process(null, new OutputStreamWriter(outputStream));
             content = outputStream.toString("UTF-8");
-            httpResponse.headers().set(CONTENT_TYPE, "text/html; charset=UTF-8");
+            httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.TEXT_HTML));
         }
         else {
             // TODO: We don't do any processing here for the time being, and we will support it later
