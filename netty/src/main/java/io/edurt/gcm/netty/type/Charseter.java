@@ -28,9 +28,4 @@ public enum Charseter
     {
         return value;
     }
-
-    public void setValue(String value)
-    {
-        this.value = value;
-    }
 }
