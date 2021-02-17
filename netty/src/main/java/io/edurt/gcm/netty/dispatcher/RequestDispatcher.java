@@ -128,11 +128,13 @@ public class RequestDispatcher
         }
         else if (clazz.isAnnotationPresent(Controller.class)) {
             String viewName = String.valueOf(method.invoke(ctrlObject, objects));
-            freemarkerConfiguration.setClassForTemplateLoading(this.getClass(), "/template/");
-            Template template = freemarkerConfiguration.getTemplate(viewName + ".html");
+            freemarkerConfiguration.setClassForTemplateLoading(this.getClass(), getTemplatePath());
+            Template template = freemarkerConfiguration.getTemplate(viewName + PropertiesUtils.getStringValue(configuration,
+                    NettyConfiguration.VIEW_TEMPLATE_SUFFIX,
+                    NettyConfigurationDefault.VIEW_TEMPLATE_SUFFIX));
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             template.process(null, new OutputStreamWriter(outputStream));
-            content = outputStream.toString("UTF-8");
+            content = outputStream.toString(CharsetUtil.UTF_8.name());
             httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.TEXT_HTML));
         }
         else {
@@ -140,5 +142,17 @@ public class RequestDispatcher
             LOGGER.warn("We don't do any processing here for the time being, and we will support it later");
         }
         httpResponse.content().writeBytes(Unpooled.copiedBuffer(content, CharsetUtil.UTF_8));
+    }
+
+    private String getTemplatePath()
+    {
+        String templatePath = PropertiesUtils.getStringValue(configuration,
+                NettyConfiguration.VIEW_TEMPLATE_PATH,
+                NettyConfigurationDefault.VIEW_TEMPLATE_PATH);
+        // Handling templates in jar packages
+        if (templatePath.toLowerCase().startsWith("classpath")) {
+            return templatePath.split(":")[1];
+        }
+        return templatePath;
     }
 }
