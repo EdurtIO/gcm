@@ -21,6 +21,7 @@ import io.edurt.gcm.netty.annotation.RequestBody;
 import io.edurt.gcm.netty.annotation.RequestParam;
 import io.edurt.gcm.netty.handler.HttpPathHandler;
 import io.edurt.gcm.netty.router.Router;
+import io.edurt.gcm.netty.view.ParamModel;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
@@ -77,6 +78,10 @@ public class ParameterDispatcher
                     else if (parameterClass == FullHttpResponse.class) {
                         LOGGER.debug("Processing data information carried by FullHttpResponse");
                         paramList.add(response);
+                        classList.add(parameterClass);
+                    }
+                    else if (parameterClass == ParamModel.class) {
+                        paramList.add(new ParamModel());
                         classList.add(parameterClass);
                     }
                     else if (parameter.getAnnotation(RequestParam.class) != null) {

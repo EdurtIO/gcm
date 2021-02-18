@@ -104,7 +104,7 @@ public class RequestDispatcher
         ArrayList<Object> classList = classAndParam.get(ParameterDispatcher.CLASS);
         Class[] classes = classList.toArray(new Class[classList.size()]);
         // When accessing a view, it supports view parameter parsing
-        Object[] objects = new Object[] {};
+        Object[] objects = classAndParam.get(ParameterDispatcher.PARAM).toArray();
         Method method = ctrlObject.getClass().getMethod(methodName, classes);
         String content = null;
         // Fix the problem of using @RestController annotation to return data results
@@ -133,7 +133,8 @@ public class RequestDispatcher
                     NettyConfiguration.VIEW_TEMPLATE_SUFFIX,
                     NettyConfigurationDefault.VIEW_TEMPLATE_SUFFIX));
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            template.process(null, new OutputStreamWriter(outputStream));
+            // In view, we only need to extract the first one
+            template.process(objects[0], new OutputStreamWriter(outputStream));
             content = outputStream.toString(CharsetUtil.UTF_8.name());
             httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.TEXT_HTML));
         }

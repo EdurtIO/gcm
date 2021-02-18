@@ -14,8 +14,10 @@
 package io.edurt.gcm.netty.controller;
 
 import io.edurt.gcm.netty.annotation.Controller;
+import io.edurt.gcm.netty.annotation.GetMapping;
 import io.edurt.gcm.netty.annotation.RequestMapping;
 import io.edurt.gcm.netty.type.RequestMethod;
+import io.edurt.gcm.netty.view.ParamModel;
 
 @Controller
 public class TestViewController
@@ -24,5 +26,12 @@ public class TestViewController
     public String index()
     {
         return "index";
+    }
+
+    @GetMapping(value = "/api/test/view/parameter")
+    public String parameter(ParamModel paramModel)
+    {
+        paramModel.addAttribute("hello", "This Hello!");
+        return "parameter";
     }
 }
