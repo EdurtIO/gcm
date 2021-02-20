@@ -16,20 +16,24 @@ package io.edurt.gcm.netty;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import io.edurt.gcm.common.utils.PropertiesUtils;
+import io.edurt.gcm.netty.configuration.NettyConfiguration;
+import io.edurt.gcm.netty.configuration.NettyConfigurationDefault;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import lombok.SneakyThrows;
+import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 public class NettyModule
         extends AbstractModule
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NettyModule.class);
-
     private final String configuration;
 
     public NettyModule(String configuration)
@@ -43,15 +47,25 @@ public class NettyModule
                 "conf",
                 "catalog",
                 "netty.properties");
+        try {
+            ConfigurationSource source;
+            File log4jFile = new File(String.join(File.separator, System.getProperty("user.dir"),
+                    "conf",
+                    "log4j2.properties"));
+            if (log4jFile.exists()) {
+                source = new ConfigurationSource(new FileInputStream(log4jFile), log4jFile);
+                Configurator.initialize(null, source);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @SneakyThrows
     @Override
     public void configure()
     {
-        LOGGER.debug("Binding netty component information");
         Properties configuration = PropertiesUtils.loadProperties(this.configuration);
-        LOGGER.info("Binding netty configuration information is completed, with a total of {} configurations", configuration.stringPropertyNames().size());
         GcmNettyApplication.binder(configuration);
     }
 
