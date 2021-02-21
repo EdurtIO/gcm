@@ -16,15 +16,11 @@ package io.edurt.gcm.netty;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import io.edurt.gcm.common.utils.PropertiesUtils;
-import io.edurt.gcm.netty.configuration.NettyConfiguration;
-import io.edurt.gcm.netty.configuration.NettyConfigurationDefault;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import lombok.SneakyThrows;
 import org.apache.logging.log4j.core.config.ConfigurationSource;
 import org.apache.logging.log4j.core.config.Configurator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,7 +52,8 @@ public class NettyModule
                 source = new ConfigurationSource(new FileInputStream(log4jFile), log4jFile);
                 Configurator.initialize(null, source);
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

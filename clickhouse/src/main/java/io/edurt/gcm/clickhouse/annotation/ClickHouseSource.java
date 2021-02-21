@@ -11,17 +11,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.example.bigdata.client.mapper;
+package io.edurt.gcm.clickhouse.annotation;
 
-import io.edurt.gcm.clickhouse.annotation.ClickHouseSource;
-import org.apache.ibatis.annotations.Select;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import java.util.List;
-
-@ClickHouseSource
-public interface ContributorsMapper
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ClickHouseSource
 {
-    @Select(value = "SELECT * " +
-            "FROM system.contributors")
-    List<Object> findAll();
 }

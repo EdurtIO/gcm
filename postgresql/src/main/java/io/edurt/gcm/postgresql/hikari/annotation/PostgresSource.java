@@ -11,17 +11,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.example.bigdata.client.mapper;
+package io.edurt.gcm.postgresql.hikari.annotation;
 
-import io.edurt.gcm.clickhouse.annotation.ClickHouseSource;
-import org.apache.ibatis.annotations.Select;
+import com.google.inject.BindingAnnotation;
 
-import java.util.List;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@ClickHouseSource
-public interface ContributorsMapper
+@Target({ElementType.TYPE, ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+@BindingAnnotation
+public @interface PostgresSource
 {
-    @Select(value = "SELECT * " +
-            "FROM system.contributors")
-    List<Object> findAll();
 }

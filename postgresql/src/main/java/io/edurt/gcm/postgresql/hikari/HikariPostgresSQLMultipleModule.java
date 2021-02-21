@@ -3,8 +3,10 @@ package io.edurt.gcm.postgresql.hikari;
 import com.google.inject.PrivateModule;
 import com.google.inject.name.Names;
 import io.edurt.gcm.common.utils.PropertiesUtils;
+import io.edurt.gcm.postgresql.hikari.annotation.PostgresSource;
 import io.edurt.gcm.postgresql.hikari.configuration.HikariConfiguration;
 import io.edurt.gcm.postgresql.hikari.configuration.HikariConfigurationDefault;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.MyBatisModule;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Properties;
+import java.util.Set;
 
 public class HikariPostgresSQLMultipleModule
         extends PrivateModule
@@ -54,13 +57,17 @@ public class HikariPostgresSQLMultipleModule
                 bindConstant().annotatedWith(Names.named("mybatis.environment.id")).to("Prod");
                 bindDataSourceProvider(new HikariPostgreSQLProvider(configuration));
                 bindTransactionFactoryType(JdbcTransactionFactory.class);
-                addMapperClasses(scanPackage);
+                ResolverUtil<Object> util = new ResolverUtil<>();
+                Set<Class<? extends Object>> mappers = util.findImplementations(Object.class, scanPackage).getClasses();
+                for (Class<? extends Object> clazz : mappers) {
+                    PostgresSource annotation = clazz.getAnnotation(PostgresSource.class);
+                    if (ObjectUtils.isNotEmpty(annotation)) {
+                        addMapperClass(clazz);
+                        expose(clazz);
+                    }
+                }
+                addSimpleAliases(scanPackage);
             }
         });
-        // Use the tool class of mybatis to obtain all classes under Dao package path and expose them to Guice global environment
-        new ResolverUtil<>()
-                .find(new ResolverUtil.IsA(Object.class), scanPackage)
-                .getClasses()
-                .forEach(HikariPostgresSQLMultipleModule.this::expose);
     }
 }

@@ -42,7 +42,9 @@ public class MultipleModuleExample
         LOGGER.info("Load clickhouse configuration from {}", clickhouse);
         MultipleModuleExample example = Guice.createInjector(
                 new MySQLHikariMultipleModule(mysql),
-                new ClickHouseMultipleModule(clickhouse)).getInstance(MultipleModuleExample.class);
+//                new ClickHouseMultipleModule(clickhouse),
+                new ClickHouseMultipleModule(clickhouse))
+                .getInstance(MultipleModuleExample.class);
         LOGGER.info("print data from clickhouse datasource");
         example.contributorsService.getAll().forEach(v -> System.out.println(v));
         LOGGER.info("print data from mysql datasource");
