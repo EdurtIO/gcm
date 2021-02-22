@@ -30,6 +30,6 @@ public class TestHikariPostgreSQLModule
     @Test
     public void test()
     {
-        Guice.createInjector(new HikariPostgreSQLModule());
+        Guice.createInjector(new PostgreSQLHikariModule());
     }
 } 

@@ -12,14 +12,14 @@ import javax.sql.DataSource;
 
 import java.util.Properties;
 
-public class HikariPostgreSQLProvider
+public class PostgreSQLHikariProvider
         implements Provider<DataSource>
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HikariPostgreSQLProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostgreSQLHikariProvider.class);
 
     private final HikariDataSource dataSource = new HikariDataSource();
 
-    public HikariPostgreSQLProvider(Properties configuration)
+    public PostgreSQLHikariProvider(Properties configuration)
     {
         LOGGER.info("generate configuration");
         dataSource.setDriverClassName(PropertiesUtils.getStringValue(configuration,

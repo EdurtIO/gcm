@@ -18,19 +18,19 @@ import java.io.File;
 import java.util.Properties;
 import java.util.Set;
 
-public class HikariPostgresSQLMultipleModule
+public class PostgreSQLHikariMultipleModule
         extends PrivateModule
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HikariPostgresSQLMultipleModule.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostgreSQLHikariMultipleModule.class);
 
     private final String configuration;
 
-    public HikariPostgresSQLMultipleModule(String configuration)
+    public PostgreSQLHikariMultipleModule(String configuration)
     {
         this.configuration = configuration;
     }
 
-    public HikariPostgresSQLMultipleModule()
+    public PostgreSQLHikariMultipleModule()
     {
         this.configuration = String.join(File.separator, System.getProperty("user.dir"),
                 "conf",
@@ -55,7 +55,7 @@ public class HikariPostgresSQLMultipleModule
             {
                 install(JdbcHelper.MySQL);
                 bindConstant().annotatedWith(Names.named("mybatis.environment.id")).to("Prod");
-                bindDataSourceProvider(new HikariPostgreSQLProvider(configuration));
+                bindDataSourceProvider(new PostgreSQLHikariProvider(configuration));
                 bindTransactionFactoryType(JdbcTransactionFactory.class);
                 ResolverUtil<Object> util = new ResolverUtil<>();
                 Set<Class<? extends Object>> mappers = util.findImplementations(Object.class, scanPackage).getClasses();
