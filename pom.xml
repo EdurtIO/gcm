@@ -59,6 +59,13 @@
                 <role>developer</role>
             </roles>
         </developer>
+        <developer>
+            <id>003</id>
+            <name>why198852</name>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
     </developers>
 
     <organization>
