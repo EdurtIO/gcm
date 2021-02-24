@@ -11,16 +11,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.netty.configuration;
+package io.edurt.gcm.netty.view;
 
-public class NettyConfigurationDefault
+import java.util.LinkedHashMap;
+
+public class ParamModel
+        extends LinkedHashMap<String, Object>
 {
-    public static final String HOST = "localhost";
-    public static final int PORT = 8080;
-    public static final String CONTROLLER_PACKAGE = "io.edurt.gcm.netty.controller";
-    public static final Boolean ROUTER_PRINT = false;
-    public static final String VIEW_TEMPLATE_PATH = "classpath:/template/";
-    public static final String VIEW_TEMPLATE_SUFFIX = ".html";
+    public ParamModel()
+    {
+    }
 
-    private NettyConfigurationDefault() {}
+    public void addAttribute(String attributeName, Object attributeValue)
+    {
+        this.put(attributeName, attributeValue);
+    }
 }

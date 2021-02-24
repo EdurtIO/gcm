@@ -1,11 +1,14 @@
 package io.edurt.gcm.netty.router;
 
+import io.edurt.gcm.netty.handler.HttpPathHandler;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class Routers
 {
@@ -35,7 +38,18 @@ public class Routers
 
     public static final Router getRouter(String path)
     {
-        return ROUTERS.get(path);
+        Router router = ROUTERS.get(path);
+        // When the route is not extracted, the path matching parameter pattern extraction is used
+        if (ObjectUtils.isEmpty(router)) {
+            Optional<Map.Entry<String, Router>> routerEntry = ROUTERS.entrySet()
+                    .stream()
+                    .filter(entry -> HttpPathHandler.verify(path, entry.getKey()))
+                    .findFirst();
+            if (routerEntry.isPresent()) {
+                router = routerEntry.get().getValue();
+            }
+        }
+        return router;
     }
 
     public static final HashMap<String, Router> getRouters()

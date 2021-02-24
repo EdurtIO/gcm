@@ -11,16 +11,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.netty.configuration;
+package io.edurt.gcm.netty.annotation;
 
-public class NettyConfigurationDefault
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Controller
 {
-    public static final String HOST = "localhost";
-    public static final int PORT = 8080;
-    public static final String CONTROLLER_PACKAGE = "io.edurt.gcm.netty.controller";
-    public static final Boolean ROUTER_PRINT = false;
-    public static final String VIEW_TEMPLATE_PATH = "classpath:/template/";
-    public static final String VIEW_TEMPLATE_SUFFIX = ".html";
-
-    private NettyConfigurationDefault() {}
+    String value() default "";
 }

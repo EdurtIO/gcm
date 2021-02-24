@@ -61,6 +61,10 @@ public class RouterMapping
                             }})
                             .with(Router::setMethod, method)
                             .with(Router::setClazz, clazz)
+                            .with(Router::setUrls, new HashSet<String>()
+                            {{
+                                add(value);
+                            }})
                             .build();
                     Routers.setRouter(value, router);
                 });

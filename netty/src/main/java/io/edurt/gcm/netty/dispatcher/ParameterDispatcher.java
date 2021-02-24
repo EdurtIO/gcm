@@ -14,9 +14,14 @@
 package io.edurt.gcm.netty.dispatcher;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.Singleton;
+import io.edurt.gcm.netty.annotation.PathVariable;
 import io.edurt.gcm.netty.annotation.RequestBody;
 import io.edurt.gcm.netty.annotation.RequestParam;
+import io.edurt.gcm.netty.handler.HttpPathHandler;
+import io.edurt.gcm.netty.router.Router;
+import io.edurt.gcm.netty.view.ParamModel;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
@@ -37,9 +42,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
-public class DispatcherParameter
+public class ParameterDispatcher
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DispatcherParameter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParameterDispatcher.class);
+    private static final Gson GSON = new GsonBuilder().create();
     public static final String CLASS = "class";
     public static final String PARAM = "param";
 
@@ -53,7 +59,7 @@ public class DispatcherParameter
      * @return Directed execution instance composition map of request parameters and underlying services
      * @throws ClassNotFoundException Class.forName
      */
-    public ConcurrentHashMap<String, ArrayList> getRequestObjectAndParam(Object clazz, FullHttpRequest request, FullHttpResponse response, String requestMethodName)
+    public ConcurrentHashMap<String, ArrayList> getRequestObjectAndParam(Object clazz, FullHttpRequest request, FullHttpResponse response, String requestMethodName, Router router)
             throws ClassNotFoundException
     {
         Map<String, String> requestParams = getRequestParam(request);
@@ -72,6 +78,10 @@ public class DispatcherParameter
                     else if (parameterClass == FullHttpResponse.class) {
                         LOGGER.debug("Processing data information carried by FullHttpResponse");
                         paramList.add(response);
+                        classList.add(parameterClass);
+                    }
+                    else if (parameterClass == ParamModel.class) {
+                        paramList.add(new ParamModel());
                         classList.add(parameterClass);
                     }
                     else if (parameter.getAnnotation(RequestParam.class) != null) {
@@ -98,7 +108,12 @@ public class DispatcherParameter
                         bf.readBytes(byteArray);
                         // The original data type should be used here, otherwise class conversion error will occur. The following is an error example:
                         // Caused by: java.lang.ClassCastException: com.google.gson.internal.LinkedTreeMap cannot be xxxx
-                        paramList.add((new Gson()).fromJson(new String(byteArray, Charset.forName("UTF-8")), parameter.getParameterizedType()));
+                        paramList.add(GSON.fromJson(new String(byteArray, Charset.forName("UTF-8")), parameter.getParameterizedType()));
+                        classList.add(parameterClass);
+                    }
+                    else if (ObjectUtils.isNotEmpty(parameter.getAnnotation(PathVariable.class))) {
+                        Map<String, String> params = HttpPathHandler.getParams(request.uri(), router.getUrls().toArray(new String[0]));
+                        paramList.add(params.get(parameter.getAnnotation(PathVariable.class).value()));
                         classList.add(parameterClass);
                     }
                     else {

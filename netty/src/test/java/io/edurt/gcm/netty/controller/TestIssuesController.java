@@ -11,16 +11,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.netty.configuration;
+package io.edurt.gcm.netty.controller;
 
-public class NettyConfigurationDefault
+import io.edurt.gcm.netty.annotation.PostMapping;
+import io.edurt.gcm.netty.annotation.RequestBody;
+import io.edurt.gcm.netty.annotation.RequestParam;
+import io.edurt.gcm.netty.annotation.RestController;
+import io.edurt.gcm.netty.model.TestModel;
+
+@RestController
+public class TestIssuesController
 {
-    public static final String HOST = "localhost";
-    public static final int PORT = 8080;
-    public static final String CONTROLLER_PACKAGE = "io.edurt.gcm.netty.controller";
-    public static final Boolean ROUTER_PRINT = false;
-    public static final String VIEW_TEMPLATE_PATH = "classpath:/template/";
-    public static final String VIEW_TEMPLATE_SUFFIX = ".html";
-
-    private NettyConfigurationDefault() {}
+    @PostMapping(value = "/test/issues/23")
+    public String issues23(@RequestParam(value = "id") String id,
+            @RequestBody TestModel model)
+    {
+        return String.join("-", id, model.toString());
+    }
 }

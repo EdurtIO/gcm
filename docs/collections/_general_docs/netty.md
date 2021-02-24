@@ -32,6 +32,8 @@ netty.host=localhost
 netty.port=8080
 netty.controller.package=io.edurt.gcm.netty.controller
 netty.router.print=true
+netty.view.path=classpath:/template/
+netty.view.suffix=.html
 ```
 
 |Name|Description|Default|
@@ -40,7 +42,8 @@ netty.router.print=true
 |netty.port|Local port bound after service startup|`8080`|
 |netty.controller.package|Controller package scan path|`io.edurt.gcm.netty.controller`|
 |netty.router.print|Print system route list|`false`|
-
+|netty.view.path|Resolve the path address of the view|`classpath:/template/`|
+|netty.view.suffix|View suffix|`.html`|
 
 ### Example
 
@@ -86,3 +89,4 @@ We need to use @RestController and @RequestMapping, @RequestParam combination an
 - `RequestMapping`: The access path used to mark the interface address
 - `@RequestBody`: Tag data request format, generally JSON
 - `@RequestParam`: Access parameters, such as `?name=12&title=13`
+- `@Controller`: Used to mark the view type interface
