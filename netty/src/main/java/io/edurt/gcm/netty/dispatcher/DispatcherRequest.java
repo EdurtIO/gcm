@@ -58,6 +58,7 @@ public class DispatcherRequest
     public void triggerAction(FullHttpRequest httpRequest, FullHttpResponse httpResponse)
             throws Exception
     {
+        String content = null;
         URI uri = URI.create(httpRequest.uri());
         String requestUrl = uri.getPath();
         Router router = Routers.getRouter(requestUrl);
@@ -65,55 +66,55 @@ public class DispatcherRequest
         if (ObjectUtils.isEmpty(router)) {
             httpResponse.setStatus(HttpResponseStatus.NOT_FOUND);
             LOGGER.error("The requested path <{}> was not found", requestUrl);
-            return;
-        }
-        String methodName = router.getMethod().getName();
-        String controller = PropertiesUtils.getStringValue(configuration,
-                NettyConfiguration.CONTROLLER_PACKAGE,
-                NettyConfigurationDefault.CONTROLLER_PACKAGE);
-        String ctrlClass = router.getClazz().getName();
-        try {
-            Class.forName(ctrlClass);
-        }
-        catch (ClassNotFoundException e) {
-            LOGGER.error("Unable to instantiate controller information. Please check whether the package name is correct and the system specified path is {}",
-                    controller);
-            httpResponse.setStatus(HttpResponseStatus.NOT_FOUND);
-            return;
-        }
-        LOGGER.debug("Parsing method parameters, used to inject the corresponding entity!");
-        Class<?> clazz = Class.forName(ctrlClass);
-        Object ctrlObject = injector.getInstance(clazz);
-        LOGGER.debug("Current execute controller {}", ctrlObject);
-        DispatcherParameter dispatcherParameter = injector.getInstance(DispatcherParameter.class);
-        ConcurrentHashMap<String, ArrayList> classAndParam = dispatcherParameter.getRequestObjectAndParam(ctrlObject, httpRequest, httpResponse, methodName);
-        ArrayList<Object> classList = classAndParam.get(DispatcherParameter.CLASS);
-        Class[] classes = classList.toArray(new Class[classList.size()]);
-        Method method = ctrlObject.getClass().getMethod(methodName, classes);
-        String content = null;
-        // Fix the problem of using @RestController annotation to return data results
-        if (method.isAnnotationPresent(ResponseBody.class) || clazz.isAnnotationPresent(RestController.class)) {
-            Gson gson = new Gson();
+            content = "Oops,the requested path was not found.";
+        } else {
+            String methodName = router.getMethod().getName();
+            String controller = PropertiesUtils.getStringValue(configuration,
+                    NettyConfiguration.CONTROLLER_PACKAGE,
+                    NettyConfigurationDefault.CONTROLLER_PACKAGE);
+            String ctrlClass = router.getClazz().getName();
             try {
-                content = gson.toJson(method.invoke(ctrlObject, classAndParam.get(DispatcherParameter.PARAM).toArray()));
-                httpResponse.setStatus(HttpResponseStatus.OK);
+                Class.forName(ctrlClass);
             }
-            catch (InvocationTargetException ex) {
-                if (ex.getCause().getClass() == NettyException.class) {
-                    NettyException exception = (NettyException) ex.getCause();
-                    content = gson.toJson(exception);
-                }
-                else {
-                    ex.printStackTrace();
-                    content = gson.toJson(new NettyException(500, ex.getCause().getMessage()));
-                }
-                httpResponse.setStatus(HttpResponseStatus.BAD_GATEWAY);
+            catch (ClassNotFoundException e) {
+                LOGGER.error("Unable to instantiate controller information. Please check whether the package name is correct and the system specified path is {}",
+                        controller);
+                httpResponse.setStatus(HttpResponseStatus.NOT_FOUND);
+                return;
             }
-            httpResponse.headers().set(CONTENT_TYPE, "application/json; charset=UTF-8");
-        }
-        else {
-            // TODO: We don't do any processing here for the time being, and we will support it later
-            LOGGER.warn("We don't do any processing here for the time being, and we will support it later");
+            LOGGER.debug("Parsing method parameters, used to inject the corresponding entity!");
+            Class<?> clazz = Class.forName(ctrlClass);
+            Object ctrlObject = injector.getInstance(clazz);
+            LOGGER.debug("Current execute controller {}", ctrlObject);
+            DispatcherParameter dispatcherParameter = injector.getInstance(DispatcherParameter.class);
+            ConcurrentHashMap<String, ArrayList> classAndParam = dispatcherParameter.getRequestObjectAndParam(ctrlObject, httpRequest, httpResponse, methodName);
+            ArrayList<Object> classList = classAndParam.get(DispatcherParameter.CLASS);
+            Class[] classes = classList.toArray(new Class[classList.size()]);
+            Method method = ctrlObject.getClass().getMethod(methodName, classes);
+            // Fix the problem of using @RestController annotation to return data results
+            if (method.isAnnotationPresent(ResponseBody.class) || clazz.isAnnotationPresent(RestController.class)) {
+                Gson gson = new Gson();
+                try {
+                    content = gson.toJson(method.invoke(ctrlObject, classAndParam.get(DispatcherParameter.PARAM).toArray()));
+                    httpResponse.setStatus(HttpResponseStatus.OK);
+                }
+                catch (InvocationTargetException ex) {
+                    if (ex.getCause().getClass() == NettyException.class) {
+                        NettyException exception = (NettyException) ex.getCause();
+                        content = gson.toJson(exception);
+                    }
+                    else {
+                        ex.printStackTrace();
+                        content = gson.toJson(new NettyException(500, ex.getCause().getMessage()));
+                    }
+                    httpResponse.setStatus(HttpResponseStatus.BAD_GATEWAY);
+                }
+                httpResponse.headers().set(CONTENT_TYPE, "application/json; charset=UTF-8");
+            }
+            else {
+                // TODO: We don't do any processing here for the time being, and we will support it later
+                LOGGER.warn("We don't do any processing here for the time being, and we will support it later");
+            }
         }
         httpResponse.content().writeBytes(Unpooled.copiedBuffer(content, CharsetUtil.UTF_8));
     }
