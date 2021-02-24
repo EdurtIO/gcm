@@ -81,7 +81,8 @@ public class RequestDispatcher
             httpResponse.setStatus(HttpResponseStatus.NOT_FOUND);
             LOGGER.error("The requested path <{}> was not found or not supported it!", requestUrl);
             content = "Oops,the requested path was not found.";
-        } else {
+        }
+        else {
             String methodName = router.getMethod().getName();
             String controller = PropertiesUtils.getStringValue(configuration,
                     NettyConfiguration.CONTROLLER_PACKAGE,
