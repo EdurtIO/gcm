@@ -71,6 +71,7 @@ public class RequestDispatcher
     public void triggerAction(FullHttpRequest httpRequest, FullHttpResponse httpResponse)
             throws Exception
     {
+        String content = null;
         HttpCharsetContentHandler httpCharsetContentHandler = injector.getInstance(HttpCharsetContentHandler.class);
         URI uri = URI.create(httpRequest.uri());
         String requestUrl = uri.getPath();
@@ -79,68 +80,68 @@ public class RequestDispatcher
         if (ObjectUtils.isEmpty(router)) {
             httpResponse.setStatus(HttpResponseStatus.NOT_FOUND);
             LOGGER.error("The requested path <{}> was not found or not supported it!", requestUrl);
-            return;
-        }
-        String methodName = router.getMethod().getName();
-        String controller = PropertiesUtils.getStringValue(configuration,
-                NettyConfiguration.CONTROLLER_PACKAGE,
-                NettyConfigurationDefault.CONTROLLER_PACKAGE);
-        String ctrlClass = router.getClazz().getName();
-        try {
-            Class.forName(ctrlClass);
-        }
-        catch (ClassNotFoundException e) {
-            LOGGER.error("Unable to instantiate controller information. Please check whether the package name is correct and the system specified path is {}",
-                    controller);
-            httpResponse.setStatus(HttpResponseStatus.NOT_FOUND);
-            return;
-        }
-        LOGGER.debug("Parsing method parameters, used to inject the corresponding entity!");
-        Class<?> clazz = Class.forName(ctrlClass);
-        Object ctrlObject = injector.getInstance(clazz);
-        LOGGER.debug("Current execute controller {}", ctrlObject);
-        ParameterDispatcher parameterDispatcher = injector.getInstance(ParameterDispatcher.class);
-        ConcurrentHashMap<String, ArrayList> classAndParam = parameterDispatcher.getRequestObjectAndParam(ctrlObject, httpRequest, httpResponse, methodName, router);
-        ArrayList<Object> classList = classAndParam.get(ParameterDispatcher.CLASS);
-        Class[] classes = classList.toArray(new Class[classList.size()]);
-        // When accessing a view, it supports view parameter parsing
-        Object[] objects = classAndParam.get(ParameterDispatcher.PARAM).toArray();
-        Method method = ctrlObject.getClass().getMethod(methodName, classes);
-        String content = null;
-        // Fix the problem of using @RestController annotation to return data results
-        if (method.isAnnotationPresent(ResponseBody.class) || clazz.isAnnotationPresent(RestController.class)) {
+            content = "Oops,the requested path was not found.";
+        } else {
+            String methodName = router.getMethod().getName();
+            String controller = PropertiesUtils.getStringValue(configuration,
+                    NettyConfiguration.CONTROLLER_PACKAGE,
+                    NettyConfigurationDefault.CONTROLLER_PACKAGE);
+            String ctrlClass = router.getClazz().getName();
             try {
-                content = GSON.toJson(method.invoke(ctrlObject, classAndParam.get(ParameterDispatcher.PARAM).toArray()));
-                httpResponse.setStatus(HttpResponseStatus.OK);
+                Class.forName(ctrlClass);
             }
-            catch (InvocationTargetException ex) {
-                if (ex.getCause().getClass() == NettyException.class) {
-                    NettyException exception = (NettyException) ex.getCause();
-                    content = GSON.toJson(exception);
-                }
-                else {
-                    ex.printStackTrace();
-                    content = GSON.toJson(new NettyException(500, ex.getCause().getMessage()));
-                }
-                httpResponse.setStatus(HttpResponseStatus.BAD_GATEWAY);
+            catch (ClassNotFoundException e) {
+                LOGGER.error("Unable to instantiate controller information. Please check whether the package name is correct and the system specified path is {}",
+                        controller);
+                httpResponse.setStatus(HttpResponseStatus.NOT_FOUND);
+                return;
             }
-            httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.APPLICATION_JSON));
-        }
-        else if (clazz.isAnnotationPresent(Controller.class)) {
-            String viewName = String.valueOf(method.invoke(ctrlObject, objects));
-            freemarkerConfiguration.setClassForTemplateLoading(this.getClass(), getTemplatePath());
-            Template template = freemarkerConfiguration.getTemplate(viewName + PropertiesUtils.getStringValue(configuration,
-                    NettyConfiguration.VIEW_TEMPLATE_SUFFIX,
-                    NettyConfigurationDefault.VIEW_TEMPLATE_SUFFIX));
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            // In view, we only need to extract the first one
-            template.process(objects[0], new OutputStreamWriter(outputStream));
-            content = outputStream.toString(CharsetUtil.UTF_8.name());
-            httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.TEXT_HTML));
-        }
-        else {
-            // TODO: We don't do any processing here for the time being, and we will support it later
-            LOGGER.warn("We don't do any processing here for the time being, and we will support it later");
+            LOGGER.debug("Parsing method parameters, used to inject the corresponding entity!");
+            Class<?> clazz = Class.forName(ctrlClass);
+            Object ctrlObject = injector.getInstance(clazz);
+            LOGGER.debug("Current execute controller {}", ctrlObject);
+            ParameterDispatcher parameterDispatcher = injector.getInstance(ParameterDispatcher.class);
+            ConcurrentHashMap<String, ArrayList> classAndParam = parameterDispatcher.getRequestObjectAndParam(ctrlObject, httpRequest, httpResponse, methodName, router);
+            ArrayList<Object> classList = classAndParam.get(ParameterDispatcher.CLASS);
+            Class[] classes = classList.toArray(new Class[classList.size()]);
+            // When accessing a view, it supports view parameter parsing
+            Object[] objects = classAndParam.get(ParameterDispatcher.PARAM).toArray();
+            Method method = ctrlObject.getClass().getMethod(methodName, classes);
+            // Fix the problem of using @RestController annotation to return data results
+            if (method.isAnnotationPresent(ResponseBody.class) || clazz.isAnnotationPresent(RestController.class)) {
+                try {
+                    content = GSON.toJson(method.invoke(ctrlObject, classAndParam.get(ParameterDispatcher.PARAM).toArray()));
+                    httpResponse.setStatus(HttpResponseStatus.OK);
+                }
+                catch (InvocationTargetException ex) {
+                    if (ex.getCause().getClass() == NettyException.class) {
+                        NettyException exception = (NettyException) ex.getCause();
+                        content = GSON.toJson(exception);
+                    }
+                    else {
+                        ex.printStackTrace();
+                        content = GSON.toJson(new NettyException(500, ex.getCause().getMessage()));
+                    }
+                    httpResponse.setStatus(HttpResponseStatus.BAD_GATEWAY);
+                }
+                httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.APPLICATION_JSON));
+            }
+            else if (clazz.isAnnotationPresent(Controller.class)) {
+                String viewName = String.valueOf(method.invoke(ctrlObject, objects));
+                freemarkerConfiguration.setClassForTemplateLoading(this.getClass(), getTemplatePath());
+                Template template = freemarkerConfiguration.getTemplate(viewName + PropertiesUtils.getStringValue(configuration,
+                        NettyConfiguration.VIEW_TEMPLATE_SUFFIX,
+                        NettyConfigurationDefault.VIEW_TEMPLATE_SUFFIX));
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                // In view, we only need to extract the first one
+                template.process(objects[0], new OutputStreamWriter(outputStream));
+                content = outputStream.toString(CharsetUtil.UTF_8.name());
+                httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.TEXT_HTML));
+            }
+            else {
+                // TODO: We don't do any processing here for the time being, and we will support it later
+                LOGGER.warn("We don't do any processing here for the time being, and we will support it later");
+            }
         }
         httpResponse.content().writeBytes(Unpooled.copiedBuffer(content, CharsetUtil.UTF_8));
     }
