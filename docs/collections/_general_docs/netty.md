@@ -86,7 +86,7 @@ We need to use @RestController and @RequestMapping, @RequestParam combination an
 ### Available annotation
 
 - `@RestController`: Used to mark whether the class is injected into the system as an interface provider
-- `RequestMapping`: The access path used to mark the interface address
+- `@RequestMapping`: The access path used to mark the interface address
 - `@RequestBody`: Tag data request format, generally JSON
 - `@RequestParam`: Access parameters, such as `?name=12&title=13`
 - `@Controller`: Used to mark the view type interface

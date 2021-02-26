@@ -72,3 +72,7 @@ Injector injector = Guice.createInjector(new ClickHouseModule(path));
 
 > Warning: `path` The absolute path of the configuration file, usually `conf/catalog/clickhouse.properties`
 {: .explainer}
+
+### Available annotation
+
+- `@ClickHouseSource`: It is used to distinguish the data sources used in the case of multiple sources
