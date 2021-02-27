@@ -63,3 +63,8 @@ Injector injector = Guice.createInjector(new ConfigurationModule(path), new Hika
 
 > Warning: `path` The absolute path of the configuration file, usually `conf/catalog/postgresql.properties`
 {: .explainer}
+
+### Available annotation
+
+- `@PostgresSource`: It is used to distinguish the data sources used in the case of multiple sources
+
