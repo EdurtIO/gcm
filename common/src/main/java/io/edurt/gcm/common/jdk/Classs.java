@@ -18,12 +18,15 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import static java.lang.String.format;
 
@@ -33,6 +36,7 @@ public class Classs
     public static final String TYPE_FILE = "file";
     public static final String PACKAGE_SCANNER = ".";
     public static final String ENCODE = "UTF-8";
+    private static final ClassLoader classLoader = Classs.class.getClassLoader();
 
     private Classs()
     {}
@@ -60,7 +64,7 @@ public class Classs
                     scanClassesInFilePackage(scanPackage, URLDecoder.decode(url.getFile(), ENCODE), classes);
                 }
                 else {
-                    // TODO: If it is jar, scan and parse all the files in jar
+                    scanClassesInJarPackage(scanPackage, classes);
                 }
             }
         }
@@ -108,5 +112,44 @@ public class Classs
                 }
             }
         });
+    }
+
+    private static void scanClassesInJarPackage(String packageName, Set<Class<?>> classes)
+    {
+        packageName = packageName.replace(".", "/");
+        JarFile jarFile = null;
+        try {
+            URL url = classLoader.getResource(packageName);
+            JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
+            jarFile = jarURLConnection.getJarFile();
+        }
+        catch (IOException ex) {
+            LOGGER.error("Load jar file from {} error", ex);
+        }
+        Enumeration<JarEntry> jarEntries = jarFile.entries();
+        while (jarEntries.hasMoreElements()) {
+            JarEntry jarEntry = jarEntries.nextElement();
+            String jarEntryName = jarEntry.getName();
+            if (jarEntryName.contains(packageName) && !jarEntryName.equals(packageName + "/")) {
+                if (jarEntry.isDirectory()) {
+                    String clazzName = jarEntry.getName().replace("/", ".");
+                    int endIndex = clazzName.lastIndexOf(".");
+                    String prefix = null;
+                    if (endIndex > 0) {
+                        prefix = clazzName.substring(0, endIndex);
+                    }
+                    scanClassesInJarPackage(prefix, classes);
+                }
+                if (jarEntry.getName().endsWith(".class")) {
+                    try {
+                        Class<?> clazz = classLoader.loadClass(jarEntry.getName().replace("/", ".").replace(".class", ""));
+                        classes.add(clazz);
+                    }
+                    catch (ClassNotFoundException e) {
+                        LOGGER.error("Class {} not found from jar file {}", jarEntry.getName(), packageName);
+                    }
+                }
+            }
+        }
     }
 }
