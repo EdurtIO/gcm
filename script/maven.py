@@ -32,7 +32,7 @@ def set_version(version=None):
     :param version: new version
     """
     if version is None:
-        print('set version must not null')
+        print('Set version must not null!')
     old_version = get_version()
     if version == old_version:
         print('Set new version <%s> equals old version <%s>, skip it!' % (version, old_version))
