@@ -35,7 +35,7 @@ public class PostgreSQLHikariMultipleModule
         this.configuration = String.join(File.separator, System.getProperty("user.dir"),
                 "conf",
                 "catalog",
-                "mysql.properties");
+                "postgresql.properties");
     }
 
     @Override
