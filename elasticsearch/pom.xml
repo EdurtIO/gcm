@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>incubator-gcm</artifactId>
+        <groupId>io.edurt.gcm</groupId>
+        <version>1.0.9-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>gcm-elasticsearch</artifactId>
+    <name>Gcm for Elasticsearch Component</name>
+
+    <properties>
+        <dependency.elasticsearch.version>5.6.3</dependency.elasticsearch.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>${dependency.elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-test</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

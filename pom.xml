@@ -23,6 +23,7 @@
         <module>script</module>
         <module>presto</module>
         <module>example</module>
+        <module>elasticsearch</module>
     </modules>
 
     <url>https://gcm.incubator.edurt.io</url>
