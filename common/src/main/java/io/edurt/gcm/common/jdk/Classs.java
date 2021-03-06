@@ -125,6 +125,7 @@ public class Classs
         }
         catch (IOException ex) {
             LOGGER.error("Load jar file from {} error", ex);
+            return;
         }
         Enumeration<JarEntry> jarEntries = jarFile.entries();
         while (jarEntries.hasMoreElements()) {

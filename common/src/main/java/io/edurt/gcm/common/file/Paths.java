@@ -19,6 +19,9 @@ import static java.lang.String.join;
 
 public class Paths
 {
+    private Paths()
+    {}
+
     public static String getProjectHome()
     {
         return System.getProperty("user.dir");
