@@ -53,8 +53,8 @@ public class Classs
         try {
             Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(scanPackage.replace(PACKAGE_SCANNER, "/"));
             if (!urls.hasMoreElements()) {
-                LOGGER.error("Scan package {} not exists!", scanPackage);
-                throw new RuntimeException(format("Scan package %s not exists", scanPackage));
+                LOGGER.error("Scan package {} not has controller!", scanPackage);
+                return classes;
             }
             while (urls.hasMoreElements()) {
                 URL url = urls.nextElement();
