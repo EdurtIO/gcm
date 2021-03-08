@@ -37,6 +37,7 @@ import static java.lang.String.format;
 public class RouterScan
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(RouterScan.class);
+    public static final String URL_PREFIX = "/";
 
     private RouterScan()
     {}
@@ -75,7 +76,14 @@ public class RouterScan
                                                 Set<RequestMethod> requestMethods = new HashSet<>();
                                                 Arrays.stream(mapping.method()).forEach(requestMethod -> requestMethods.add(requestMethod));
                                                 Set<String> urls = new HashSet<>();
-                                                Arrays.stream(mapping.value()).forEach(url -> urls.add(url));
+                                                Arrays.stream(mapping.value())
+                                                        .map(url -> {
+                                                            if (!url.startsWith(URL_PREFIX)) {
+                                                                url = URL_PREFIX + url;
+                                                            }
+                                                            return url;
+                                                        })
+                                                        .forEach(url -> urls.add(url));
                                                 Router router = ObjectBuilder.of(Router::new)
                                                         .with(Router::setMethods, requestMethods)
                                                         .with(Router::setMethod, method)
