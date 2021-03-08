@@ -25,8 +25,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static java.lang.String.format;
-
 public class RouterMapping
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(RouterMapping.class);
@@ -48,8 +46,10 @@ public class RouterMapping
         }
         LOGGER.debug("Current scan mapping {} method {}", clazz.getSimpleName(), method.getName());
         if (ObjectUtils.isEmpty(mappingValues) || mappingValues.length < 1) {
-            throw new RuntimeException(format("The class <%s> that identifies @GetMapping must contain the actual access address.",
-                    clazz.getCanonicalName()));
+            LOGGER.debug("The <{}> method in the current class <{}> does not specify any access method or path, skipping this scan",
+                    clazz.getCanonicalName(),
+                    method.getName());
+            return;
         }
         RequestMethod finalRequestMethod = requestMethod;
         Arrays.stream(mappingValues)
