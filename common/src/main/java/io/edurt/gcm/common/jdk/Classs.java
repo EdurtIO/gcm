@@ -13,6 +13,7 @@
  */
 package io.edurt.gcm.common.jdk;
 
+import io.edurt.gcm.common.file.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +55,7 @@ public class Classs
             Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(scanPackage.replace(PACKAGE_SCANNER, "/"));
             if (!urls.hasMoreElements()) {
                 LOGGER.error("Scan package {} not has controller!", scanPackage);
-                return classes;
+                urls = scanJarInProject();
             }
             while (urls.hasMoreElements()) {
                 URL url = urls.nextElement();
@@ -64,7 +65,7 @@ public class Classs
                     scanClassesInFilePackage(scanPackage, URLDecoder.decode(url.getFile(), ENCODE), classes);
                 }
                 else {
-                    scanClassesInJarPackage(scanPackage, classes);
+                    scanClassesInJarPackage(scanPackage, classes, url);
                 }
             }
         }
@@ -86,7 +87,7 @@ public class Classs
         // Get the directory of this package and create a file
         File directory = new File(packagePath);
         if (!directory.exists() || !directory.isDirectory()) {
-            LOGGER.error("Scan package {} not exists!", directory);
+            LOGGER.error("Scan package {} in jar file not exists!", directory);
             return;
         }
         // If it exists, get all the. Class files and subdirectories under the package
@@ -114,12 +115,12 @@ public class Classs
         });
     }
 
-    private static void scanClassesInJarPackage(String packageName, Set<Class<?>> classes)
+    private static void scanClassesInJarPackage(String packageName, Set<Class<?>> classes, URL url)
     {
         packageName = packageName.replace(".", "/");
-        JarFile jarFile = null;
+        JarFile jarFile;
         try {
-            URL url = classLoader.getResource(packageName);
+            LOGGER.info("Load jar file from {}", url);
             JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
             jarFile = jarURLConnection.getJarFile();
         }
@@ -139,7 +140,7 @@ public class Classs
                     if (endIndex > 0) {
                         prefix = clazzName.substring(0, endIndex);
                     }
-                    scanClassesInJarPackage(prefix, classes);
+                    scanClassesInJarPackage(prefix, classes, url);
                 }
                 if (jarEntry.getName().endsWith(".class")) {
                     try {
@@ -152,5 +153,18 @@ public class Classs
                 }
             }
         }
+    }
+
+    /**
+     * Scan all jar for project home
+     *
+     * @return All jar URl
+     * @throws IOException
+     */
+    public static Enumeration<URL> scanJarInProject()
+            throws IOException
+    {
+        LOGGER.info("Scan jar on project home {}", Paths.getProjectHome());
+        return classLoader.getResources("META-INF");
     }
 }
