@@ -44,7 +44,7 @@ String path = "/etc/conf/catalog/elasticsearch.properties";
 Injector injector = Guice.createInjector(new ElasticsearchModule(path));
 
 @Inject
-private elasticsearch client;
+private ElasticsearchClient client;
 ```
 
 > Warning: `path` The absolute path of the configuration file, usually `conf/catalog/elasticsearch.properties`
