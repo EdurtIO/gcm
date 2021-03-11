@@ -41,4 +41,10 @@ public class TestController
     {
         return id;
     }
+
+    @GetMapping(value = "test/non/parameter")
+    public String nonParameter()
+    {
+        return "NonParameter";
+    }
 }

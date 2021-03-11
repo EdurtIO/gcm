@@ -77,12 +77,7 @@ public class RouterScan
                                                 Arrays.stream(mapping.method()).forEach(requestMethod -> requestMethods.add(requestMethod));
                                                 Set<String> urls = new HashSet<>();
                                                 Arrays.stream(mapping.value())
-                                                        .map(url -> {
-                                                            if (!url.startsWith(URL_PREFIX)) {
-                                                                url = URL_PREFIX + url;
-                                                            }
-                                                            return url;
-                                                        })
+                                                        .map(url -> getUrl(url))
                                                         .forEach(url -> urls.add(url));
                                                 Router router = ObjectBuilder.of(Router::new)
                                                         .with(Router::setMethods, requestMethods)
@@ -106,5 +101,13 @@ public class RouterScan
             });
         }
         return routers;
+    }
+
+    public static String getUrl(String url)
+    {
+        if (!url.startsWith(URL_PREFIX)) {
+            url = URL_PREFIX + url;
+        }
+        return url;
     }
 }

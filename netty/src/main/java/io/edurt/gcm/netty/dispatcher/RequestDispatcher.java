@@ -20,6 +20,7 @@ import io.edurt.gcm.netty.router.Router;
 import io.edurt.gcm.netty.router.Routers;
 import io.edurt.gcm.netty.type.Charseter;
 import io.edurt.gcm.netty.type.ContentType;
+import io.edurt.gcm.netty.view.ParamModel;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -106,7 +107,7 @@ public class RequestDispatcher
             ArrayList<Object> classList = classAndParam.get(ParameterDispatcher.CLASS);
             Class[] classes = classList.toArray(new Class[classList.size()]);
             // When accessing a view, it supports view parameter parsing
-            Object[] objects = classAndParam.get(ParameterDispatcher.PARAM).toArray();
+            ArrayList<Object> objects = classAndParam.get(ParameterDispatcher.PARAM);
             Method method = ctrlObject.getClass().getMethod(methodName, classes);
             // Fix the problem of using @RestController annotation to return data results
             if (method.isAnnotationPresent(ResponseBody.class) || clazz.isAnnotationPresent(RestController.class)) {
@@ -128,14 +129,21 @@ public class RequestDispatcher
                 httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.APPLICATION_JSON));
             }
             else if (clazz.isAnnotationPresent(Controller.class)) {
-                String viewName = String.valueOf(method.invoke(ctrlObject, objects));
+                String viewName;
+                if (ObjectUtils.isEmpty(objects) || objects.size() <= 0) {
+                    objects.add(new ParamModel());
+                    viewName = String.valueOf(method.invoke(ctrlObject));
+                }
+                else {
+                    viewName = String.valueOf(method.invoke(ctrlObject, objects.toArray()));
+                }
                 freemarkerConfiguration.setClassForTemplateLoading(this.getClass(), getTemplatePath());
                 Template template = freemarkerConfiguration.getTemplate(viewName + PropertiesUtils.getStringValue(configuration,
                         NettyConfiguration.VIEW_TEMPLATE_SUFFIX,
                         NettyConfigurationDefault.VIEW_TEMPLATE_SUFFIX));
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 // In view, we only need to extract the first one
-                template.process(objects[0], new OutputStreamWriter(outputStream));
+                template.process(objects.get(0), new OutputStreamWriter(outputStream));
                 content = outputStream.toString(CharsetUtil.UTF_8.name());
                 httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.TEXT_HTML));
             }

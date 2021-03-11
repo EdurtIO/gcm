@@ -22,6 +22,6 @@ public class ElasticsearchModuleExample
         String classpath = ElasticsearchModuleExample.class.getResource("/databases/nosql/elasticsearch.properties").getPath();
         LOGGER.info("Load configuration from {}", classpath);
         ElasticsearchModuleExample example = Guice.createInjector(new ElasticsearchModule(classpath)).getInstance(ElasticsearchModuleExample.class);
-        example.client.getRestClient();
+        System.out.println(example.client.getRestClient());
     }
 }

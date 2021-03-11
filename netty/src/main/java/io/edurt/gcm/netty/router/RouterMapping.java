@@ -53,12 +53,7 @@ public class RouterMapping
         }
         RequestMethod finalRequestMethod = requestMethod;
         Arrays.stream(mappingValues)
-                .map(url -> {
-                    if (!url.startsWith(RouterScan.URL_PREFIX)) {
-                        url = RouterScan.URL_PREFIX + url;
-                    }
-                    return url;
-                })
+                .map(url -> RouterScan.getUrl(url))
                 .forEach(value -> {
                     Router router = ObjectBuilder.of(Router::new)
                             .with(Router::setMethods, new HashSet<RequestMethod>()
