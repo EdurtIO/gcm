@@ -24,6 +24,7 @@
         <module>presto</module>
         <module>example</module>
         <module>elasticsearch</module>
+        <module>hive</module>
     </modules>
 
     <url>https://gcm.incubator.edurt.io</url>
