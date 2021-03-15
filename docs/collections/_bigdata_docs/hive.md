@@ -39,6 +39,7 @@ jdbc.hive.cachePrepStmts=true
 jdbc.hive.prepStmtCacheSize=250
 jdbc.hive.prepStmtCacheSqlLimit=2048
 jdbc.hive.useServerPrepStmts=true
+jdbc.hive.scan.mapper.package=io.edurt.gcm.hive.mapper
 ```
 
 |Name|Description|Default|
