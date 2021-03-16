@@ -10,6 +10,7 @@ Hive component is used to inject Hive into Guice container. After the configurat
 
 - Support Hive version for 2.x - 3.x
 - Support custom configuration
+- Support hive to share with other data sources
 
 ### How to use
 
@@ -71,3 +72,7 @@ Injector injector = Guice.createInjector(new HiveModule(path));
 
 > Warning: `path` The absolute path of the configuration file, usually `conf/catalog/hive.properties`
 {: .explainer}
+
+### Available annotation
+
+- `@HiveSource`: It is used to distinguish the data sources used in the case of multiple sources
