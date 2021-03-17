@@ -11,3 +11,5 @@ At present, GCM system supports the following common operation modules.
 3. [Common Utils](/general/common/)
 4. [Netty Framework](/general/netty/)
 5. [Test Framework](/general/test/)
+    1. [Junit](/general/test/junit/)
+    2. [MyBatis](/general/test/mybatis/)

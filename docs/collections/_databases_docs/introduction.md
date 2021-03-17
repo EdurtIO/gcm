@@ -6,6 +6,10 @@ order: 1
 
 At present, GCM system supports the following database operation modules.
 
-1. [MySQL(Hikaricp)](/databases/sql/mysql/) 
-2. [Redis](/databases/nosql/redis/)
-3. [PostgreSQL(Hikaricp)](/databases/sql/postgresql/) 
+1. SQL
+    1. [MySQL(Hikaricp)](/databases/sql/mysql/)
+    2. [PostgreSQL(Hikaricp)](/databases/sql/postgresql/) 
+2. NoSQL
+   1. [Redis](/databases/nosql/redis/)
+   2. [Elasticsearch](/databases/nosql/elasticsearch/)
+   
