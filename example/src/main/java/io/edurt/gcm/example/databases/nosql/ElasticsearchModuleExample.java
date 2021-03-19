@@ -11,9 +11,6 @@ public class ElasticsearchModuleExample
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElasticsearchModuleExample.class);
 
-    private ElasticsearchModuleExample()
-    {}
-
     @Inject
     private ElasticsearchClient client;
 
