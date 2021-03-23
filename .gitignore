@@ -23,3 +23,6 @@ venv
 script/tmp
 
 __pycache__
+
+derby.log
+derby
