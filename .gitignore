@@ -25,4 +25,5 @@ script/tmp
 __pycache__
 
 derby.log
-derby
+derby/derbyDB
+derby/derby.log
