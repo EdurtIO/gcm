@@ -18,7 +18,6 @@ import io.edurt.gcm.derby.mapper.TestMapper;
 import io.edurt.gcm.derby.model.TestModel;
 import io.edurt.gcm.test.annotation.JunitModuleLoader;
 import io.edurt.gcm.test.runner.JunitRunner;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -39,9 +38,6 @@ public class TestDerbyModule
                 .build();
         mapper.insert(model);
     }
-
-    @Inject
-    private SqlSessionFactory factory;
 
     @Test
     public void testGetAll()
