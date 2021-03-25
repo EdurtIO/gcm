@@ -2,6 +2,12 @@
 
 Google Guice component management System!
 
+gcm is an acronym for Guice Component Management, which is used to simplify various service components based on the Guice container.
+It allows you to quickly use certain components without having to write the logic of certain components.
+It is just a set of Bridges integrated into the Guice container, and the specific business implementation needs to be customized by users.
+It's easy to get started, it's quick, and it doesn't have too much redundancy, so you can inject it into an existing Guice container anytime, anywhere.
+Come and experience it!
+
 ### Status
 
 [![GitHub license](https://img.shields.io/github/license/EdurtIO/incubator-gcm?label=license&style=for-the-badge)](https://github.com/EdurtIO/incubator-gcm/blob/master/LICENSE)
