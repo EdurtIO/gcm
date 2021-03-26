@@ -26,6 +26,7 @@
         <module>elasticsearch</module>
         <module>hive</module>
         <module>derby</module>
+        <module>sqllite</module>
     </modules>
 
     <url>https://gcm.incubator.edurt.io</url>
