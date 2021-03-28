@@ -20,6 +20,7 @@ import io.prestosql.client.Column;
 import io.prestosql.client.QueryError;
 import io.prestosql.client.QueryStatusInfo;
 import io.prestosql.client.StatementClient;
+import io.prestosql.client.StatementStats;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,6 +86,18 @@ public class PrestoApiClient
                         long end = System.currentTimeMillis();
                         allData.put("endTime", end);
                         allData.put("elapsedTime", (end - start));
+                        StatementStats stats = client.getStats();
+                        if (ObjectUtils.isNotEmpty(stats)) {
+                            allData.put("wallTimeMillis", stats.getWallTimeMillis());
+                            allData.put("cpuTimeMillis", stats.getCpuTimeMillis());
+                            allData.put("elapsedTimeMillis", stats.getElapsedTimeMillis());
+                            allData.put("queueTimeMillis", stats.getQueuedTimeMillis());
+                            allData.put("processedBytes", stats.getProcessedBytes());
+                            allData.put("peakMemoryBytes", stats.getPeakMemoryBytes());
+                            allData.put("spilledBytes", stats.getSpilledBytes());
+                            allData.put("processedRows", stats.getProcessedRows());
+                            allData.put("nodes", stats.getNodes());
+                        }
                         LOGGER.info("End execute session query {}", System.currentTimeMillis());
                     }
                 }
