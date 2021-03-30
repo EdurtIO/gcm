@@ -87,17 +87,18 @@ public class ParameterDispatcher
                     else if (parameter.getAnnotation(RequestParam.class) != null) {
                         LOGGER.debug("Processing data information carried by RequestParam");
                         String requestParamKey = parameter.getAnnotation(RequestParam.class).value();
+                        String defaultValue = parameter.getAnnotation(RequestParam.class).defaultValue();
                         String requestParamVal = requestParams.get(requestParamKey);
                         if (parameterClass == Long.class) {
-                            paramList.add(Long.valueOf(requestParamVal));
+                            paramList.add(Long.valueOf(getParamValue(requestParamVal, defaultValue)));
                             classList.add(Long.class);
                         }
                         else if (parameterClass == Integer.class) {
-                            paramList.add(Integer.valueOf(requestParamVal));
+                            paramList.add(Integer.valueOf(getParamValue(requestParamVal, defaultValue)));
                             classList.add(Integer.class);
                         }
                         else {
-                            paramList.add(String.valueOf(requestParamVal));
+                            paramList.add(getParamValue(requestParamVal, defaultValue));
                             classList.add(String.class);
                         }
                     }
@@ -113,7 +114,8 @@ public class ParameterDispatcher
                     }
                     else if (ObjectUtils.isNotEmpty(parameter.getAnnotation(PathVariable.class))) {
                         Map<String, String> params = HttpPathHandler.getParams(request.uri(), router.getUrls().toArray(new String[0]));
-                        paramList.add(params.get(parameter.getAnnotation(PathVariable.class).value()));
+                        paramList.add(getParamValue(params.get(parameter.getAnnotation(PathVariable.class).value()),
+                                params.get(parameter.getAnnotation(PathVariable.class).defaultValue())));
                         classList.add(parameterClass);
                     }
                     else {
@@ -169,5 +171,15 @@ public class ParameterDispatcher
             LOGGER.warn("Unable to get instance of request body parameter through client");
         }
         return params;
+    }
+
+    private String getParamValue(String value, String defaultValue)
+    {
+        if (value == null) {
+            return defaultValue;
+        }
+        else {
+            return value;
+        }
     }
 }

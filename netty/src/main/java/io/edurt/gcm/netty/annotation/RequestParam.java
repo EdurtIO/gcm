@@ -29,6 +29,8 @@ public @interface RequestParam
 {
     String value() default "";
 
+    String defaultValue() default "";
+
     String name() default "";
 
     boolean required() default true;
