@@ -19,6 +19,7 @@ import com.google.inject.Singleton;
 import io.edurt.gcm.netty.annotation.PathVariable;
 import io.edurt.gcm.netty.annotation.RequestBody;
 import io.edurt.gcm.netty.annotation.RequestParam;
+import io.edurt.gcm.netty.exception.NettyException;
 import io.edurt.gcm.netty.handler.HttpPathHandler;
 import io.edurt.gcm.netty.router.Router;
 import io.edurt.gcm.netty.view.ParamModel;
@@ -60,72 +61,77 @@ public class ParameterDispatcher
      * @throws ClassNotFoundException Class.forName
      */
     public ConcurrentHashMap<String, ArrayList> getRequestObjectAndParam(Object clazz, FullHttpRequest request, FullHttpResponse response, String requestMethodName, Router router)
-            throws ClassNotFoundException
+            throws NettyException
     {
         Map<String, String> requestParams = getRequestParam(request);
         Method[] methods = clazz.getClass().getMethods();
         ArrayList<Class> classList = new ArrayList<>();
         ArrayList<Object> paramList = new ArrayList<>();
-        for (Method method : methods) {
-            if (method.getName().equals(requestMethodName)) {
-                for (Parameter parameter : method.getParameters()) {
-                    Class parameterClass = Class.forName(parameter.getType().getTypeName());
-                    if (parameterClass == FullHttpRequest.class) {
-                        LOGGER.debug("Processing data information carried by FullHttpRequest");
-                        paramList.add(request);
-                        classList.add(parameterClass);
-                    }
-                    else if (parameterClass == FullHttpResponse.class) {
-                        LOGGER.debug("Processing data information carried by FullHttpResponse");
-                        paramList.add(response);
-                        classList.add(parameterClass);
-                    }
-                    else if (parameterClass == ParamModel.class) {
-                        paramList.add(new ParamModel());
-                        classList.add(parameterClass);
-                    }
-                    else if (parameter.getAnnotation(RequestParam.class) != null) {
-                        LOGGER.debug("Processing data information carried by RequestParam");
-                        String requestParamKey = parameter.getAnnotation(RequestParam.class).value();
-                        String defaultValue = parameter.getAnnotation(RequestParam.class).defaultValue();
-                        String requestParamVal = requestParams.get(requestParamKey);
-                        if (parameterClass == Long.class) {
-                            paramList.add(Long.valueOf(getParamValue(requestParamVal, defaultValue)));
-                            classList.add(Long.class);
+        try {
+            for (Method method : methods) {
+                if (method.getName().equals(requestMethodName)) {
+                    for (Parameter parameter : method.getParameters()) {
+                        Class parameterClass = Class.forName(parameter.getType().getTypeName());
+                        if (parameterClass == FullHttpRequest.class) {
+                            LOGGER.debug("Processing data information carried by FullHttpRequest");
+                            paramList.add(request);
+                            classList.add(parameterClass);
                         }
-                        else if (parameterClass == Integer.class) {
-                            paramList.add(Integer.valueOf(getParamValue(requestParamVal, defaultValue)));
-                            classList.add(Integer.class);
+                        else if (parameterClass == FullHttpResponse.class) {
+                            LOGGER.debug("Processing data information carried by FullHttpResponse");
+                            paramList.add(response);
+                            classList.add(parameterClass);
+                        }
+                        else if (parameterClass == ParamModel.class) {
+                            paramList.add(new ParamModel());
+                            classList.add(parameterClass);
+                        }
+                        else if (parameter.getAnnotation(RequestParam.class) != null) {
+                            LOGGER.debug("Processing data information carried by RequestParam");
+                            String requestParamKey = parameter.getAnnotation(RequestParam.class).value();
+                            String defaultValue = parameter.getAnnotation(RequestParam.class).defaultValue();
+                            String requestParamVal = requestParams.get(requestParamKey);
+                            if (parameterClass == Long.class) {
+                                paramList.add(Long.valueOf(getParamValue(requestParamVal, defaultValue)));
+                                classList.add(Long.class);
+                            }
+                            else if (parameterClass == Integer.class) {
+                                paramList.add(Integer.valueOf(getParamValue(requestParamVal, defaultValue)));
+                                classList.add(Integer.class);
+                            }
+                            else {
+                                paramList.add(getParamValue(requestParamVal, defaultValue));
+                                classList.add(String.class);
+                            }
+                        }
+                        else if (parameter.getAnnotation(RequestBody.class) != null) {
+                            LOGGER.debug("Processing data information carried by RequestBody");
+                            ByteBuf bf = request.content();
+                            byte[] byteArray = new byte[bf.capacity()];
+                            bf.readBytes(byteArray);
+                            // The original data type should be used here, otherwise class conversion error will occur. The following is an error example:
+                            // Caused by: java.lang.ClassCastException: com.google.gson.internal.LinkedTreeMap cannot be xxxx
+                            paramList.add(GSON.fromJson(new String(byteArray, Charset.forName("UTF-8")), parameter.getParameterizedType()));
+                            classList.add(parameterClass);
+                        }
+                        else if (ObjectUtils.isNotEmpty(parameter.getAnnotation(PathVariable.class))) {
+                            Map<String, String> params = HttpPathHandler.getParams(request.uri(), router.getUrls().toArray(new String[0]));
+                            paramList.add(getParamValue(params.get(parameter.getAnnotation(PathVariable.class).value()),
+                                    params.get(parameter.getAnnotation(PathVariable.class).defaultValue())));
+                            classList.add(parameterClass);
                         }
                         else {
-                            paramList.add(getParamValue(requestParamVal, defaultValue));
-                            classList.add(String.class);
+                            LOGGER.debug("Ignore it if it is not resolved");
+                            paramList.add(null);
+                            classList.add(Object.class);
                         }
                     }
-                    else if (parameter.getAnnotation(RequestBody.class) != null) {
-                        LOGGER.debug("Processing data information carried by RequestBody");
-                        ByteBuf bf = request.content();
-                        byte[] byteArray = new byte[bf.capacity()];
-                        bf.readBytes(byteArray);
-                        // The original data type should be used here, otherwise class conversion error will occur. The following is an error example:
-                        // Caused by: java.lang.ClassCastException: com.google.gson.internal.LinkedTreeMap cannot be xxxx
-                        paramList.add(GSON.fromJson(new String(byteArray, Charset.forName("UTF-8")), parameter.getParameterizedType()));
-                        classList.add(parameterClass);
-                    }
-                    else if (ObjectUtils.isNotEmpty(parameter.getAnnotation(PathVariable.class))) {
-                        Map<String, String> params = HttpPathHandler.getParams(request.uri(), router.getUrls().toArray(new String[0]));
-                        paramList.add(getParamValue(params.get(parameter.getAnnotation(PathVariable.class).value()),
-                                params.get(parameter.getAnnotation(PathVariable.class).defaultValue())));
-                        classList.add(parameterClass);
-                    }
-                    else {
-                        LOGGER.debug("Ignore it if it is not resolved");
-                        paramList.add(null);
-                        classList.add(Object.class);
-                    }
+                    break;
                 }
-                break;
             }
+        }
+        catch (ClassNotFoundException ex) {
+            throw new NettyException(500, ex.getMessage());
         }
         return new ConcurrentHashMap<String, ArrayList>()
         {{

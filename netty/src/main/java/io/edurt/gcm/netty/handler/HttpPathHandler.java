@@ -62,8 +62,8 @@ public class HttpPathHandler
     {
         Map<String, String> params = new ConcurrentHashMap<>(16);
         Matcher keyMatcher = matcherPath(routerUrl);
-        List<String> keys = new ArrayList<>(16);
-        List<String> values = new ArrayList<>(16);
+        List<String> keys = new ArrayList<>();
+        List<String> values = new ArrayList<>();
         while (keyMatcher.find()) {
             keys.add(keyMatcher.group(1).replace("{", "").replace("}", ""));
         }
@@ -72,7 +72,11 @@ public class HttpPathHandler
         if (valueMatcher.find()) {
             int count = valueMatcher.groupCount();
             for (int i = 1; i <= count; i++) {
-                values.add(valueMatcher.group(i));
+                String matcher = valueMatcher.group(i);
+                if (matcher.contains("?")) {
+                    matcher = matcher.split("\\?")[0];
+                }
+                values.add(matcher);
             }
         }
         int valueSize = values.size();

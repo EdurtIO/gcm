@@ -47,4 +47,11 @@ public class TestController
     {
         return "NonParameter";
     }
+
+    @GetMapping(value = "/path/{id}")
+    public Object path(@PathVariable(value = "id") String id,
+            @RequestParam(value = "name") String name)
+    {
+        return String.join(":", id, name);
+    }
 }
