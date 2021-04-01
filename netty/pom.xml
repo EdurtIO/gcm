@@ -48,6 +48,10 @@
             <artifactId>log4j-core</artifactId>
             <version>${dependency.log4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-test</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

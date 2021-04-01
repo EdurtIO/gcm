@@ -49,7 +49,7 @@ import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;
 public class RequestDispatcher
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(RequestDispatcher.class);
-    private static final Gson GSON = new GsonBuilder().create();
+    private static final Gson GSON = new GsonBuilder().serializeNulls().create();
     private static Properties configuration;
 
     @Inject
@@ -83,7 +83,12 @@ public class RequestDispatcher
         if (ObjectUtils.isEmpty(router)) {
             httpResponse.setStatus(HttpResponseStatus.NOT_FOUND);
             LOGGER.error("The requested path <{}> was not found or not supported it!", requestUrl);
-            content = "Oops,the requested path was not found.";
+            ErrorInfo errorInfo = new ErrorInfo();
+            errorInfo.setCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+            errorInfo.setMessage("Not Found!");
+            errorInfo.setPath(requestUrl);
+            errorInfo.setTimestamp(System.currentTimeMillis());
+            content = GSON.toJson(errorInfo);
         }
         else {
             String methodName = router.getMethod().getName();

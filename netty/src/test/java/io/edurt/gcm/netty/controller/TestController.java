@@ -54,4 +54,11 @@ public class TestController
     {
         return String.join(":", id, name);
     }
+
+    @GetMapping(value = "/path/info/{id}")
+    public Object pathInfo(@PathVariable(value = "id") String id,
+            @RequestParam(value = "name") String name)
+    {
+        return String.join(":", id, name);
+    }
 }

@@ -130,7 +130,7 @@ public class ParameterDispatcher
                 }
             }
         }
-        catch (ClassNotFoundException ex) {
+        catch (Exception ex) {
             throw new NettyException(500, ex.getMessage());
         }
         return new ConcurrentHashMap<String, ArrayList>()
