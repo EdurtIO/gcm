@@ -131,6 +131,7 @@ public class ParameterDispatcher
             }
         }
         catch (Exception ex) {
+            LOGGER.info("Convert parameter error {}", ex);
             throw new NettyException(500, ex.getMessage());
         }
         return new ConcurrentHashMap<String, ArrayList>()

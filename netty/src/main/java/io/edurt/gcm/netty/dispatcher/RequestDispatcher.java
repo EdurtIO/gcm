@@ -7,14 +7,12 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.netty.annotation.Controller;
 import io.edurt.gcm.netty.annotation.ResponseBody;
 import io.edurt.gcm.netty.annotation.RestController;
 import io.edurt.gcm.netty.configuration.NettyConfiguration;
 import io.edurt.gcm.netty.configuration.NettyConfigurationDefault;
-import io.edurt.gcm.netty.exception.NettyException;
 import io.edurt.gcm.netty.filter.SessionFilter;
 import io.edurt.gcm.netty.handler.HttpCharsetContentHandler;
 import io.edurt.gcm.netty.model.ErrorInfo;
@@ -34,9 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
@@ -146,7 +142,7 @@ public class RequestDispatcher
                     LOGGER.warn("We don't do any processing here for the time being, and we will support it later");
                 }
             }
-            catch (IOException | TemplateException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | NettyException ex) {
+            catch (Exception ex) {
                 httpResponse.setStatus(HttpResponseStatus.INTERNAL_SERVER_ERROR);
                 httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.APPLICATION_JSON));
                 ErrorInfo errorInfo = new ErrorInfo();

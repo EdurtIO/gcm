@@ -21,4 +21,12 @@
         <Class name="io.edurt.gcm.redis.provider.RedisProvider" />
         <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
     </Match>
+    <Match>
+        <Class name="io.edurt.gcm.netty.dispatcher.ParameterDispatcher" />
+        <Bug pattern="REC_CATCH_EXCEPTION" />
+    </Match>
+    <Match>
+        <Class name="io.edurt.gcm.netty.dispatcher.RequestDispatcher" />
+        <Bug pattern="REC_CATCH_EXCEPTION" />
+    </Match>
 </FindBugsFilter>
