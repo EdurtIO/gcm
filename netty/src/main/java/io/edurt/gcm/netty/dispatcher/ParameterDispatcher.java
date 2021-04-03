@@ -16,6 +16,7 @@ package io.edurt.gcm.netty.dispatcher;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Singleton;
+import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.netty.annotation.PathVariable;
 import io.edurt.gcm.netty.annotation.RequestBody;
 import io.edurt.gcm.netty.annotation.RequestParam;
@@ -31,13 +32,12 @@ import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.handler.codec.http.multipart.MemoryAttribute;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,10 +45,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Singleton
 public class ParameterDispatcher
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ParameterDispatcher.class);
-    private static final Gson GSON = new GsonBuilder().create();
     public static final String CLASS = "class";
     public static final String PARAM = "param";
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParameterDispatcher.class);
+    private static final Gson GSON = new GsonBuilder().create();
 
     /**
      * Analyze the client request, obtain the request parameters and the directed execution instance of the underlying service
@@ -111,7 +111,7 @@ public class ParameterDispatcher
                             bf.readBytes(byteArray);
                             // The original data type should be used here, otherwise class conversion error will occur. The following is an error example:
                             // Caused by: java.lang.ClassCastException: com.google.gson.internal.LinkedTreeMap cannot be xxxx
-                            paramList.add(GSON.fromJson(new String(byteArray, Charset.forName("UTF-8")), parameter.getParameterizedType()));
+                            paramList.add(GSON.fromJson(new String(byteArray, StandardCharsets.UTF_8), parameter.getParameterizedType()));
                             classList.add(parameterClass);
                         }
                         else if (ObjectUtils.isNotEmpty(parameter.getAnnotation(PathVariable.class))) {

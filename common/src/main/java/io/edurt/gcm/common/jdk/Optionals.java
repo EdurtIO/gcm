@@ -13,8 +13,8 @@
  */
 package io.edurt.gcm.common.jdk;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
+import io.edurt.gcm.common.utils.ObjectUtils;
+import io.edurt.gcm.common.utils.StringUtils;
 
 import java.util.Optional;
 

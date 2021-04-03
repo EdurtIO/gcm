@@ -13,7 +13,7 @@
  */
 package io.edurt.gcm.redis.client;
 
-import org.apache.commons.lang3.ObjectUtils;
+import io.edurt.gcm.common.utils.ObjectUtils;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 

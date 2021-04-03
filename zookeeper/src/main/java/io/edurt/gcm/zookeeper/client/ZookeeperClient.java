@@ -13,7 +13,7 @@
  */
 package io.edurt.gcm.zookeeper.client;
 
-import org.apache.commons.lang3.ObjectUtils;
+import io.edurt.gcm.common.utils.ObjectUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.zookeeper.CreateMode;

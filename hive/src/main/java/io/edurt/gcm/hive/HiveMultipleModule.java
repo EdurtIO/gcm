@@ -2,11 +2,11 @@ package io.edurt.gcm.hive;
 
 import com.google.inject.PrivateModule;
 import com.google.inject.name.Names;
+import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.hive.annotation.HiveSource;
 import io.edurt.gcm.hive.configuration.HiveConfiguration;
 import io.edurt.gcm.hive.configuration.HiveConfigurationDefault;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.MyBatisModule;

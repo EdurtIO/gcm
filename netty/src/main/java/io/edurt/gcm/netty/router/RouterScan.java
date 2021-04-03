@@ -15,11 +15,11 @@ package io.edurt.gcm.netty.router;
 
 import io.edurt.gcm.common.jdk.Classs;
 import io.edurt.gcm.common.jdk.ObjectBuilder;
+import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.netty.annotation.Controller;
 import io.edurt.gcm.netty.annotation.RequestMapping;
 import io.edurt.gcm.netty.annotation.RestController;
 import io.edurt.gcm.netty.type.RequestMethod;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,8 +36,8 @@ import static java.lang.String.format;
 
 public class RouterScan
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RouterScan.class);
     public static final String URL_PREFIX = "/";
+    private static final Logger LOGGER = LoggerFactory.getLogger(RouterScan.class);
 
     private RouterScan()
     {}

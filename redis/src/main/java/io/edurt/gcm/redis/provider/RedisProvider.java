@@ -13,10 +13,10 @@
  */
 package io.edurt.gcm.redis.provider;
 
+import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.redis.configuration.RedisConfiguration;
 import io.edurt.gcm.redis.configuration.RedisConfigurationDefault;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPoolConfig;

@@ -17,7 +17,7 @@ public enum Charseter
 {
     UTF8("UTF-8");
 
-    private String value;
+    private final String value;
 
     Charseter(String value)
     {

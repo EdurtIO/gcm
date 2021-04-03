@@ -2,8 +2,8 @@ package io.edurt.gcm.configuration;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
+import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.common.utils.PropertiesUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -15,13 +15,13 @@ package io.edurt.gcm.presto.client.api;
 
 import com.google.common.collect.Lists;
 import io.airlift.units.Duration;
+import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.presto.client.Client;
 import io.prestosql.client.Column;
 import io.prestosql.client.QueryError;
 import io.prestosql.client.QueryStatusInfo;
 import io.prestosql.client.StatementClient;
 import io.prestosql.client.StatementStats;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -14,9 +14,9 @@
 package io.edurt.gcm.test.runner.mybatis;
 
 import com.google.inject.Inject;
+import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.test.annotation.mybatis.MapperClasses;
 import io.edurt.gcm.test.runner.JunitRunner;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.ibatis.session.SqlSessionManager;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;

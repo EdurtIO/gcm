@@ -7,6 +7,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.netty.annotation.Controller;
 import io.edurt.gcm.netty.annotation.ResponseBody;
@@ -27,7 +28,6 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.util.CharsetUtil;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

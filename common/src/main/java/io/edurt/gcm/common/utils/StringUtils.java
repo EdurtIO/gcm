@@ -11,23 +11,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.netty.type;
+package io.edurt.gcm.common.utils;
 
-public enum ContentType
+public class StringUtils
 {
-    APPLICATION_JSON("application/json"),
-    TEXT_PLAN("text/plan"),
-    TEXT_HTML("text/html");
+    private StringUtils()
+    {}
 
-    private final String value;
-
-    ContentType(String value)
+    public static boolean isEmpty(final CharSequence sequence)
     {
-        this.value = value;
+        return sequence == null || sequence.length() == 0;
     }
 
-    public String getValue()
+    public static boolean isNotEmpty(final CharSequence sequence)
     {
-        return value;
+        return !isEmpty(sequence);
     }
 }

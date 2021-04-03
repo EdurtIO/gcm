@@ -17,13 +17,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import io.airlift.units.Duration;
+import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.presto.configuration.PrestoConfiguration;
 import io.prestosql.client.ClientSession;
 import io.prestosql.client.OkHttpUtil;
 import io.prestosql.client.StatementClient;
 import io.prestosql.client.StatementClientFactory;
 import okhttp3.OkHttpClient;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

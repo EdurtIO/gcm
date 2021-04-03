@@ -13,11 +13,11 @@
  */
 package io.edurt.gcm.elasticsearch;
 
+import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.elasticsearch.client.ElasticsearchClient;
 import io.edurt.gcm.elasticsearch.configuration.ElasticsearchConfiguration;
 import io.edurt.gcm.elasticsearch.configuration.ElasticsearchConfigurationDefault;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
