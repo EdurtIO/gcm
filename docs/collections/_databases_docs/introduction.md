@@ -12,4 +12,6 @@ At present, GCM system supports the following database operation modules.
 2. NoSQL
    1. [Redis](/databases/nosql/redis/)
    2. [Elasticsearch](/databases/nosql/elasticsearch/)
+3. Embedded
+   1. [Derby](/databases/embedded/derby/)
    
