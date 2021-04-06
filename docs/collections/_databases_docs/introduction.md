@@ -14,4 +14,6 @@ At present, GCM system supports the following database operation modules.
    2. [Elasticsearch](/databases/nosql/elasticsearch/)
 3. Embedded
    1. [Derby](/databases/embedded/derby/)
+   2. [H2](/databases/embedded/h2/)
+   3. [SqlLite](/databases/embedded/sqllite/)
    
