@@ -15,8 +15,10 @@ package io.edurt.gcm.netty.router;
 
 import io.edurt.gcm.common.jdk.ObjectBuilder;
 import io.edurt.gcm.common.utils.ObjectUtils;
+import io.edurt.gcm.netty.annotation.DeleteMapping;
 import io.edurt.gcm.netty.annotation.GetMapping;
 import io.edurt.gcm.netty.annotation.PostMapping;
+import io.edurt.gcm.netty.annotation.PutMapping;
 import io.edurt.gcm.netty.type.RequestMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +45,14 @@ public class RouterMapping
         if (method.isAnnotationPresent(PostMapping.class)) {
             mappingValues = method.getAnnotation(PostMapping.class).value();
             requestMethod = RequestMethod.POST;
+        }
+        if (method.isAnnotationPresent(PutMapping.class)) {
+            mappingValues = method.getAnnotation(PutMapping.class).value();
+            requestMethod = RequestMethod.PUT;
+        }
+        if (method.isAnnotationPresent(DeleteMapping.class)) {
+            mappingValues = method.getAnnotation(DeleteMapping.class).value();
+            requestMethod = RequestMethod.DELETE;
         }
         LOGGER.debug("Current scan mapping {} method {}", clazz.getSimpleName(), method.getName());
         if (ObjectUtils.isEmpty(mappingValues) || mappingValues.length < 1) {
