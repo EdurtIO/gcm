@@ -34,7 +34,7 @@ public class RouterMapping
     private RouterMapping()
     {}
 
-    public static void getMappingScan(Class clazz, Method method)
+    public static void getMappingScan(Class<?> clazz, Method method)
     {
         String[] mappingValues = new String[0];
         RequestMethod requestMethod = null;
@@ -63,7 +63,7 @@ public class RouterMapping
         }
         RequestMethod finalRequestMethod = requestMethod;
         Arrays.stream(mappingValues)
-                .map(url -> RouterScan.getUrl(url))
+                .map(url -> RouterScan.getUrl(null, url))
                 .forEach(value -> {
                     Router router = ObjectBuilder.of(Router::new)
                             .with(Router::setMethods, new HashSet<RequestMethod>()

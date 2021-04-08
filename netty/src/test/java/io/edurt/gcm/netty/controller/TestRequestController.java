@@ -11,20 +11,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.netty.annotation;
+package io.edurt.gcm.netty.controller;
 
+import io.edurt.gcm.netty.annotation.RequestMapping;
+import io.edurt.gcm.netty.annotation.RequestParam;
+import io.edurt.gcm.netty.annotation.RestController;
 import io.edurt.gcm.netty.type.RequestMethod;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Target({ElementType.METHOD, ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-public @interface RequestMapping
+@RequestMapping(value = {"/query", "/query/v1"})
+@RestController
+public class TestRequestController
 {
-    String[] value() default {};
-
-    RequestMethod[] method() default {};
+    @RequestMapping(value = "home", method = RequestMethod.GET)
+    public Object print(@RequestParam String value)
+    {
+        return value;
+    }
 }

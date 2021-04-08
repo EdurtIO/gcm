@@ -16,6 +16,7 @@ package io.edurt.gcm.netty.router;
 import io.edurt.gcm.common.jdk.Classs;
 import io.edurt.gcm.common.jdk.ObjectBuilder;
 import io.edurt.gcm.common.utils.ObjectUtils;
+import io.edurt.gcm.common.utils.StringUtils;
 import io.edurt.gcm.netty.annotation.Controller;
 import io.edurt.gcm.netty.annotation.RequestMapping;
 import io.edurt.gcm.netty.annotation.RestController;
@@ -53,10 +54,15 @@ public class RouterScan
         else {
             classes.forEach(clazz -> {
                 if (clazz.isAnnotationPresent(RestController.class) || clazz.isAnnotationPresent(Controller.class)) {
+                    String[] parentUrls = null;
+                    if (clazz.isAnnotationPresent(RequestMapping.class)) {
+                        parentUrls = clazz.getAnnotation(RequestMapping.class).value();
+                    }
                     // Filtering only includes the methods for setting the scan package, and the methods included in the base class are ignored
                     List<Method> methods = Arrays.stream(clazz.getMethods())
                             .filter(method -> method.toGenericString().contains(scanPackage))
                             .collect(Collectors.toList());
+                    String[] finalParentUrls = parentUrls;
                     methods.forEach(method -> {
                         if (method.isAnnotationPresent(RequestMapping.class)) {
                             RequestMapping mapping = method.getAnnotation(RequestMapping.class);
@@ -76,9 +82,16 @@ public class RouterScan
                                                 Set<RequestMethod> requestMethods = new HashSet<>();
                                                 Arrays.stream(mapping.method()).forEach(requestMethod -> requestMethods.add(requestMethod));
                                                 Set<String> urls = new HashSet<>();
-                                                Arrays.stream(mapping.value())
-                                                        .map(url -> getUrl(url))
-                                                        .forEach(url -> urls.add(url));
+                                                if (ObjectUtils.isNotEmpty(finalParentUrls) && finalParentUrls.length > 0) {
+                                                    Arrays.asList(finalParentUrls).forEach(parentUrl -> Arrays.stream(mapping.value())
+                                                            .map(url -> getUrl(parentUrl, url))
+                                                            .forEach(url -> urls.add(url)));
+                                                }
+                                                else {
+                                                    Arrays.stream(mapping.value())
+                                                            .map(url -> getUrl(null, url))
+                                                            .forEach(url -> urls.add(url));
+                                                }
                                                 Router router = ObjectBuilder.of(Router::new)
                                                         .with(Router::setMethods, requestMethods)
                                                         .with(Router::setMethod, method)
@@ -103,10 +116,19 @@ public class RouterScan
         return routers;
     }
 
-    public static String getUrl(String url)
+    public static String getUrl(String parentUrl, String url)
     {
-        if (!url.startsWith(URL_PREFIX)) {
-            url = URL_PREFIX + url;
+        if (StringUtils.isEmpty(parentUrl)) {
+            if (!url.startsWith(URL_PREFIX)) {
+                url = URL_PREFIX + url;
+            }
+        }
+        else {
+            if (!parentUrl.startsWith(URL_PREFIX)) {
+                url = String.join(URL_PREFIX, URL_PREFIX + parentUrl, url);
+            } else {
+                url = String.join(URL_PREFIX, parentUrl, url);
+            }
         }
         return url;
     }
