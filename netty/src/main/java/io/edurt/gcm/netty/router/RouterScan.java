@@ -126,7 +126,8 @@ public class RouterScan
         else {
             if (!parentUrl.startsWith(URL_PREFIX)) {
                 url = String.join(URL_PREFIX, URL_PREFIX + parentUrl, url);
-            } else {
+            }
+            else {
                 url = String.join(URL_PREFIX, parentUrl, url);
             }
         }

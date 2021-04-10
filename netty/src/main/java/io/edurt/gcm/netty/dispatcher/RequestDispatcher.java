@@ -115,6 +115,7 @@ public class RequestDispatcher
                 Method method = ctrlObject.getClass().getMethod(methodName, classes);
                 // Fix the problem of using @RestController annotation to return data results
                 if (method.isAnnotationPresent(ResponseBody.class) || clazz.isAnnotationPresent(RestController.class)) {
+                    httpResponse.headers().set(CONTENT_TYPE, httpCharsetContentHandler.getContentAndCharset(Charseter.UTF8, ContentType.APPLICATION_JSON));
                     content = GSON.toJson(method.invoke(ctrlObject, classAndParam.get(ParameterDispatcher.PARAM).toArray()));
                     httpResponse.setStatus(HttpResponseStatus.OK);
                 }
