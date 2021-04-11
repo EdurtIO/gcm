@@ -16,6 +16,7 @@
 
     <properties>
         <dependency.okhttp3.version>3.11.0</dependency.okhttp3.version>
+        <dependency.reflections.version>0.9.12</dependency.reflections.version>
     </properties>
 
     <dependencies>
@@ -27,6 +28,11 @@
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>${dependency.okhttp3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>${dependency.reflections.version}</version>
         </dependency>
     </dependencies>
 

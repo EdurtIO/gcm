@@ -14,18 +14,27 @@
 package io.edurt.gcm.common.jdk;
 
 import io.edurt.gcm.common.file.Paths;
+import io.edurt.gcm.common.utils.ObjectUtils;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.JarURLConnection;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -166,5 +175,49 @@ public class Classs
     {
         LOGGER.info("Scan jar on project home {}", Paths.getProjectHome());
         return classLoader.getResources("META-INF");
+    }
+
+    public static Set<Class<?>> scanClassesInProject(Class annotationClazz)
+    {
+        Set<Class<?>> classes = new HashSet<>();
+        Set<URL> jarSets = new HashSet<>();
+        try {
+            Enumeration<URL> jars = scanJarInProject();
+            while (jars.hasMoreElements()) {
+                jarSets.add(jars.nextElement());
+            }
+            URLClassLoader urlClassLoader = new URLClassLoader(jarSets.toArray(new URL[0]));
+            Reflections reflections = new Reflections(new ConfigurationBuilder()
+                    .setUrls(ClasspathHelper.forClassLoader(urlClassLoader))
+//                    .addClassLoader(Thread.currentThread().getContextClassLoader())
+                    .addScanners(new TypeAnnotationsScanner(), new SubTypesScanner(false))
+            );
+            reflections.getTypesAnnotatedWith(annotationClazz)
+                    .parallelStream()
+                    .forEach(clazz -> classes.add((Class<?>) clazz));
+        }
+        catch (Exception ex) {
+            LOGGER.error("Scan class on project error", ex);
+        }
+        return classes;
+    }
+
+    public static Set<Class<?>> scanClassesInProjectForClassLoader(Class annotationClazz)
+    {
+        Set<Class<?>> classes = new HashSet<>();
+        try {
+            Field field = ClassLoader.class.getDeclaredField("classes");
+            field.setAccessible(true);
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            Vector<Class> classVector = (Vector<Class>) field.get(classLoader);
+            classVector.stream()
+                    .filter(v -> !v.isInterface()) // filter interface
+                    .filter(v -> ObjectUtils.isNotEmpty(v.getPackage())) // filter proxy package is null
+                    .forEach(v -> classes.add(v));
+        }
+        catch (Exception ex) {
+            LOGGER.error("Scan class on project error", ex);
+        }
+        return classes;
     }
 }

@@ -29,4 +29,8 @@
         <Class name="io.edurt.gcm.netty.dispatcher.RequestDispatcher" />
         <Bug pattern="REC_CATCH_EXCEPTION" />
     </Match>
+    <Match>
+        <Class name="io.edurt.gcm.common.jdk.Classs" />
+        <Bug pattern="DP_CREATE_CLASSLOADER_INSIDE_DO_PRIVILEGED" />
+    </Match>
 </FindBugsFilter>
