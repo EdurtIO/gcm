@@ -13,9 +13,11 @@
  */
 package io.edurt.gcm.netty.controller;
 
+import io.edurt.gcm.netty.annotation.RequestBody;
 import io.edurt.gcm.netty.annotation.RequestMapping;
 import io.edurt.gcm.netty.annotation.RequestParam;
 import io.edurt.gcm.netty.annotation.RestController;
+import io.edurt.gcm.netty.model.TestModel;
 import io.edurt.gcm.netty.type.RequestMethod;
 
 @RequestMapping(value = {"/query", "/query/v1"})
@@ -24,6 +26,12 @@ public class TestRequestController
 {
     @RequestMapping(value = "home", method = RequestMethod.GET)
     public Object print(@RequestParam String value)
+    {
+        return value;
+    }
+
+    @RequestMapping(value = "/home/put", method = RequestMethod.PUT)
+    public Object put(@RequestBody TestModel value)
     {
         return value;
     }

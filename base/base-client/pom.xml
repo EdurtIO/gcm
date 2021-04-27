@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>gcm-base</artifactId>
+        <groupId>io.edurt.gcm</groupId>
+        <version>1.2.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>gcm-base-client</artifactId>
+    <name>Gcm Base for Restful API or Client</name>
+    <description>Gcm Base for Restful API or Client!</description>
+
+    <properties>
+        <dependency.okhttp.version>3.12.0</dependency.okhttp.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${dependency.okhttp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-common</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
