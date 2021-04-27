@@ -13,19 +13,18 @@
  */
 package io.edurt.gcm.netty.router;
 
-import io.edurt.gcm.common.jdk.ObjectBuilder;
 import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.netty.annotation.DeleteMapping;
 import io.edurt.gcm.netty.annotation.GetMapping;
 import io.edurt.gcm.netty.annotation.PostMapping;
 import io.edurt.gcm.netty.annotation.PutMapping;
+import io.edurt.gcm.netty.annotation.RequestMapping;
 import io.edurt.gcm.netty.type.RequestMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.HashSet;
 
 public class RouterMapping
 {
@@ -36,6 +35,10 @@ public class RouterMapping
 
     public static void getMappingScan(Class<?> clazz, Method method)
     {
+        String[] parentUrls = null;
+        if (clazz.isAnnotationPresent(RequestMapping.class)) {
+            parentUrls = clazz.getAnnotation(RequestMapping.class).value();
+        }
         String[] mappingValues = new String[0];
         RequestMethod requestMethod = null;
         if (method.isAnnotationPresent(GetMapping.class)) {
@@ -62,22 +65,8 @@ public class RouterMapping
             return;
         }
         RequestMethod finalRequestMethod = requestMethod;
+        String[] finalParentUrls = parentUrls;
         Arrays.stream(mappingValues)
-                .map(url -> RouterScan.getUrl(null, url))
-                .forEach(value -> {
-                    Router router = ObjectBuilder.of(Router::new)
-                            .with(Router::setMethods, new HashSet<RequestMethod>()
-                            {{
-                                add(finalRequestMethod);
-                            }})
-                            .with(Router::setMethod, method)
-                            .with(Router::setClazz, clazz)
-                            .with(Router::setUrls, new HashSet<String>()
-                            {{
-                                add(value);
-                            }})
-                            .build();
-                    Routers.setRouter(value, router);
-                });
+                .forEach(url -> RouterScan.addRouter(finalParentUrls, method, clazz, finalRequestMethod, url));
     }
 }

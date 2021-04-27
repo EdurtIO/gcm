@@ -21,6 +21,7 @@ import io.edurt.gcm.netty.router.Router;
 import io.edurt.gcm.netty.router.Routers;
 import io.edurt.gcm.netty.type.Charseter;
 import io.edurt.gcm.netty.type.ContentType;
+import io.edurt.gcm.netty.type.RequestMethod;
 import io.edurt.gcm.netty.view.ParamModel;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -74,7 +75,7 @@ public class RequestDispatcher
         HttpCharsetContentHandler httpCharsetContentHandler = injector.getInstance(HttpCharsetContentHandler.class);
         URI uri = URI.create(httpRequest.uri());
         String requestUrl = uri.getPath();
-        Router router = Routers.getRouter(requestUrl);
+        Router router = Routers.getRouter(requestUrl, RequestMethod.valueOf(httpRequest.method().name()));
         LOGGER.info("Obtain and analyze the client request information from {}", requestUrl);
         if (ObjectUtils.isEmpty(router)) {
             httpResponse.setStatus(HttpResponseStatus.NOT_FOUND);

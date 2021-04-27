@@ -115,7 +115,7 @@ public class ParameterDispatcher
                             classList.add(parameterClass);
                         }
                         else if (ObjectUtils.isNotEmpty(parameter.getAnnotation(PathVariable.class))) {
-                            Map<String, String> params = HttpPathHandler.getParams(request.uri(), router.getUrls().toArray(new String[0]));
+                            Map<String, String> params = HttpPathHandler.getParams(request.uri(), new String[] {router.getUrl()});
                             paramList.add(getParamValue(params.get(parameter.getAnnotation(PathVariable.class).value()),
                                     params.get(parameter.getAnnotation(PathVariable.class).defaultValue())));
                             classList.add(parameterClass);

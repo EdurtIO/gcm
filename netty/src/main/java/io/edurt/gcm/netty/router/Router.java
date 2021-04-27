@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.lang.reflect.Method;
-import java.util.Set;
 
 @Data
 @ToString
@@ -29,7 +28,7 @@ import java.util.Set;
 public class Router
 {
     private Class clazz;
-    private Set<RequestMethod> methods;
     private Method method;
-    private Set<String> urls;
+    private String url;
+    private RequestMethod requestMethod;
 }

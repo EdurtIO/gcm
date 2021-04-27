@@ -54,11 +54,10 @@ public class GcmNettyApplication
                 NettyConfiguration.ROUTER_PRINT,
                 NettyConfigurationDefault.ROUTER_PRINT);
         if (routerPrint) {
-            Routers.getRouters().entrySet().forEach(entry -> {
-                Router router = entry.getValue();
-                LOGGER.info("Mapped \"{[{}], methods {}}\" onto {}",
-                        entry.getKey(),
-                        router.getMethods(),
+            Routers.getRouters().stream().forEach(router -> {
+                LOGGER.info("Mapped \"{[{}], methods [{}]}\" onto {}",
+                        router.getUrl(),
+                        router.getRequestMethod(),
                         String.join(".", router.getClazz().getName(), router.getMethod().getName()));
             });
         }

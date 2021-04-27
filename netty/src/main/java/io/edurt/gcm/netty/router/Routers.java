@@ -1,14 +1,14 @@
 package io.edurt.gcm.netty.router;
 
 import io.edurt.gcm.common.utils.ObjectUtils;
-import io.edurt.gcm.common.utils.StringUtils;
 import io.edurt.gcm.netty.handler.HttpPathHandler;
+import io.edurt.gcm.netty.type.RequestMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class Routers
 {
@@ -16,7 +16,7 @@ public class Routers
     /**
      * Buffering all routes in the server
      */
-    private static final HashMap<String, Router> ROUTERS = new HashMap<>(256);
+    private static final Set<Router> ROUTERS = new HashSet<>(256);
 
     private Routers()
     {}
@@ -24,35 +24,37 @@ public class Routers
     /**
      * Add route buffer information
      *
-     * @param path Routing access address
      * @param router Basic routing information
      */
-    public static final void setRouter(final String path, final Router router)
+    public static final void setRouter(final Router router)
     {
-        if (StringUtils.isEmpty(path) || ObjectUtils.isEmpty(router)) {
+        if (ObjectUtils.isEmpty(router)) {
             LOGGER.warn("Load router path or router must not null");
             return;
         }
-        ROUTERS.put(path, router);
+        ROUTERS.add(router);
     }
 
-    public static final Router getRouter(String path)
+    public static final Router getRouter(String url, RequestMethod requestMethod)
     {
-        Router router = ROUTERS.get(path);
         // When the route is not extracted, the path matching parameter pattern extraction is used
-        if (ObjectUtils.isEmpty(router)) {
-            Optional<Map.Entry<String, Router>> routerEntry = ROUTERS.entrySet()
-                    .stream()
-                    .filter(entry -> HttpPathHandler.verify(path, entry.getKey()))
-                    .findFirst();
-            if (routerEntry.isPresent()) {
-                router = routerEntry.get().getValue();
-            }
+        Optional<Router> routerOptional = Routers.ROUTERS.stream()
+                .filter(router1 -> router1.getRequestMethod().equals(requestMethod) && router1.getUrl().equals(url))
+                .findAny();
+        if (routerOptional.isPresent()) {
+            return routerOptional.get();
         }
-        return router;
+        // Filter PathVariable
+        Optional<Router> pathVariableOptional = Routers.ROUTERS.stream()
+                .filter(router1 -> HttpPathHandler.verify(url, router1.getUrl()))
+                .findAny();
+        if (pathVariableOptional.isPresent()) {
+            return pathVariableOptional.get();
+        }
+        return null;
     }
 
-    public static final HashMap<String, Router> getRouters()
+    public static final Set<Router> getRouters()
     {
         return ROUTERS;
     }

@@ -26,11 +26,8 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -43,11 +40,10 @@ public class RouterScan
     private RouterScan()
     {}
 
-    public static Map<String, Router> scanRouters(String scanPackage)
+    public static void scanRouters(String scanPackage)
     {
         LOGGER.info("Scan router from {}", scanPackage);
         Set<Class<?>> classes = Classs.scanClassInPackage(scanPackage);
-        Map<String, Router> routers = new ConcurrentHashMap<>();
         if (ObjectUtils.isEmpty(classes) || classes.size() < 1) {
             LOGGER.warn("Scan router is empty from {}", scanPackage);
         }
@@ -78,28 +74,9 @@ public class RouterScan
                             }
                             // TODO: Add to the global routing controller, and then modify the route loading method
                             Arrays.stream(mapping.value())
-                                    .forEach(value -> {
-                                                Set<RequestMethod> requestMethods = new HashSet<>();
-                                                Arrays.stream(mapping.method()).forEach(requestMethod -> requestMethods.add(requestMethod));
-                                                Set<String> urls = new HashSet<>();
-                                                if (ObjectUtils.isNotEmpty(finalParentUrls) && finalParentUrls.length > 0) {
-                                                    Arrays.asList(finalParentUrls).forEach(parentUrl -> Arrays.stream(mapping.value())
-                                                            .map(url -> getUrl(parentUrl, url))
-                                                            .forEach(url -> urls.add(url)));
-                                                }
-                                                else {
-                                                    Arrays.stream(mapping.value())
-                                                            .map(url -> getUrl(null, url))
-                                                            .forEach(url -> urls.add(url));
-                                                }
-                                                Router router = ObjectBuilder.of(Router::new)
-                                                        .with(Router::setMethods, requestMethods)
-                                                        .with(Router::setMethod, method)
-                                                        .with(Router::setClazz, clazz)
-                                                        .with(Router::setUrls, urls)
-                                                        .build();
-                                                Routers.setRouter(value, router);
-                                            }
+                                    .forEach(value -> Arrays.stream(mapping.method())
+                                            .forEach(requestMethod -> Arrays.stream(mapping.value())
+                                                    .forEach(url -> addRouter(finalParentUrls, method, clazz, requestMethod, url)))
                                     );
                         }
                         else {
@@ -113,7 +90,6 @@ public class RouterScan
                 }
             });
         }
-        return routers;
     }
 
     public static String getUrl(String parentUrl, String url)
@@ -132,5 +108,29 @@ public class RouterScan
             }
         }
         return url;
+    }
+
+    public static void addRouter(String[] parentUrls, Method method, Class clazz, RequestMethod requestMethod, String url)
+    {
+        if (ObjectUtils.isNotEmpty(parentUrls) && parentUrls.length > 0) {
+            Arrays.asList(parentUrls).forEach(parentUrl -> {
+                Router router = ObjectBuilder.of(Router::new)
+                        .with(Router::setMethod, method)
+                        .with(Router::setClazz, clazz)
+                        .with(Router::setRequestMethod, requestMethod)
+                        .with(Router::setUrl, getUrl(parentUrl, url))
+                        .build();
+                Routers.setRouter(router);
+            });
+        }
+        else {
+            Router router = ObjectBuilder.of(Router::new)
+                    .with(Router::setMethod, method)
+                    .with(Router::setClazz, clazz)
+                    .with(Router::setRequestMethod, requestMethod)
+                    .with(Router::setUrl, getUrl(null, url))
+                    .build();
+            Routers.setRouter(router);
+        }
     }
 }
