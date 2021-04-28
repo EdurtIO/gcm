@@ -11,27 +11,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.base.client;
+package io.edurt.gcm.quartz.configuration;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
-
-import java.io.IOException;
-import java.util.Map;
-
-public interface RestfulConnectionFactory
-        extends AutoCloseable
+public class QuartzConfiguration
 {
-    OkHttpClient openConnection(BaseRestfulConfig config);
+    public static final String SCAN_JOB_PACKAGE = "quartz.scan.job.package";
 
-    Response postExecute(Map<String, Object> params);
-
-    Response getExecute(Map<String, Object> params)
-            throws IOException;
-
-    Response getExecute()
-            throws IOException;
-
-    default void close()
+    private QuartzConfiguration()
     {}
 }

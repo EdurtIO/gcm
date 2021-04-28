@@ -31,7 +31,7 @@ public class BasicRestfulConnectionFactory
     private static final Logger LOGGER = LoggerFactory.getLogger(BasicRestfulConnectionFactory.class);
     private String connectionUrl;
     private OkHttpClient okHttpClient;
-    private BaseRestfulConfig config;
+    private final BaseRestfulConfig config;
 
     private BasicRestfulConnectionFactory(BaseRestfulConfig config)
     {
@@ -56,10 +56,6 @@ public class BasicRestfulConnectionFactory
     @Override
     public Response postExecute(Map<String, Object> params)
     {
-        Request request = new Request.Builder()
-                .url(connectionUrl)
-                .post(null)
-                .build();
         return null;
     }
 

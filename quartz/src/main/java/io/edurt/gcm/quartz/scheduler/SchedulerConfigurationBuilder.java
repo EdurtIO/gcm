@@ -11,27 +11,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.edurt.gcm.base.client;
+package io.edurt.gcm.quartz.scheduler;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
+import java.util.Properties;
 
-import java.io.IOException;
-import java.util.Map;
-
-public interface RestfulConnectionFactory
-        extends AutoCloseable
+public interface SchedulerConfigurationBuilder
 {
-    OkHttpClient openConnection(BaseRestfulConfig config);
+    SchedulerConfigurationBuilder withManualStart();
 
-    Response postExecute(Map<String, Object> params);
-
-    Response getExecute(Map<String, Object> params)
-            throws IOException;
-
-    Response getExecute()
-            throws IOException;
-
-    default void close()
-    {}
+    SchedulerConfigurationBuilder withProperties(Properties properties);
 }

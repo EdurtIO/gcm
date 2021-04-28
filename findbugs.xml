@@ -33,4 +33,8 @@
         <Class name="io.edurt.gcm.common.jdk.Classs" />
         <Bug pattern="DP_CREATE_CLASSLOADER_INSIDE_DO_PRIVILEGED" />
     </Match>
+    <Match>
+        <Class name="io.edurt.gcm.base.client.BasicRestfulConnectionFactory" />
+        <Bug pattern="DLS_DEAD_LOCAL_STORE" />
+    </Match>
 </FindBugsFilter>

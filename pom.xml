@@ -29,6 +29,7 @@
         <module>sqllite</module>
         <module>h2</module>
         <module>base</module>
+        <module>quartz</module>
     </modules>
 
     <url>https://gcm.incubator.edurt.io</url>

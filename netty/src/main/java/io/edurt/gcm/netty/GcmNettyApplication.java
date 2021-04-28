@@ -6,7 +6,6 @@ import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.netty.configuration.NettyConfiguration;
 import io.edurt.gcm.netty.configuration.NettyConfigurationDefault;
 import io.edurt.gcm.netty.handler.HttpRequestHandler;
-import io.edurt.gcm.netty.router.Router;
 import io.edurt.gcm.netty.router.RouterScan;
 import io.edurt.gcm.netty.router.Routers;
 import io.netty.bootstrap.ServerBootstrap;
