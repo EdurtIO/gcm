@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>gcm-storage</artifactId>
+        <groupId>io.edurt.gcm.storage</groupId>
+        <version>1.2.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>gcm-storage-postgresql</artifactId>
+    <name>Gcm for PostgreSQL Component</name>
+    <description>Connect PostgreSQL server and read and write data!</description>
+
+    <properties>
+        <dependency.postgresql.version>42.2.5</dependency.postgresql.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-guice</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${dependency.postgresql.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

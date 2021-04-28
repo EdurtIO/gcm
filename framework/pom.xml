@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>incubator-gcm</artifactId>
+        <groupId>io.edurt.gcm</groupId>
+        <version>1.2.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>io.edurt.gcm.framework</groupId>
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>framework-configuration</module>
+        <module>framework-quartz</module>
+        <module>framework-netty</module>
+        <module>framework-test</module>
+    </modules>
+
+    <artifactId>gcm-framework</artifactId>
+    <name>Gcm Framework Base</name>
+    <description>Gcm Framework Base!</description>
+
+</project>
