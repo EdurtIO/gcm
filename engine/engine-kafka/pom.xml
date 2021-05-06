@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>gcm-engine</artifactId>
+        <groupId>io.edurt.gcm.engine</groupId>
+        <version>1.2.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>gcm-engine-kafka</artifactId>
+    <name>Gcm for Kafka Component</name>
+    <description>Connect kafka server and read and write data!</description>
+
+    <properties>
+        <dependency.kafka.version>0.11.0.0</dependency.kafka.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.edurt.gcm</groupId>
+            <artifactId>gcm-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${dependency.kafka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.edurt.gcm.framework</groupId>
+            <artifactId>gcm-framework-test</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

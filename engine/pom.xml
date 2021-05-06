@@ -20,10 +20,21 @@
         <module>engine-presto</module>
         <module>engine-redis</module>
         <module>engine-zookeeper</module>
+        <module>engine-kafka</module>
     </modules>
 
     <artifactId>gcm-engine</artifactId>
     <name>Gcm Engine Base</name>
     <description>Gcm Engine Base!</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.edurt.gcm.framework</groupId>
+                <artifactId>gcm-framework-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
