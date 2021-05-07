@@ -1,6 +1,6 @@
 ---
 title: Zookeeper
-category: General
+category: Engine
 order: 2
 ---
 
@@ -19,6 +19,18 @@ Zookeeper component is used to inject Zookeeper into Guice container. After the 
     <groupId>io.edurt.gcm</groupId>
     <artifactId>gcm-zookeeper</artifactId>
     <version>[1.0.0, )</version>
+</dependency>
+```
+
+> Warning:  >= 1.2.0 has been replaced with the following usage
+{: .explainer}
+
+```xml
+
+<dependency>
+    <groupId>io.edurt.gcm.engine</groupId>
+    <artifactId>gcm-framework-engine</artifactId>
+    <version>[1.2.0, )</version>
 </dependency>
 ```
 

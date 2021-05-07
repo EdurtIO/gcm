@@ -1,6 +1,6 @@
 ---
 title: Redis
-category: NoSQL
+category: Engine
 order: 2
 ---
 
@@ -20,6 +20,18 @@ Redis component is used to inject Redis into Guice container. After the configur
     <groupId>io.edurt.gcm</groupId>
     <artifactId>gcm-redis</artifactId>
     <version>[1.0.0, )</version>
+</dependency>
+```
+
+> Warning:  >= 1.2.0 has been replaced with the following usage
+{: .explainer}
+
+```xml
+
+<dependency>
+    <groupId>io.edurt.gcm.engine</groupId>
+    <artifactId>gcm-engine-redis</artifactId>
+    <version>[1.2.0, )</version>
 </dependency>
 ```
 

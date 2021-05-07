@@ -20,6 +20,18 @@ MySQL component is used to inject MySQL into Guice container. After the configur
 </dependency>
 ```
 
+> Warning:  >= 1.2.0 has been replaced with the following usage
+{: .explainer}
+
+```xml
+
+<dependency>
+    <groupId>io.edurt.gcm.storage</groupId>
+    <artifactId>gcm-storage-mysql</artifactId>
+    <version>[1.2.0, )</version>
+</dependency>
+```
+
 Add the above configuration information to the pom.xml Reload the download dependency information in the file.
 
 ### Configuration

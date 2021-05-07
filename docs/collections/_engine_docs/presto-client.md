@@ -21,6 +21,18 @@ Presto(ClientAPI) is used to inject Presto into Guice container. After the confi
 </dependency>
 ```
 
+> Warning:  >= 1.2.0 has been replaced with the following usage
+{: .explainer}
+
+```xml
+
+<dependency>
+    <groupId>io.edurt.gcm.engine</groupId>
+    <artifactId>gcm-engine-presto</artifactId>
+    <version>[1.2.0, )</version>
+</dependency>
+```
+
 Add the above configuration information to the pom.xml Reload the download dependency information in the file.
 
 ### Configuration

@@ -20,6 +20,18 @@ MyBatis Test framework is used to inject test case into Guice container, JUnit r
 </dependency>
 ```
 
+> Warning:  >= 1.2.0 has been replaced with the following usage
+{: .explainer}
+
+```xml
+
+<dependency>
+    <groupId>io.edurt.gcm.framework</groupId>
+    <artifactId>gcm-framework-test</artifactId>
+    <version>[1.2.0, )</version>
+</dependency>
+```
+
 Add the above configuration information to the pom.xml Reload the download dependency information in the file.
 
 ### Configuration

@@ -1,6 +1,6 @@
 ---
 title: Elasticsearch
-category: NoSQL
+category: Engine
 order: 3
 ---
 
@@ -18,6 +18,18 @@ Elasticsearch component is used to inject Elasticsearch into Guice container. Af
     <groupId>io.edurt.gcm</groupId>
     <artifactId>gcm-elasticsearch</artifactId>
     <version>[1.0.9, )</version>
+</dependency>
+```
+
+> Warning:  >= 1.2.0 has been replaced with the following usage
+{: .explainer}
+
+```xml
+
+<dependency>
+    <groupId>io.edurt.gcm.engine</groupId>
+    <artifactId>gcm-engine-elasticsearch</artifactId>
+    <version>[1.2.0, )</version>
 </dependency>
 ```
 

@@ -1,6 +1,6 @@
 ---
 title: Configuration
-category: General
+category: Framework
 order: 2
 ---
 
@@ -17,6 +17,18 @@ Configuration component is used to inject configuration into Guice container. Af
     <groupId>io.edurt.gcm</groupId>
     <artifactId>gcm-configuration</artifactId>
     <version>[1.0.0, )</version>
+</dependency>
+```
+
+> Warning:  >= 1.2.0 has been replaced with the following usage
+{: .explainer}
+
+```xml
+
+<dependency>
+    <groupId>io.edurt.gcm.framework</groupId>
+    <artifactId>gcm-framework-configuration</artifactId>
+    <version>[1.2.0, )</version>
 </dependency>
 ```
 

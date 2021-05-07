@@ -21,19 +21,19 @@ plugins:
 
 collections_dir: collections
 collections:
-  databases_docs:
-    title: DataBases
-    permalink: /databases/:path/
+  storage_docs:
+    title: Storage
+    permalink: /storage/:path/
     output: true
     boost: 8
-  general_docs:
-    title: General
-    permalink: /general/:path/
+  framework_docs:
+    title: Framework
+    permalink: /framework/:path/
     output: true
     boost: 8
-  bigdata_docs:
-    title: BigData
-    permalink: /bigdata/:path/
+  engine_docs:
+    title: Engine
+    permalink: /engine/:path/
     output: true
     boost: 8
   development_docs:

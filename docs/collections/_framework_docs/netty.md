@@ -1,6 +1,6 @@
 ---
 title: Netty
-category: General
+category: Framework
 order: 5
 ---
 
@@ -18,6 +18,18 @@ Netty component is used to inject configuration into Guice container. After the 
     <groupId>io.edurt.gcm</groupId>
     <artifactId>gcm-netty</artifactId>
     <version>[1.0.3, )</version>
+</dependency>
+```
+
+> Warning:  >= 1.2.0 has been replaced with the following usage
+{: .explainer}
+
+```xml
+
+<dependency>
+    <groupId>io.edurt.gcm.framework</groupId>
+    <artifactId>gcm-framework-netty</artifactId>
+    <version>[1.2.0, )</version>
 </dependency>
 ```
 
@@ -44,6 +56,7 @@ netty.view.suffix=.html
 |netty.router.print|Print system route list|`false`|
 |netty.view.path|Resolve the path address of the view|`classpath:/template/`|
 |netty.view.suffix|View suffix|`.html`|
+|netty.view.static|Static resource|`/static/`|
 
 ### Example
 

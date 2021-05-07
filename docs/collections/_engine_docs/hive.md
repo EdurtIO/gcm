@@ -1,6 +1,6 @@
 ---
 title: Hive
-category: General
+category: Engine
 order: 3
 ---
 
@@ -19,6 +19,18 @@ Hive component is used to inject Hive into Guice container. After the configurat
     <groupId>io.edurt.gcm</groupId>
     <artifactId>gcm-hive</artifactId>
     <version>[1.0.9, )</version>
+</dependency>
+```
+
+> Warning:  >= 1.2.0 has been replaced with the following usage
+{: .explainer}
+
+```xml
+
+<dependency>
+    <groupId>io.edurt.gcm.engine</groupId>
+    <artifactId>gcm-engine-hive</artifactId>
+    <version>[1.2.0, )</version>
 </dependency>
 ```
 
