@@ -21,6 +21,7 @@ public class NettyConfigurationDefault
     public static final Boolean ROUTER_PRINT = false;
     public static final String VIEW_TEMPLATE_PATH = "classpath:/template/";
     public static final String VIEW_TEMPLATE_SUFFIX = ".html";
+    public static final String VIEW_TEMPLATE_STATIC = "/static/";
 
     private NettyConfigurationDefault() {}
 }

@@ -34,4 +34,10 @@ public class TestViewController
         paramModel.addAttribute("hello", "This Hello!");
         return "parameter";
     }
+
+    @GetMapping(value = "/api/test/view/css")
+    public String css()
+    {
+        return "css";
+    }
 }

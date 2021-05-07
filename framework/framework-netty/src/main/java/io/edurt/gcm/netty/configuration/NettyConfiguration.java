@@ -21,6 +21,7 @@ public class NettyConfiguration
     public static final String ROUTER_PRINT = "netty.router.print";
     public static final String VIEW_TEMPLATE_PATH = "netty.view.path";
     public static final String VIEW_TEMPLATE_SUFFIX = "netty.view.suffix";
+    public static final String VIEW_TEMPLATE_STATIC = "netty.view.static";
 
     private NettyConfiguration() {}
 }

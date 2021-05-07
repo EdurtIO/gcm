@@ -37,4 +37,8 @@
         <Class name="io.edurt.gcm.base.client.BasicRestfulConnectionFactory" />
         <Bug pattern="DLS_DEAD_LOCAL_STORE" />
     </Match>
+    <Match>
+        <Class name="io.edurt.gcm.kafka.KafkaProvider" />
+        <Bug pattern="IS2_INCONSISTENT_SYNC" />
+    </Match>
 </FindBugsFilter>

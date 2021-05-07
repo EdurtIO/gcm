@@ -6,6 +6,7 @@ import io.edurt.gcm.common.utils.PropertiesUtils;
 import io.edurt.gcm.netty.configuration.NettyConfiguration;
 import io.edurt.gcm.netty.configuration.NettyConfigurationDefault;
 import io.edurt.gcm.netty.handler.HttpRequestHandler;
+import io.edurt.gcm.netty.handler.HttpRequestStaticHandler;
 import io.edurt.gcm.netty.router.RouterScan;
 import io.edurt.gcm.netty.router.Routers;
 import io.netty.bootstrap.ServerBootstrap;
@@ -98,6 +99,7 @@ public class GcmNettyApplication
                 ChannelPipeline pipeline = ch.pipeline();
                 pipeline.addLast(new HttpServerCodec());
                 pipeline.addLast(new HttpObjectAggregator(65536));
+                pipeline.addLast(new HttpRequestStaticHandler(configuration));
                 pipeline.addLast(new HttpRequestHandler(injector, "/socket", configuration));
             }
         };

@@ -49,7 +49,7 @@ public class KafkaProvider
                 KafkaConfigurationDefault.VALUE_SERIALIZER));
     }
 
-    private KafkaProducer<String, String> builderKafkaProducer()
+    private final KafkaProducer<String, String> builderKafkaProducer()
     {
         if (ObjectUtils.isEmpty(kafkaProducer)) {
             synchronized (this) {

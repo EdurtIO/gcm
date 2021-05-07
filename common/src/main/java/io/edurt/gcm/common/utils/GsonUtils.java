@@ -18,6 +18,9 @@ import com.google.gson.GsonBuilder;
 
 public class GsonUtils
 {
+    private GsonUtils()
+    {}
+
     private static final Gson GSON = new GsonBuilder()
             .disableHtmlEscaping()
             .generateNonExecutableJson()

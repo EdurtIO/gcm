@@ -52,4 +52,3 @@ public class KafkaProduceClient
         this.kafkaProducer.flush();
     }
 }
-
