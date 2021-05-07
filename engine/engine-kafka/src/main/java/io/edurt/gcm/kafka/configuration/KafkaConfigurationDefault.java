@@ -3,7 +3,7 @@ package io.edurt.gcm.kafka.configuration;
 public class KafkaConfigurationDefault
 {
     public static final String SERVERS = "localhost:9092";
-    public static final String ACK = "a;;";
+    public static final String ACK = "all";
     public static final String RETRIES = "0";
     public static final String BATCH_SIZE = "16384";
     public static final String LINGER_MS = "1";
