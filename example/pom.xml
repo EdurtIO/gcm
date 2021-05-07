@@ -17,42 +17,43 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.edurt.gcm</groupId>
-            <artifactId>gcm-test</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.edurt.gcm</groupId>
-            <artifactId>gcm-configuration</artifactId>
+            <groupId>io.edurt.gcm.framework</groupId>
+            <artifactId>gcm-framework-test</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.edurt.gcm</groupId>
-            <artifactId>gcm-mysql</artifactId>
+            <groupId>io.edurt.gcm.framework</groupId>
+            <artifactId>gcm-framework-configuration</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.edurt.gcm</groupId>
-            <artifactId>gcm-clickhouse</artifactId>
+            <groupId>io.edurt.gcm.storage</groupId>
+            <artifactId>gcm-storage-mysql</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.edurt.gcm</groupId>
-            <artifactId>gcm-postgresql</artifactId>
+            <groupId>io.edurt.gcm.engine</groupId>
+            <artifactId>gcm-engine-clickhouse</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.edurt.gcm</groupId>
-            <artifactId>gcm-elasticsearch</artifactId>
+            <groupId>io.edurt.gcm.storage</groupId>
+            <artifactId>gcm-storage-postgresql</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.edurt.gcm</groupId>
-            <artifactId>gcm-hive</artifactId>
+            <groupId>io.edurt.gcm.engine</groupId>
+            <artifactId>gcm-engine-elasticsearch</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.edurt.gcm</groupId>
-            <artifactId>gcm-zookeeper</artifactId>
+            <groupId>io.edurt.gcm.engine</groupId>
+            <artifactId>gcm-engine-hive</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.edurt.gcm.engine</groupId>
+            <artifactId>gcm-engine-zookeeper</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

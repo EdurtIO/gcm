@@ -34,8 +34,8 @@
             <version>${dependency.presto.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.edurt.gcm</groupId>
-            <artifactId>gcm-test</artifactId>
+            <groupId>io.edurt.gcm.framework</groupId>
+            <artifactId>gcm-framework-test</artifactId>
         </dependency>
     </dependencies>
 
