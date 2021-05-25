@@ -29,7 +29,7 @@ public interface RestfulConnectionFactory
     Response getExecute(Map<String, Object> params)
             throws IOException;
 
-    Response getExecute()
+    Response postExecute(String body)
             throws IOException;
 
     default void close()

@@ -42,4 +42,15 @@ public class TestBasicRestfulConnectionFactory
         params.put("query", String.format("%s FORMAT TabSeparatedWithNames", "SELECT name, value FROM system.settings"));
         System.out.println(factory.getExecute(params).body().string());
     }
+
+    @Test
+    public void testPostExecute()
+            throws IOException
+    {
+        config.setHost("localhost");
+        config.setPort(8123);
+        config.setProtocol("http");
+        BasicRestfulConnectionFactory factory = BasicRestfulConnectionFactory.builder(config);
+        System.out.println(factory.postExecute(String.format("%s FORMAT TabSeparatedWithNames", "SELECT name, value FROM system.settings")).body().string());
+    }
 }

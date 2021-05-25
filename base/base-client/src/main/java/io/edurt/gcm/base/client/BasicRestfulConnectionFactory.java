@@ -15,6 +15,7 @@ package io.edurt.gcm.base.client;
 
 import io.edurt.gcm.common.utils.ObjectUtils;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -76,9 +77,16 @@ public class BasicRestfulConnectionFactory
     }
 
     @Override
-    public Response getExecute()
+    public Response postExecute(String body)
             throws IOException
     {
-        return getExecute(null);
+        openConnection(this.config);
+        Request.Builder builder = new Request.Builder();
+        okhttp3.RequestBody requestBody = okhttp3.RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), body);
+        Request request = builder
+                .url(connectionUrl)
+                .post(requestBody)
+                .build();
+        return okHttpClient.newCall(request).execute();
     }
 }
