@@ -111,7 +111,7 @@
         <module name="StringLiteralEquality" />
         <module name="MutableException" />
         <module name="EqualsHashCode" />
-        <module name="InnerAssignment" />
+<!--        <module name="InnerAssignment" />-->
         <module name="InterfaceIsType" />
         <module name="HideUtilityClassConstructor" />
 
