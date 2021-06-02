@@ -9,8 +9,9 @@
         <version>1.3.0-SNAPSHOT</version>
     </parent>
 
-    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.edurt.gcm.client</groupId>
     <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
 
     <modules>
         <module>base-client</module>
