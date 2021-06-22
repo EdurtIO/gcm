@@ -13,6 +13,7 @@
  */
 package io.edurt.gcm.netty.handler.codec.http.multipart;
 
+import io.edurt.gcm.common.utils.ObjectUtils;
 import io.edurt.gcm.netty.handler.codec.http.multipart.HttpPostBodyUtil.SeekAheadOptimize;
 import io.edurt.gcm.netty.handler.codec.http.multipart.HttpPostRequestDecoder.EndOfDataDecoderException;
 import io.edurt.gcm.netty.handler.codec.http.multipart.HttpPostRequestDecoder.ErrorDataDecoderException;
@@ -23,6 +24,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.HttpConstants;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpHeaderValues;
+import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.handler.codec.http.QueryStringDecoder;
@@ -524,8 +526,16 @@ public class HttpPostStandardRequestDecoder
      */
     private void parseBodyAttributes()
     {
-        if (!this.request.headers().get("Content-Type").startsWith(HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())) {
-            return;
+        HttpHeaders headers = this.request.headers();
+        if (ObjectUtils.isNotEmpty(headers)) {
+            String headerValue = headers.get("Content-Type");
+            if (ObjectUtils.isNotEmpty(headerValue)) {
+                if (headerValue.startsWith(HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
+                        || headerValue.startsWith(HttpHeaderValues.APPLICATION_JSON.toString())
+                        || headerValue.startsWith(HttpHeaderValues.FORM_DATA.toString())) {
+                    return;
+                }
+            }
         }
         if (undecodedChunk == null) {
             return;
