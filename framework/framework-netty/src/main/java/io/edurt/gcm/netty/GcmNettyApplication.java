@@ -98,7 +98,9 @@ public class GcmNettyApplication
             {
                 ChannelPipeline pipeline = ch.pipeline();
                 pipeline.addLast(new HttpServerCodec());
-                pipeline.addLast(new HttpObjectAggregator(655360));
+                pipeline.addLast(new HttpObjectAggregator(PropertiesUtils.getIntValue(configuration,
+                        NettyConfiguration.MAX_CONTENT_LENGTH,
+                        NettyConfigurationDefault.MAX_CONTENT_LENGTH)));
                 pipeline.addLast(new HttpRequestStaticHandler(configuration));
                 pipeline.addLast(new HttpRequestHandler(injector, "/socket", configuration));
             }

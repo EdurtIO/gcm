@@ -16,12 +16,13 @@ package io.edurt.gcm.netty.configuration;
 public class NettyConfigurationDefault
 {
     public static final String HOST = "localhost";
-    public static final int PORT = 8080;
+    public static final Integer PORT = 8080;
     public static final String CONTROLLER_PACKAGE = "io.edurt.gcm.netty.controller";
     public static final Boolean ROUTER_PRINT = false;
     public static final String VIEW_TEMPLATE_PATH = "classpath:/template/";
     public static final String VIEW_TEMPLATE_SUFFIX = ".html";
     public static final String VIEW_TEMPLATE_STATIC = "/static/";
+    public static final Integer MAX_CONTENT_LENGTH = 65536;
 
     private NettyConfigurationDefault() {}
 }
