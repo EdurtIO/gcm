@@ -31,4 +31,60 @@ public class RedisClient
             return jedis.del(key);
         }
     }
+
+    public synchronized Long persist(String key)
+    {
+        try (ShardedJedis jedis = this.pool.getResource()) {
+            return jedis.persist(key);
+        }
+    }
+
+    public synchronized Long persist(byte[] key)
+    {
+        try (ShardedJedis jedis = this.pool.getResource()) {
+            return jedis.persist(key);
+        }
+    }
+
+    public synchronized Long ttl(String key)
+    {
+        try (ShardedJedis jedis = this.pool.getResource()) {
+            return jedis.ttl(key);
+        }
+    }
+
+    public synchronized Long ttl(byte[] key)
+    {
+        try (ShardedJedis jedis = this.pool.getResource()) {
+            return jedis.ttl(key);
+        }
+    }
+
+    public synchronized Long expire(byte[] key, int seconds)
+    {
+        try (ShardedJedis jedis = this.pool.getResource()) {
+            return jedis.expire(key, seconds);
+        }
+    }
+
+    public synchronized Long expire(String key, int seconds)
+    {
+        try (ShardedJedis jedis = this.pool.getResource()) {
+            return jedis.expire(key, seconds);
+        }
+    }
+
+    public synchronized Long pexpire(String key,  long milliseconds)
+    {
+        try (ShardedJedis jedis = this.pool.getResource()) {
+            return jedis.pexpire(key, milliseconds);
+        }
+    }
+
+    public synchronized Long pexpire(byte[] key,  long milliseconds)
+    {
+        try (ShardedJedis jedis = this.pool.getResource()) {
+            return jedis.pexpire(key, milliseconds);
+        }
+    }
 }
