@@ -20,6 +20,8 @@ import io.edurt.gcm.netty.annotation.RestController;
 import io.edurt.gcm.netty.model.TestModel;
 import io.edurt.gcm.netty.type.RequestMethod;
 
+import java.util.HashMap;
+
 @RequestMapping(value = {"/query", "/query/v1"})
 @RestController
 public class TestRequestController
@@ -34,5 +36,20 @@ public class TestRequestController
     public Object put(@RequestBody TestModel value)
     {
         return value;
+    }
+
+    @RequestMapping(value = "home/params", method = RequestMethod.GET)
+    public Object get(
+            @RequestParam(value = "bool") Boolean boolParam,
+            @RequestParam(value = "char") Character charParam,
+            @RequestParam(value = "float") Float floatParam,
+            @RequestParam(value = "double") Double doubleParam)
+    {
+        HashMap<String, Object> ret = new HashMap<>();
+        ret.put("bool", boolParam);
+        ret.put("char", charParam);
+        ret.put("float", floatParam);
+        ret.put("double", doubleParam);
+        return ret;
     }
 }

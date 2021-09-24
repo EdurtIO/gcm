@@ -99,6 +99,34 @@ public class ParameterDispatcher
                                 paramList.add(Integer.valueOf(getParamValue(requestParamVal, defaultValue)));
                                 classList.add(Integer.class);
                             }
+                            else if (parameterClass == Boolean.class) {
+                                paramList.add(Boolean.valueOf(getParamValue(requestParamVal, defaultValue)));
+                                classList.add(Boolean.class);
+                            }
+                            else if (parameterClass == Float.class) {
+                                paramList.add(Float.valueOf(getParamValue(requestParamVal, defaultValue)));
+                                classList.add(Float.class);
+                            }
+                            else if (parameterClass == Double.class) {
+                                paramList.add(Double.valueOf(getParamValue(requestParamVal, defaultValue)));
+                                classList.add(Double.class);
+                            }
+                            else if (parameterClass == Short.class) {
+                                paramList.add(Short.valueOf(getParamValue(requestParamVal, defaultValue)));
+                                classList.add(Short.class);
+                            }
+                            else if (parameterClass == Character.class) {
+                                char[] chars = getParamValue(requestParamVal, defaultValue).toCharArray();
+                                Character c = null;
+                                if (chars.length == 1) {
+                                    c = Character.valueOf(chars[0]);
+                                }
+                                else {
+                                    c = (char) 0;
+                                }
+                                paramList.add(c);
+                                classList.add(Character.class);
+                            }
                             else {
                                 paramList.add(getParamValue(requestParamVal, defaultValue));
                                 classList.add(String.class);
